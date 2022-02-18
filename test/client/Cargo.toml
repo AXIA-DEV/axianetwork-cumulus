@@ -5,23 +5,23 @@ authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
 
 [dependencies]
-sc-service = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sc-consensus = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sc-block-builder = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sc-executor = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sc-executor-common = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-substrate-test-client = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-runtime = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-core = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-api = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-keyring = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-blockchain = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-inherents = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-io = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-timestamp = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-frame-system = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-pallet-transaction-payment = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-pallet-balances = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
+sc-service = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sc-consensus = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sc-block-builder = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sc-executor = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sc-executor-common = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+axlib-test-client = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-runtime = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-core = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-keyring = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-blockchain = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-inherents = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-io = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-timestamp = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+frame-system = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+pallet-transaction-payment = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+pallet-balances = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 
 # Cumulus deps
 cumulus-test-runtime = { path = "../runtime" }

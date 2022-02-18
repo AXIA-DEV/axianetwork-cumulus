@@ -6,17 +6,17 @@ authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
 
 [dependencies]
-# Substrate deps
-sp-consensus = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-inherents = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-runtime = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-core = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-blockchain = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-block-builder = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-api = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sc-client-api = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sc-consensus = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-substrate-prometheus-endpoint = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
+# Axlib deps
+sp-consensus = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-inherents = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-runtime = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-core = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-blockchain = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-block-builder = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sc-client-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sc-consensus = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+axlib-prometheus-endpoint = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 
 # Polkadot dependencies
 polkadot-client = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }

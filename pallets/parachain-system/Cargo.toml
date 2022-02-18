@@ -15,19 +15,19 @@ cumulus-pallet-parachain-system-proc-macro = { path = "proc-macro", default-feat
 polkadot-parachain = { git = "https://github.com/purestake/polkadot", default-features = false, features = [ "wasm-api" ], branch = "moonbeam-polkadot-v0.9.12" }
 xcm = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
 
-# Substrate dependencies
-frame-support = { git = "https://github.com/purestake/substrate", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-pallet-balances = { git = "https://github.com/purestake/substrate", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-sp-core = { git = "https://github.com/purestake/substrate", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-sp-inherents = { git = "https://github.com/purestake/substrate", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-sp-io = { git = "https://github.com/purestake/substrate", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-sp-std = { git = "https://github.com/purestake/substrate", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-sp-runtime = { git = "https://github.com/purestake/substrate", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-sp-version = { git = "https://github.com/purestake/substrate", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-frame-system = { git = "https://github.com/purestake/substrate", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-sp-state-machine = { git = "https://github.com/purestake/substrate", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-sp-trie = { git = "https://github.com/purestake/substrate", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-sp-externalities = { git = "https://github.com/purestake/substrate", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
+# Axlib dependencies
+frame-support = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
+pallet-balances = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
+sp-core = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
+sp-inherents = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
+sp-io = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
+sp-std = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
+sp-runtime = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
+sp-version = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
+frame-system = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
+sp-state-machine = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
+sp-trie = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
+sp-externalities = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
 
 # Other Dependencies
 codec = { package = "parity-scale-codec", version = "2.3.0", default-features = false, features = ["derive"]}
@@ -41,11 +41,11 @@ environmental = { version = "1.1.2", default-features = false }
 hex-literal = "0.2.1"
 lazy_static = "1.4"
 
-# Substrate dependencies
-sp-version = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sc-client-api = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-keyring = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-tracing = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
+# Axlib dependencies
+sp-version = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sc-client-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-keyring = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-tracing = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 
 # Cumulus dependencies
 cumulus-test-client = { path = "../../test/client" }

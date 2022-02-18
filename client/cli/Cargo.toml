@@ -7,6 +7,6 @@ edition = "2018"
 [dependencies]
 structopt = "0.3.3"
 
-# Substrate dependencies
-sc-cli = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sc-service = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
+# Axlib dependencies
+sc-cli = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sc-service = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }

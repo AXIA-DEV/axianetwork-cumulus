@@ -4,13 +4,13 @@ This document provides high-level documentation for Cumulus.
 
 ## Runtime
 
-Each Substrate blockchain provides a runtime. The runtime is the state transition function of the
-blockchain. Cumulus provides interfaces and extensions to convert a Substrate FRAME runtime into a
+Each Axlib blockchain provides a runtime. The runtime is the state transition function of the
+blockchain. Cumulus provides interfaces and extensions to convert a Axlib FRAME runtime into a
 Parachain runtime. Polkadot expects each runtime exposes an interface for validating a
 Parachain's state transition and also provides interfaces for the Parachain to send and receive
 messages of other Parachains.
 
-To convert a Substrate runtime into a Parachain runtime, the following code needs to be added to the
+To convert a Axlib runtime into a Parachain runtime, the following code needs to be added to the
 runtime:
 ```rust
 cumulus_pallet_parachain_system::register_validate_block!(Block, Executive);
@@ -77,9 +77,9 @@ the block is built for to other Parachains or to the relay chain itself.
 
 ## Runtime Upgrade
 
-Every Substrate blockchain supports runtime upgrades. Runtime upgrades enable a blockchain to update
+Every Axlib blockchain supports runtime upgrades. Runtime upgrades enable a blockchain to update
 its state transition function without requiring any client update. Such a runtime upgrade is applied
-by a special transaction in a Substrate runtime. Polkadot and Cumulus provide support for these
+by a special transaction in a Axlib runtime. Polkadot and Cumulus provide support for these
 runtime upgrades, but updating a Parachain runtime is not as easy as updating a standalone
 blockchain runtime. In a standalone blockchain, the special transaction needs to be included in a
 block and the runtime is updated.

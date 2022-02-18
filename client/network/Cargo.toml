@@ -6,13 +6,13 @@ description = "Cumulus-specific networking protocol"
 edition = "2018"
 
 [dependencies]
-# Substrate deps
-sp-blockchain = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-consensus = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-runtime = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-api = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-core = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sc-client-api = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
+# Axlib deps
+sp-blockchain = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-consensus = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-runtime = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-core = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sc-client-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 
 # Polkadot deps
 polkadot-primitives = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
@@ -38,12 +38,12 @@ cumulus-primitives-core = { path = "../../primitives/core" }
 # Polkadot deps
 polkadot-test-client = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
 
-# substrate deps
-sc-client-api = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-core = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-keyring = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-keystore = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sp-consensus = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sc-cli = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-substrate-test-utils = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
-sc-service = { git = "https://github.com/purestake/substrate", branch = "moonbeam-polkadot-v0.9.12" }
+# axlib deps
+sc-client-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-core = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-keyring = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-keystore = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sp-consensus = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sc-cli = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+axlib-test-utils = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
+sc-service = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }

@@ -1,15 +1,15 @@
 # Cumulus :cloud:
 
-A set of tools for writing [Substrate](https://substrate.io/)-based
+A set of tools for writing [Axlib](https://axlib.io/)-based
 [Polkadot](https://wiki.polkadot.network/en/)
 [parachains](https://wiki.polkadot.network/docs/en/learn-parachains). Refer to the included
 [overview](docs/overview.md) for architectural details, and the
-[Cumulus tutorial](https://docs.substrate.io/tutorials/v3/cumulus/start-relay) for a
+[Cumulus tutorial](https://docs.axlib.io/tutorials/v3/cumulus/start-relay) for a
 guided walk-through of using these tools.
 
-It's easy to write blockchains using Substrate, and the overhead of writing parachains'
+It's easy to write blockchains using Axlib, and the overhead of writing parachains'
 distribution, p2p, database, and synchronization layers should be just as low. This project aims to
-make it easy to write parachains for Polkadot by leveraging the power of Substrate.
+make it easy to write parachains for Polkadot by leveraging the power of Axlib.
 
 Cumulus clouds are shaped sort of like dots; together they form a system that is intricate,
 beautiful and functional.
@@ -17,7 +17,7 @@ beautiful and functional.
 ## Consensus
 
 [`cumulus-consensus`](consensus) is a
-[consensus engine](https://docs.substrate.io/v3/advanced/consensus) for Substrate
+[consensus engine](https://docs.axlib.io/v3/advanced/consensus) for Axlib
 that follows a Polkadot
 [relay chain](https://wiki.polkadot.network/docs/en/learn-architecture#relay-chain). This will run
 a Polkadot node internally, and dictate to the client and synchronization algorithms which chain
