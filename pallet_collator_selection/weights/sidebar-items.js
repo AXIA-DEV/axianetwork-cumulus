@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["SubstrateWeight","Weights for pallet_collator_selection using the Substrate node and recommended hardware."]],"trait":[["WeightInfo",""]]});
+initSidebarItems({"struct":[["AxlibWeight","Weights for pallet_collator_selection using the Axlib node and recommended hardware."]],"trait":[["WeightInfo",""]]});

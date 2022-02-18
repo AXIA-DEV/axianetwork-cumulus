@@ -200,14 +200,14 @@
 <span class="kw">use</span> <span class="ident">cumulus_primitives_core</span>::{
 	<span class="ident">relay_chain</span>, <span class="ident">AbridgedHostConfiguration</span>, <span class="ident">AbridgedHrmpChannel</span>, <span class="ident">ParaId</span>,
 };
-<span class="kw">use</span> <span class="ident">polkadot_primitives::v1::UpgradeGoAhead</span>;
+<span class="kw">use</span> <span class="ident">axia_primitives::v1::UpgradeGoAhead</span>;
 <span class="kw">use</span> <span class="ident">sp_runtime::traits::HashFor</span>;
 <span class="kw">use</span> <span class="ident">sp_state_machine::MemoryDB</span>;
 <span class="kw">use</span> <span class="ident">sp_std::collections::btree_map::BTreeMap</span>;
 
 <span class="doccomment">/// Builds a sproof (portmanteau of &#39;spoof&#39; and &#39;proof&#39;) of the relay chain state.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RelayStateSproofBuilder</span> {
-	<span class="doccomment">/// The para id of the current parachain.</span>
+	<span class="doccomment">/// The para id of the current allychain.</span>
 	<span class="doccomment">///</span>
 	<span class="doccomment">/// This doesn&#39;t get into the storage proof produced by the builder, however, it is used for</span>
 	<span class="doccomment">/// generation of the storage image and by auxilary methods.</span>
@@ -299,8 +299,8 @@
 
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_state_root_and_proof</span>(
 		<span class="self">self</span>,
-	) -&gt; (<span class="ident">polkadot_primitives::v1::Hash</span>, <span class="ident">sp_state_machine::StorageProof</span>) {
-		<span class="kw">let</span> (<span class="ident">db</span>, <span class="ident">root</span>) <span class="op">=</span> <span class="ident">MemoryDB</span>::<span class="op">&lt;</span><span class="ident">HashFor</span><span class="op">&lt;</span><span class="ident">polkadot_primitives::v1::Block</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::default_with_root</span>();
+	) -&gt; (<span class="ident">axia_primitives::v1::Hash</span>, <span class="ident">sp_state_machine::StorageProof</span>) {
+		<span class="kw">let</span> (<span class="ident">db</span>, <span class="ident">root</span>) <span class="op">=</span> <span class="ident">MemoryDB</span>::<span class="op">&lt;</span><span class="ident">HashFor</span><span class="op">&lt;</span><span class="ident">axia_primitives::v1::Block</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::default_with_root</span>();
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">backend</span> <span class="op">=</span> <span class="ident">sp_state_machine::TrieBackend::new</span>(<span class="ident">db</span>, <span class="ident">root</span>);
 
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">relevant_keys</span> <span class="op">=</span> <span class="macro">vec!</span>[];

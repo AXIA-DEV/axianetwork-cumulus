@@ -176,17 +176,17 @@
 
 <span class="doccomment">//! Cumulus extension pallet for AuRa</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! This pallets extends the Substrate AuRa pallet to make it compatible with parachains. It</span>
+<span class="doccomment">//! This pallets extends the Axlib AuRa pallet to make it compatible with allychains. It</span>
 <span class="doccomment">//! provides the [`Pallet`], the [`Config`] and the [`GenesisConfig`].</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! It is also required that the parachain runtime uses the provided [`BlockExecutor`] to properly</span>
+<span class="doccomment">//! It is also required that the allychain runtime uses the provided [`BlockExecutor`] to properly</span>
 <span class="doccomment">//! check the constructed block on the relay chain.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!# struct Runtime;</span>
 <span class="doccomment">//!# struct Executive;</span>
 <span class="doccomment">//!# struct CheckInherents;</span>
-<span class="doccomment">//! cumulus_pallet_parachain_system::register_validate_block! {</span>
+<span class="doccomment">//! cumulus_pallet_allychain_system::register_validate_block! {</span>
 <span class="doccomment">//!     Runtime = Runtime,</span>
 <span class="doccomment">//!     BlockExecutor = cumulus_pallet_aura_ext::BlockExecutor::&lt;Runtime, Executive&gt;,</span>
 <span class="doccomment">//!     CheckInherents = CheckInherents,</span>

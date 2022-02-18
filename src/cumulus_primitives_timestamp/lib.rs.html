@@ -210,14 +210,14 @@
 
 <span class="doccomment">//! Cumulus timestamp related primitives.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! Provides a [`InherentDataProvider`] that should be used in the validation phase of the parachain.</span>
+<span class="doccomment">//! Provides a [`InherentDataProvider`] that should be used in the validation phase of the allychain.</span>
 <span class="doccomment">//! It will be used to create the inherent data and that will be used to check the inherents inside</span>
-<span class="doccomment">//! the parachain block (in this case the timestamp inherent). As we don&#39;t have access to any clock</span>
+<span class="doccomment">//! the allychain block (in this case the timestamp inherent). As we don&#39;t have access to any clock</span>
 <span class="doccomment">//! from the runtime the timestamp is always passed as an inherent into the runtime. To check this</span>
 <span class="doccomment">//! inherent when validating the block, we will use the relay chain slot. As the relay chain slot</span>
 <span class="doccomment">//! is derived from a timestamp, we can easily convert it back to a timestamp by muliplying it with</span>
 <span class="doccomment">//! the slot duration. By comparing the relay chain slot derived timestamp with the timestamp we can</span>
-<span class="doccomment">//! ensure that the parachain timestamp is reasonable.</span>
+<span class="doccomment">//! ensure that the allychain timestamp is reasonable.</span>
 
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>), <span class="ident">no_std</span>)]</span>
 
@@ -230,7 +230,7 @@
 <span class="doccomment">/// The inherent data provider for the timestamp.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This should be used in the runtime when checking the inherents in the validation phase of the</span>
-<span class="doccomment">/// parachain.</span>
+<span class="doccomment">/// allychain.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InherentDataProvider</span> {
 	<span class="ident">relay_chain_slot</span>: <span class="ident">Slot</span>,
 	<span class="ident">relay_chain_slot_duration</span>: <span class="ident">Duration</span>,
@@ -253,7 +253,7 @@
 
 	<span class="doccomment">/// Provide the inherent data into the given `inherent_data`.</span>
 	<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">provide_inherent_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">inherent_data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">InherentData</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
-		<span class="comment">// As the parachain starts building at around `relay_chain_slot + 1` we use that slot to</span>
+		<span class="comment">// As the allychain starts building at around `relay_chain_slot + 1` we use that slot to</span>
 		<span class="comment">// calculate the timestamp.</span>
 		<span class="kw">let</span> <span class="ident">data</span>: <span class="ident">InherentType</span> <span class="op">=</span> ((<span class="kw-2">*</span><span class="self">self</span>.<span class="ident">relay_chain_slot</span> <span class="op">+</span> <span class="number">1</span>) <span class="op">*</span>
 			<span class="self">self</span>.<span class="ident">relay_chain_slot_duration</span>.<span class="ident">as_millis</span>() <span class="kw">as</span> <span class="ident">u64</span>)
@@ -271,8 +271,8 @@
 	<span class="kw">use</span> <span class="ident">cumulus_primitives_core</span>::{<span class="ident">relay_chain::Hash</span> <span class="kw">as</span> <span class="ident">PHash</span>, <span class="ident">PersistedValidationData</span>};
 	<span class="kw">use</span> <span class="ident">cumulus_test_client</span>::{
 		<span class="ident">runtime</span>::{<span class="ident">Block</span>, <span class="ident">Header</span>, <span class="ident">WASM_BINARY</span>},
-		<span class="ident">BlockData</span>, <span class="ident">BuildParachainBlockData</span>, <span class="ident">Client</span>, <span class="ident">ClientBlockImportExt</span>, <span class="ident">ExecutorResult</span>, <span class="ident">HeadData</span>,
-		<span class="ident">InitBlockBuilder</span>, <span class="ident">ParachainBlockData</span>, <span class="ident">TestClientBuilder</span>, <span class="ident">TestClientBuilderExt</span>,
+		<span class="ident">BlockData</span>, <span class="ident">BuildAllychainBlockData</span>, <span class="ident">Client</span>, <span class="ident">ClientBlockImportExt</span>, <span class="ident">ExecutorResult</span>, <span class="ident">HeadData</span>,
+		<span class="ident">InitBlockBuilder</span>, <span class="ident">AllychainBlockData</span>, <span class="ident">TestClientBuilder</span>, <span class="ident">TestClientBuilderExt</span>,
 		<span class="ident">ValidationParams</span>,
 	};
 	<span class="kw">use</span> <span class="ident">cumulus_test_relay_sproof_builder::RelayStateSproofBuilder</span>;
@@ -283,7 +283,7 @@
 
 	<span class="kw">fn</span> <span class="ident">call_validate_block</span>(
 		<span class="ident">parent_head</span>: <span class="ident">Header</span>,
-		<span class="ident">block_data</span>: <span class="ident">ParachainBlockData</span>,
+		<span class="ident">block_data</span>: <span class="ident">AllychainBlockData</span>,
 		<span class="ident">relay_parent_storage_root</span>: <span class="ident">PHash</span>,
 	) -&gt; <span class="ident">ExecutorResult</span><span class="op">&lt;</span><span class="ident">Header</span><span class="op">&gt;</span> {
 		<span class="ident">cumulus_test_client::validate_block</span>(
@@ -303,7 +303,7 @@
 		<span class="ident">at</span>: <span class="ident">BlockId</span><span class="op">&lt;</span><span class="ident">Block</span><span class="op">&gt;</span>,
 		<span class="ident">timestamp</span>: <span class="ident">u64</span>,
 		<span class="ident">relay_chain_slot</span>: <span class="ident">Slot</span>,
-	) -&gt; (<span class="ident">ParachainBlockData</span>, <span class="ident">PHash</span>) {
+	) -&gt; (<span class="ident">AllychainBlockData</span>, <span class="ident">PHash</span>) {
 		<span class="kw">let</span> <span class="ident">sproof_builder</span> <span class="op">=</span>
 			<span class="ident">RelayStateSproofBuilder</span> { <span class="ident">current_slot</span>: <span class="ident">relay_chain_slot</span>, ..<span class="ident">Default::default</span>() };
 
@@ -324,7 +324,7 @@
 				<span class="ident">sproof_builder</span>,
 				<span class="ident">timestamp</span>,
 			)
-			.<span class="ident">build_parachain_block</span>(<span class="kw-2">*</span><span class="ident">parent_header</span>.<span class="ident">state_root</span>());
+			.<span class="ident">build_allychain_block</span>(<span class="kw-2">*</span><span class="ident">parent_header</span>.<span class="ident">state_root</span>());
 
 		(<span class="ident">block</span>, <span class="ident">relay_parent_storage_root</span>)
 	}

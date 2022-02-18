@@ -208,8 +208,8 @@
 <span class="comment">// You should have received a copy of the GNU General Public License</span>
 <span class="comment">// along with Cumulus.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 
-<span class="doccomment">//! Pallet for stuff specific to parachains&#39; usage of XCM. Right now that&#39;s just the origin</span>
-<span class="doccomment">//! used by parachains when receiving `Transact` messages from other parachains or the Relay chain</span>
+<span class="doccomment">//! Pallet for stuff specific to allychains&#39; usage of XCM. Right now that&#39;s just the origin</span>
+<span class="doccomment">//! used by allychains when receiving `Transact` messages from other allychains or the Relay chain</span>
 <span class="doccomment">//! which must be natively represented.</span>
 
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>), <span class="ident">no_std</span>)]</span>
@@ -270,25 +270,25 @@
 		<span class="ident">ExecutedDownward</span>([<span class="ident">u8</span>; <span class="number">8</span>], <span class="ident">Outcome</span>),
 	}
 
-	<span class="doccomment">/// Origin for the parachains module.</span>
+	<span class="doccomment">/// Origin for the allychains module.</span>
 	<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Clone</span>, <span class="ident">Encode</span>, <span class="ident">Decode</span>, <span class="ident">TypeInfo</span>)]</span>
 	<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">derive</span>(<span class="ident">Debug</span>))]</span>
 	<span class="attribute">#[<span class="ident">pallet::origin</span>]</span>
 	<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Origin</span> {
 		<span class="doccomment">/// It comes from the (parent) relay chain.</span>
 		<span class="ident">Relay</span>,
-		<span class="doccomment">/// It comes from a (sibling) parachain.</span>
-		<span class="ident">SiblingParachain</span>(<span class="ident">ParaId</span>),
+		<span class="doccomment">/// It comes from a (sibling) allychain.</span>
+		<span class="ident">SiblingAllychain</span>(<span class="ident">ParaId</span>),
 	}
 
 	<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">ParaId</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Origin</span> {
 		<span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">id</span>: <span class="ident">ParaId</span>) -&gt; <span class="ident">Origin</span> {
-			<span class="ident">Origin::SiblingParachain</span>(<span class="ident">id</span>)
+			<span class="ident">Origin::SiblingAllychain</span>(<span class="ident">id</span>)
 		}
 	}
 	<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Origin</span> {
 		<span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">id</span>: <span class="ident">u32</span>) -&gt; <span class="ident">Origin</span> {
-			<span class="ident">Origin::SiblingParachain</span>(<span class="ident">id</span>.<span class="ident">into</span>())
+			<span class="ident">Origin::SiblingAllychain</span>(<span class="ident">id</span>.<span class="ident">into</span>())
 		}
 	}
 }
@@ -362,14 +362,14 @@
 	}
 }
 
-<span class="doccomment">/// Ensure that the origin `o` represents a sibling parachain.</span>
-<span class="doccomment">/// Returns `Ok` with the parachain ID of the sibling or an `Err` otherwise.</span>
+<span class="doccomment">/// Ensure that the origin `o` represents a sibling allychain.</span>
+<span class="doccomment">/// Returns `Ok` with the allychain ID of the sibling or an `Err` otherwise.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ensure_sibling_para</span><span class="op">&lt;</span><span class="ident">OuterOrigin</span><span class="op">&gt;</span>(<span class="ident">o</span>: <span class="ident">OuterOrigin</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ParaId</span>, <span class="ident">BadOrigin</span><span class="op">&gt;</span>
 <span class="kw">where</span>
 	<span class="ident">OuterOrigin</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Origin</span>, <span class="ident">OuterOrigin</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 {
 	<span class="kw">match</span> <span class="ident">o</span>.<span class="ident">into</span>() {
-		<span class="prelude-val">Ok</span>(<span class="ident">Origin::SiblingParachain</span>(<span class="ident">id</span>)) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">id</span>),
+		<span class="prelude-val">Ok</span>(<span class="ident">Origin::SiblingAllychain</span>(<span class="ident">id</span>)) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">id</span>),
 		<span class="kw">_</span> =&gt; <span class="prelude-val">Err</span>(<span class="ident">BadOrigin</span>),
 	}
 }

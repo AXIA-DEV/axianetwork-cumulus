@@ -147,7 +147,7 @@
 <span class="comment">// You should have received a copy of the GNU General Public License</span>
 <span class="comment">// along with Cumulus.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 
-<span class="doccomment">//! Parachain specific wrapper for the AuRa import queue.</span>
+<span class="doccomment">//! Allychain specific wrapper for the AuRa import queue.</span>
 
 <span class="kw">use</span> <span class="ident">codec::Codec</span>;
 <span class="kw">use</span> <span class="ident">sc_client_api</span>::{<span class="ident">backend::AuxStore</span>, <span class="ident">BlockOf</span>, <span class="ident">UsageProvider</span>};
@@ -164,7 +164,7 @@
 <span class="kw">use</span> <span class="ident">sp_inherents::CreateInherentDataProviders</span>;
 <span class="kw">use</span> <span class="ident">sp_runtime::traits</span>::{<span class="ident">Block</span> <span class="kw">as</span> <span class="ident">BlockT</span>, <span class="ident">DigestItemFor</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fmt::Debug</span>, <span class="ident">hash::Hash</span>, <span class="ident">sync::Arc</span>};
-<span class="kw">use</span> <span class="ident">substrate_prometheus_endpoint::Registry</span>;
+<span class="kw">use</span> <span class="ident">axlib_prometheus_endpoint::Registry</span>;
 
 <span class="doccomment">/// Parameters of [`import_queue`].</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImportQueueParams</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>, <span class="ident">C</span>, <span class="ident">CIDP</span>, <span class="ident">S</span>, <span class="ident">CAW</span><span class="op">&gt;</span> {
@@ -222,7 +222,7 @@
 	<span class="ident">CIDP::InherentDataProviders</span>: <span class="ident">InherentDataProviderExt</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
 {
 	<span class="ident">sc_consensus_aura::import_queue</span>::<span class="op">&lt;</span><span class="ident">P</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="ident">sc_consensus_aura::ImportQueueParams</span> {
-		<span class="ident">block_import</span>: <span class="ident">cumulus_client_consensus_common::ParachainBlockImport::new</span>(<span class="ident">block_import</span>),
+		<span class="ident">block_import</span>: <span class="ident">cumulus_client_consensus_common::AllychainBlockImport::new</span>(<span class="ident">block_import</span>),
 		<span class="ident">justification_import</span>: <span class="prelude-val">None</span>,
 		<span class="ident">client</span>,
 		<span class="ident">create_inherent_data_providers</span>,

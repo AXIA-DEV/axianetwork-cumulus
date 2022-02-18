@@ -570,24 +570,24 @@
 <span id="569">569</span>
 <span id="570">570</span>
 </pre><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.</span>
-<span class="comment">// This file is part of Polkadot.</span>
+<span class="comment">// This file is part of Axia.</span>
 
-<span class="comment">// Polkadot is free software: you can redistribute it and/or modify</span>
+<span class="comment">// Axia is free software: you can redistribute it and/or modify</span>
 <span class="comment">// it under the terms of the GNU General Public License as published by</span>
 <span class="comment">// the Free Software Foundation, either version 3 of the License, or</span>
 <span class="comment">// (at your option) any later version.</span>
 
-<span class="comment">// Polkadot is distributed in the hope that it will be useful,</span>
+<span class="comment">// Axia is distributed in the hope that it will be useful,</span>
 <span class="comment">// but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
 <span class="comment">// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
 <span class="comment">// GNU General Public License for more details.</span>
 
 <span class="comment">// You should have received a copy of the GNU General Public License</span>
-<span class="comment">// along with Polkadot.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="comment">// along with Axia.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 
-<span class="doccomment">//! Parachain specific networking</span>
+<span class="doccomment">//! Allychain specific networking</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! Provides a custom block announcement implementation for parachains</span>
+<span class="doccomment">//! Provides a custom block announcement implementation for allychains</span>
 <span class="doccomment">//! that use the relay chain provided consensus. See [`BlockAnnounceValidator`]</span>
 <span class="doccomment">//! and [`WaitToAnnounce`] for more information about this implementation.</span>
 
@@ -604,12 +604,12 @@
 	<span class="ident">traits</span>::{<span class="ident">Block</span> <span class="kw">as</span> <span class="ident">BlockT</span>, <span class="ident">Header</span> <span class="kw">as</span> <span class="ident">HeaderT</span>},
 };
 
-<span class="kw">use</span> <span class="ident">polkadot_client::ClientHandle</span>;
-<span class="kw">use</span> <span class="ident">polkadot_node_primitives</span>::{<span class="ident">CollationSecondedSignal</span>, <span class="ident">Statement</span>};
-<span class="kw">use</span> <span class="ident">polkadot_parachain::primitives::HeadData</span>;
-<span class="kw">use</span> <span class="ident">polkadot_primitives::v1</span>::{
+<span class="kw">use</span> <span class="ident">axia_client::ClientHandle</span>;
+<span class="kw">use</span> <span class="ident">axia_node_primitives</span>::{<span class="ident">CollationSecondedSignal</span>, <span class="ident">Statement</span>};
+<span class="kw">use</span> <span class="ident">axia_allychain::primitives::HeadData</span>;
+<span class="kw">use</span> <span class="ident">axia_primitives::v1</span>::{
 	<span class="ident">Block</span> <span class="kw">as</span> <span class="ident">PBlock</span>, <span class="ident">CandidateReceipt</span>, <span class="ident">CompactStatement</span>, <span class="ident">Hash</span> <span class="kw">as</span> <span class="ident">PHash</span>, <span class="ident">Id</span> <span class="kw">as</span> <span class="ident">ParaId</span>,
-	<span class="ident">OccupiedCoreAssumption</span>, <span class="ident">ParachainHost</span>, <span class="ident">SigningContext</span>, <span class="ident">UncheckedSigned</span>,
+	<span class="ident">OccupiedCoreAssumption</span>, <span class="ident">AllychainHost</span>, <span class="ident">SigningContext</span>, <span class="ident">UncheckedSigned</span>,
 };
 
 <span class="kw">use</span> <span class="ident">codec</span>::{<span class="ident">Decode</span>, <span class="ident">DecodeAll</span>, <span class="ident">Encode</span>};
@@ -712,7 +712,7 @@
 	) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Validation</span>, <span class="ident">BlockAnnounceError</span><span class="op">&gt;</span>
 	<span class="kw">where</span>
 		<span class="ident">P</span>: <span class="ident">ProvideRuntimeApi</span><span class="op">&lt;</span><span class="ident">PBlock</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-		<span class="ident">P::Api</span>: <span class="ident">ParachainHost</span><span class="op">&lt;</span><span class="ident">PBlock</span><span class="op">&gt;</span>,
+		<span class="ident">P::Api</span>: <span class="ident">AllychainHost</span><span class="op">&lt;</span><span class="ident">PBlock</span><span class="op">&gt;</span>,
 	{
 		<span class="kw">let</span> <span class="ident">runtime_api</span> <span class="op">=</span> <span class="ident">relay_chain_client</span>.<span class="ident">runtime_api</span>();
 		<span class="kw">let</span> <span class="ident">validator_index</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">statement</span>.<span class="ident">unchecked_validator_index</span>();
@@ -774,9 +774,9 @@
 	}
 }
 
-<span class="doccomment">/// Parachain specific block announce validator.</span>
+<span class="doccomment">/// Allychain specific block announce validator.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// This block announce validator is required if the parachain is running</span>
+<span class="doccomment">/// This block announce validator is required if the allychain is running</span>
 <span class="doccomment">/// with the relay chain provided consensus to make sure each node only</span>
 <span class="doccomment">/// imports a reasonable number of blocks per round. The relay chain provided</span>
 <span class="doccomment">/// consensus doesn&#39;t have any authorities and so it could happen that without</span>
@@ -785,7 +785,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// To solve this problem, each block announcement is delayed until a collator</span>
 <span class="doccomment">/// has received a [`Statement::Seconded`] for its `PoV`. This message tells the</span>
-<span class="doccomment">/// collator that its `PoV` was validated successfully by a parachain validator and</span>
+<span class="doccomment">/// collator that its `PoV` was validated successfully by a allychain validator and</span>
 <span class="doccomment">/// that it is very likely that this `PoV` will be included in the relay chain. Every</span>
 <span class="doccomment">/// collator that doesn&#39;t receive the message for its `PoV` will not announce its block.</span>
 <span class="doccomment">/// For more information on the block announcement, see [`WaitToAnnounce`].</span>
@@ -795,7 +795,7 @@
 <span class="doccomment">/// We call this extra data `justification`.</span>
 <span class="doccomment">/// It is expected that the attached data is a SCALE encoded [`BlockAnnounceData`]. The</span>
 <span class="doccomment">/// statement is checked to be a [`CompactStatement::Candidate`] and that it is signed by an active</span>
-<span class="doccomment">/// parachain validator.</span>
+<span class="doccomment">/// allychain validator.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// If no justification was provided we check if the block announcement is at the tip of the known</span>
 <span class="doccomment">/// chain. If it is at the tip, it is required to provide a justification or otherwise we reject</span>
@@ -836,10 +836,10 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Block</span>: <span class="ident">BlockT</span>, <span class="ident">R</span>, <span class="ident">B</span>, <span class="ident">BCE</span><span class="op">&gt;</span> <span class="ident">BlockAnnounceValidator</span><span class="op">&lt;</span><span class="ident">Block</span>, <span class="ident">R</span>, <span class="ident">B</span>, <span class="ident">BCE</span><span class="op">&gt;</span>
 <span class="kw">where</span>
 	<span class="ident">R</span>: <span class="ident">ProvideRuntimeApi</span><span class="op">&lt;</span><span class="ident">PBlock</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-	<span class="ident">R::Api</span>: <span class="ident">ParachainHost</span><span class="op">&lt;</span><span class="ident">PBlock</span><span class="op">&gt;</span>,
+	<span class="ident">R::Api</span>: <span class="ident">AllychainHost</span><span class="op">&lt;</span><span class="ident">PBlock</span><span class="op">&gt;</span>,
 	<span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&lt;</span><span class="ident">PBlock</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
-	<span class="doccomment">/// Get the included block of the given parachain in the relay chain.</span>
+	<span class="doccomment">/// Get the included block of the given allychain in the relay chain.</span>
 	<span class="kw">fn</span> <span class="ident">included_block</span>(
 		<span class="ident">relay_chain_client</span>: <span class="kw-2">&amp;</span><span class="ident">R</span>,
 		<span class="ident">block_id</span>: <span class="kw-2">&amp;</span><span class="ident">BlockId</span><span class="op">&lt;</span><span class="ident">PBlock</span><span class="op">&gt;</span>,
@@ -850,19 +850,19 @@
 			.<span class="ident">persisted_validation_data</span>(<span class="ident">block_id</span>, <span class="ident">para_id</span>, <span class="ident">OccupiedCoreAssumption::TimedOut</span>)
 			.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">Box::new</span>(<span class="ident">BlockAnnounceError</span>(<span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>))) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>)<span class="question-mark">?</span>
 			.<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> {
-				<span class="ident">Box::new</span>(<span class="ident">BlockAnnounceError</span>(<span class="string">&quot;Could not find parachain head in relay chain&quot;</span>.<span class="ident">into</span>()))
+				<span class="ident">Box::new</span>(<span class="ident">BlockAnnounceError</span>(<span class="string">&quot;Could not find allychain head in relay chain&quot;</span>.<span class="ident">into</span>()))
 					<span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>
 			})<span class="question-mark">?</span>;
 		<span class="kw">let</span> <span class="ident">para_head</span> <span class="op">=</span>
 			<span class="ident">Block::Header::decode</span>(<span class="kw-2">&amp;mut</span> <span class="kw-2">&amp;</span><span class="ident">validation_data</span>.<span class="ident">parent_head</span>.<span class="number">0</span>[..]).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-				<span class="ident">Box::new</span>(<span class="ident">BlockAnnounceError</span>(<span class="macro">format!</span>(<span class="string">&quot;Failed to decode parachain head: {:?}&quot;</span>, <span class="ident">e</span>)))
+				<span class="ident">Box::new</span>(<span class="ident">BlockAnnounceError</span>(<span class="macro">format!</span>(<span class="string">&quot;Failed to decode allychain head: {:?}&quot;</span>, <span class="ident">e</span>)))
 					<span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>
 			})<span class="question-mark">?</span>;
 
 		<span class="prelude-val">Ok</span>(<span class="ident">para_head</span>)
 	}
 
-	<span class="doccomment">/// Get the backed block hash of the given parachain in the relay chain.</span>
+	<span class="doccomment">/// Get the backed block hash of the given allychain in the relay chain.</span>
 	<span class="kw">fn</span> <span class="ident">backed_block_hash</span>(
 		<span class="ident">relay_chain_client</span>: <span class="kw-2">&amp;</span><span class="ident">R</span>,
 		<span class="ident">block_id</span>: <span class="kw-2">&amp;</span><span class="ident">BlockId</span><span class="op">&lt;</span><span class="ident">PBlock</span><span class="op">&gt;</span>,
@@ -923,7 +923,7 @@
 	<span class="kw">for</span> <span class="ident">BlockAnnounceValidator</span><span class="op">&lt;</span><span class="ident">Block</span>, <span class="ident">P</span>, <span class="ident">B</span>, <span class="ident">BCE</span><span class="op">&gt;</span>
 <span class="kw">where</span>
 	<span class="ident">P</span>: <span class="ident">ProvideRuntimeApi</span><span class="op">&lt;</span><span class="ident">PBlock</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-	<span class="ident">P::Api</span>: <span class="ident">ParachainHost</span><span class="op">&lt;</span><span class="ident">PBlock</span><span class="op">&gt;</span>,
+	<span class="ident">P::Api</span>: <span class="ident">AllychainHost</span><span class="op">&lt;</span><span class="ident">PBlock</span><span class="op">&gt;</span>,
 	<span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&lt;</span><span class="ident">PBlock</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 	<span class="ident">BCE</span>: <span class="ident">BlockchainEvents</span><span class="op">&lt;</span><span class="ident">PBlock</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
 {
@@ -980,7 +980,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Returns a boxed [`BlockAnnounceValidator`].</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build_block_announce_validator</span><span class="op">&lt;</span><span class="ident">Block</span>: <span class="ident">BlockT</span>, <span class="ident">B</span><span class="op">&gt;</span>(
-	<span class="ident">relay_chain_client</span>: <span class="ident">polkadot_client::Client</span>,
+	<span class="ident">relay_chain_client</span>: <span class="ident">axia_client::Client</span>,
 	<span class="ident">para_id</span>: <span class="ident">ParaId</span>,
 	<span class="ident">relay_chain_sync_oracle</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">SyncOracle</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span>,
 	<span class="ident">relay_chain_backend</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
@@ -999,13 +999,13 @@
 
 <span class="doccomment">/// Block announce validator builder.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// Builds a [`BlockAnnounceValidator`] for a parachain. As this requires</span>
-<span class="doccomment">/// a concrete relay chain client instance, the builder takes a [`polkadot_client::Client`]</span>
-<span class="doccomment">/// that wraps this concrete instanace. By using [`polkadot_client::ExecuteWithClient`]</span>
+<span class="doccomment">/// Builds a [`BlockAnnounceValidator`] for a allychain. As this requires</span>
+<span class="doccomment">/// a concrete relay chain client instance, the builder takes a [`axia_client::Client`]</span>
+<span class="doccomment">/// that wraps this concrete instanace. By using [`axia_client::ExecuteWithClient`]</span>
 <span class="doccomment">/// the builder gets access to this concrete instance.</span>
 <span class="kw">struct</span> <span class="ident">BlockAnnounceValidatorBuilder</span><span class="op">&lt;</span><span class="ident">Block</span>, <span class="ident">B</span><span class="op">&gt;</span> {
 	<span class="ident">phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">Block</span><span class="op">&gt;</span>,
-	<span class="ident">relay_chain_client</span>: <span class="ident">polkadot_client::Client</span>,
+	<span class="ident">relay_chain_client</span>: <span class="ident">axia_client::Client</span>,
 	<span class="ident">para_id</span>: <span class="ident">ParaId</span>,
 	<span class="ident">relay_chain_sync_oracle</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">SyncOracle</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span>,
 	<span class="ident">relay_chain_backend</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
@@ -1017,7 +1017,7 @@
 {
 	<span class="doccomment">/// Create a new instance of the builder.</span>
 	<span class="kw">fn</span> <span class="ident">new</span>(
-		<span class="ident">relay_chain_client</span>: <span class="ident">polkadot_client::Client</span>,
+		<span class="ident">relay_chain_client</span>: <span class="ident">axia_client::Client</span>,
 		<span class="ident">para_id</span>: <span class="ident">ParaId</span>,
 		<span class="ident">relay_chain_sync_oracle</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">SyncOracle</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span>,
 		<span class="ident">relay_chain_backend</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
@@ -1037,7 +1037,7 @@
 	}
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Block</span>: <span class="ident">BlockT</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="ident">polkadot_client::ExecuteWithClient</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Block</span>: <span class="ident">BlockT</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="ident">axia_client::ExecuteWithClient</span>
 	<span class="kw">for</span> <span class="ident">BlockAnnounceValidatorBuilder</span><span class="op">&lt;</span><span class="ident">Block</span>, <span class="ident">B</span><span class="op">&gt;</span>
 <span class="kw">where</span>
 	<span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&lt;</span><span class="ident">PBlock</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
@@ -1050,8 +1050,8 @@
 			<span class="ident">sp_api::StateBackend</span><span class="op">&lt;</span><span class="ident">sp_runtime::traits::BlakeTwo256</span><span class="op">&gt;</span>,
 		<span class="ident">PBackend</span>: <span class="ident">Backend</span><span class="op">&lt;</span><span class="ident">PBlock</span><span class="op">&gt;</span>,
 		<span class="ident">PBackend::State</span>: <span class="ident">sp_api::StateBackend</span><span class="op">&lt;</span><span class="ident">sp_runtime::traits::BlakeTwo256</span><span class="op">&gt;</span>,
-		<span class="ident">Api</span>: <span class="ident">polkadot_client::RuntimeApiCollection</span><span class="op">&lt;</span><span class="ident">StateBackend</span> <span class="op">=</span> <span class="ident">PBackend::State</span><span class="op">&gt;</span>,
-		<span class="ident">PClient</span>: <span class="ident">polkadot_client::AbstractClient</span><span class="op">&lt;</span><span class="ident">PBlock</span>, <span class="ident">PBackend</span>, <span class="ident">Api</span> <span class="op">=</span> <span class="ident">Api</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+		<span class="ident">Api</span>: <span class="ident">axia_client::RuntimeApiCollection</span><span class="op">&lt;</span><span class="ident">StateBackend</span> <span class="op">=</span> <span class="ident">PBackend::State</span><span class="op">&gt;</span>,
+		<span class="ident">PClient</span>: <span class="ident">axia_client::AbstractClient</span><span class="op">&lt;</span><span class="ident">PBlock</span>, <span class="ident">PBackend</span>, <span class="ident">Api</span> <span class="op">=</span> <span class="ident">Api</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 	{
 		<span class="ident">Box::new</span>(<span class="ident">BlockAnnounceValidator::new</span>(
 			<span class="ident">client</span>.<span class="ident">clone</span>(),

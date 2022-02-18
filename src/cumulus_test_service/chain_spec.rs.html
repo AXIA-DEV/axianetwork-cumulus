@@ -140,7 +140,7 @@
 <span class="kw">use</span> <span class="ident">sp_core</span>::{<span class="ident">sr25519</span>, <span class="ident">Pair</span>, <span class="ident">Public</span>};
 <span class="kw">use</span> <span class="ident">sp_runtime::traits</span>::{<span class="ident">IdentifyAccount</span>, <span class="ident">Verify</span>};
 
-<span class="doccomment">/// Specialized `ChainSpec` for the normal parachain runtime.</span>
+<span class="doccomment">/// Specialized `ChainSpec` for the normal allychain runtime.</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ChainSpec</span> <span class="op">=</span> <span class="ident">sc_service::GenericChainSpec</span><span class="op">&lt;</span><span class="ident">cumulus_test_runtime::GenesisConfig</span>, <span class="ident">Extensions</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// Helper function to generate a crypto pair from seed</span>
@@ -154,7 +154,7 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">ChainSpecGroup</span>, <span class="ident">ChainSpecExtension</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">deny_unknown_fields</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Extensions</span> {
-	<span class="doccomment">/// The id of the Parachain.</span>
+	<span class="doccomment">/// The id of the Allychain.</span>
 	<span class="kw">pub</span> <span class="ident">para_id</span>: <span class="ident">u32</span>,
 }
 
@@ -175,7 +175,7 @@
 	<span class="ident">AccountPublic::from</span>(<span class="ident">get_from_seed</span>::<span class="op">&lt;</span><span class="ident">TPublic</span><span class="op">&gt;</span>(<span class="ident">seed</span>)).<span class="ident">into_account</span>()
 }
 
-<span class="doccomment">/// Get the chain spec for a specific parachain ID.</span>
+<span class="doccomment">/// Get the chain spec for a specific allychain ID.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_chain_spec</span>(<span class="ident">id</span>: <span class="ident">ParaId</span>) -&gt; <span class="ident">ChainSpec</span> {
 	<span class="ident">ChainSpec::from_genesis</span>(
 		<span class="string">&quot;Local Testnet&quot;</span>,
@@ -222,7 +222,7 @@
 				.<span class="ident">to_vec</span>(),
 			..<span class="ident">Default::default</span>()
 		},
-		<span class="ident">parachain_system</span>: <span class="ident">Default::default</span>(),
+		<span class="ident">allychain_system</span>: <span class="ident">Default::default</span>(),
 		<span class="ident">balances</span>: <span class="ident">cumulus_test_runtime::BalancesConfig</span> {
 			<span class="ident">balances</span>: <span class="ident">endowed_accounts</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">k</span><span class="op">|</span> (<span class="ident">k</span>, <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">60</span>)).<span class="ident">collect</span>(),
 		},

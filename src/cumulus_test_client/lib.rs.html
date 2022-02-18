@@ -229,11 +229,11 @@
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">block_builder</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">cumulus_test_runtime</span> <span class="kw">as</span> <span class="ident">runtime</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">polkadot_parachain::primitives</span>::{<span class="ident">BlockData</span>, <span class="ident">HeadData</span>, <span class="ident">ValidationParams</span>, <span class="ident">ValidationResult</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">axia_allychain::primitives</span>::{<span class="ident">BlockData</span>, <span class="ident">HeadData</span>, <span class="ident">ValidationParams</span>, <span class="ident">ValidationResult</span>};
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">sc_executor::error::Result</span> <span class="kw">as</span> <span class="ident">ExecutorResult</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">substrate_test_client</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">axlib_test_client</span>::<span class="kw-2">*</span>;
 
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ParachainBlockData</span> <span class="op">=</span> <span class="ident">cumulus_primitives_core::ParachainBlockData</span><span class="op">&lt;</span><span class="ident">Block</span><span class="op">&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">AllychainBlockData</span> <span class="op">=</span> <span class="ident">cumulus_primitives_core::AllychainBlockData</span><span class="op">&lt;</span><span class="ident">Block</span><span class="op">&gt;</span>;
 
 <span class="kw">mod</span> <span class="ident">local_executor</span> {
 	<span class="doccomment">/// Native executor instance.</span>
@@ -256,7 +256,7 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">local_executor::LocalExecutor</span>;
 
 <span class="doccomment">/// Test client database backend.</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Backend</span> <span class="op">=</span> <span class="ident">substrate_test_client::Backend</span><span class="op">&lt;</span><span class="ident">Block</span><span class="op">&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Backend</span> <span class="op">=</span> <span class="ident">axlib_test_client::Backend</span><span class="op">&lt;</span><span class="ident">Block</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// Test client executor.</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Executor</span> <span class="op">=</span>
@@ -264,7 +264,7 @@
 
 <span class="doccomment">/// Test client builder for Cumulus</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">TestClientBuilder</span> <span class="op">=</span>
-	<span class="ident">substrate_test_client::TestClientBuilder</span><span class="op">&lt;</span><span class="ident">Block</span>, <span class="ident">Executor</span>, <span class="ident">Backend</span>, <span class="ident">GenesisParameters</span><span class="op">&gt;</span>;
+	<span class="ident">axlib_test_client::TestClientBuilder</span><span class="op">&lt;</span><span class="ident">Block</span>, <span class="ident">Executor</span>, <span class="ident">Backend</span>, <span class="ident">GenesisParameters</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// LongestChain type for the test runtime/client.</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">LongestChain</span> <span class="op">=</span> <span class="ident">sc_consensus::LongestChain</span><span class="op">&lt;</span><span class="ident">Backend</span>, <span class="ident">Block</span><span class="op">&gt;</span>;
@@ -276,7 +276,7 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GenesisParameters</span>;
 
-<span class="kw">impl</span> <span class="ident">substrate_test_client::GenesisInit</span> <span class="kw">for</span> <span class="ident">GenesisParameters</span> {
+<span class="kw">impl</span> <span class="ident">axlib_test_client::GenesisInit</span> <span class="kw">for</span> <span class="ident">GenesisParameters</span> {
 	<span class="kw">fn</span> <span class="ident">genesis_storage</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Storage</span> {
 		<span class="ident">genesis_config</span>().<span class="ident">build_storage</span>().<span class="ident">unwrap</span>()
 	}
@@ -375,7 +375,7 @@
 	<span class="kw">let</span> <span class="ident">executor</span> <span class="op">=</span> <span class="ident">WasmExecutor::new</span>(
 		<span class="ident">WasmExecutionMethod::Interpreted</span>,
 		<span class="prelude-val">Some</span>(<span class="number">1024</span>),
-		<span class="ident">sp_io::SubstrateHostFunctions::host_functions</span>(),
+		<span class="ident">sp_io::AxlibHostFunctions::host_functions</span>(),
 		<span class="number">1</span>,
 		<span class="prelude-val">None</span>,
 	);

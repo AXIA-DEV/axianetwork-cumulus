@@ -281,7 +281,7 @@
 };
 <span class="kw">use</span> <span class="ident">structopt::StructOpt</span>;
 
-<span class="doccomment">/// The `purge-chain` command used to remove the whole chain: the parachain and the relaychain.</span>
+<span class="doccomment">/// The `purge-chain` command used to remove the whole chain: the allychain and the relaychain.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">StructOpt</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PurgeChainCmd</span> {
 	<span class="doccomment">/// The base struct of the purge-chain command.</span>
@@ -290,7 +290,7 @@
 
 	<span class="doccomment">/// Only delete the para chain database</span>
 	<span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>, <span class="ident">aliases</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="string">&quot;para&quot;</span>]</span>)]
-	<span class="kw">pub</span> <span class="ident">parachain</span>: <span class="ident">bool</span>,
+	<span class="kw">pub</span> <span class="ident">allychain</span>: <span class="ident">bool</span>,
 
 	<span class="doccomment">/// Only delete the relay chain database</span>
 	<span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>, <span class="ident">aliases</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="string">&quot;relay&quot;</span>]</span>)]
@@ -304,10 +304,10 @@
 		<span class="ident">para_config</span>: <span class="ident">sc_service::Configuration</span>,
 		<span class="ident">relay_config</span>: <span class="ident">sc_service::Configuration</span>,
 	) -&gt; <span class="ident">sc_cli::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-		<span class="kw">let</span> <span class="ident">databases</span> <span class="op">=</span> <span class="kw">match</span> (<span class="self">self</span>.<span class="ident">parachain</span>, <span class="self">self</span>.<span class="ident">relaychain</span>) {
+		<span class="kw">let</span> <span class="ident">databases</span> <span class="op">=</span> <span class="kw">match</span> (<span class="self">self</span>.<span class="ident">allychain</span>, <span class="self">self</span>.<span class="ident">relaychain</span>) {
 			(<span class="bool-val">true</span>, <span class="bool-val">true</span>) <span class="op">|</span> (<span class="bool-val">false</span>, <span class="bool-val">false</span>) =&gt;
-				<span class="macro">vec!</span>[(<span class="string">&quot;parachain&quot;</span>, <span class="ident">para_config</span>.<span class="ident">database</span>), (<span class="string">&quot;relaychain&quot;</span>, <span class="ident">relay_config</span>.<span class="ident">database</span>)],
-			(<span class="bool-val">true</span>, <span class="bool-val">false</span>) =&gt; <span class="macro">vec!</span>[(<span class="string">&quot;parachain&quot;</span>, <span class="ident">para_config</span>.<span class="ident">database</span>)],
+				<span class="macro">vec!</span>[(<span class="string">&quot;allychain&quot;</span>, <span class="ident">para_config</span>.<span class="ident">database</span>), (<span class="string">&quot;relaychain&quot;</span>, <span class="ident">relay_config</span>.<span class="ident">database</span>)],
+			(<span class="bool-val">true</span>, <span class="bool-val">false</span>) =&gt; <span class="macro">vec!</span>[(<span class="string">&quot;allychain&quot;</span>, <span class="ident">para_config</span>.<span class="ident">database</span>)],
 			(<span class="bool-val">false</span>, <span class="bool-val">true</span>) =&gt; <span class="macro">vec!</span>[(<span class="string">&quot;relaychain&quot;</span>, <span class="ident">relay_config</span>.<span class="ident">database</span>)],
 		};
 
@@ -376,9 +376,9 @@
 	<span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">flatten</span>)]</span>
 	<span class="kw">pub</span> <span class="ident">base</span>: <span class="ident">sc_cli::RunCmd</span>,
 
-	<span class="doccomment">/// Id of the parachain this collator collates for.</span>
+	<span class="doccomment">/// Id of the allychain this collator collates for.</span>
 	<span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span>)]</span>
-	<span class="kw">pub</span> <span class="ident">parachain_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+	<span class="kw">pub</span> <span class="ident">allychain_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
 
 	<span class="doccomment">/// Run node as collator.</span>
 	<span class="doccomment">///</span>
@@ -393,8 +393,8 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">NormalizedRunCmd</span> {
 	<span class="doccomment">/// The cumulus RunCmd inherents from sc_cli&#39;s</span>
 	<span class="kw">pub</span> <span class="ident">base</span>: <span class="ident">sc_cli::RunCmd</span>,
-	<span class="doccomment">/// Id of the parachain this collator collates for.</span>
-	<span class="kw">pub</span> <span class="ident">parachain_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+	<span class="doccomment">/// Id of the allychain this collator collates for.</span>
+	<span class="kw">pub</span> <span class="ident">allychain_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">RunCmd</span> {
@@ -404,7 +404,7 @@
 
 		<span class="ident">new_base</span>.<span class="ident">validator</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">validator</span> <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">collator</span>;
 
-		<span class="ident">NormalizedRunCmd</span> { <span class="ident">base</span>: <span class="ident">new_base</span>, <span class="ident">parachain_id</span>: <span class="self">self</span>.<span class="ident">parachain_id</span> }
+		<span class="ident">NormalizedRunCmd</span> { <span class="ident">base</span>: <span class="ident">new_base</span>, <span class="ident">allychain_id</span>: <span class="self">self</span>.<span class="ident">allychain_id</span> }
 	}
 }
 

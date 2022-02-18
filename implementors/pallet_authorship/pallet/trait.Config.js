@@ -1,4 +1,5 @@
 (function() {var implementors = {};
+implementors["allychain_template_runtime"] = [{"text":"impl Config for <a class=\"struct\" href=\"allychain_template_runtime/struct.Runtime.html\" title=\"struct allychain_template_runtime::Runtime\">Runtime</a>","synthetic":false,"types":["allychain_template_runtime::Runtime"]}];
 implementors["parachain_template_runtime"] = [{"text":"impl Config for <a class=\"struct\" href=\"parachain_template_runtime/struct.Runtime.html\" title=\"struct parachain_template_runtime::Runtime\">Runtime</a>","synthetic":false,"types":["parachain_template_runtime::Runtime"]}];
 implementors["statemine_runtime"] = [{"text":"impl Config for <a class=\"struct\" href=\"statemine_runtime/struct.Runtime.html\" title=\"struct statemine_runtime::Runtime\">Runtime</a>","synthetic":false,"types":["statemine_runtime::Runtime"]}];
 implementors["statemint_runtime"] = [{"text":"impl Config for <a class=\"struct\" href=\"statemint_runtime/struct.Runtime.html\" title=\"struct statemint_runtime::Runtime\">Runtime</a>","synthetic":false,"types":["statemint_runtime::Runtime"]}];

@@ -49,10 +49,10 @@
 <span class="kw">use</span> <span class="ident">cumulus_client_service::genesis::generate_genesis_block</span>;
 <span class="kw">use</span> <span class="ident">cumulus_primitives_core::ParaId</span>;
 <span class="kw">use</span> <span class="ident">cumulus_test_runtime::Block</span>;
-<span class="kw">use</span> <span class="ident">polkadot_primitives::v0::HeadData</span>;
+<span class="kw">use</span> <span class="ident">axia_primitives::v0::HeadData</span>;
 <span class="kw">use</span> <span class="ident">sp_runtime::traits::Block</span> <span class="kw">as</span> <span class="ident">BlockT</span>;
 
-<span class="doccomment">/// Returns the initial head data for a parachain ID.</span>
+<span class="doccomment">/// Returns the initial head data for a allychain ID.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">initial_head_data</span>(<span class="ident">para_id</span>: <span class="ident">ParaId</span>) -&gt; <span class="ident">HeadData</span> {
 	<span class="kw">let</span> <span class="ident">spec</span> <span class="op">=</span> <span class="ident">Box::new</span>(<span class="ident"><span class="kw">crate</span>::chain_spec::get_chain_spec</span>(<span class="ident">para_id</span>));
 	<span class="kw">let</span> <span class="ident">block</span>: <span class="ident">Block</span> <span class="op">=</span> <span class="ident">generate_genesis_block</span>(<span class="kw-2">&amp;</span>(<span class="ident">spec</span> <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>)).<span class="ident">unwrap</span>();

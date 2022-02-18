@@ -235,25 +235,25 @@
 <span id="234">234</span>
 <span id="235">235</span>
 </pre><pre class="rust"><code><span class="comment">// Copyright 2020-2021 Parity Technologies (UK) Ltd.</span>
-<span class="comment">// This file is part of Polkadot.</span>
+<span class="comment">// This file is part of Axia.</span>
 
-<span class="comment">// Polkadot is free software: you can redistribute it and/or modify</span>
+<span class="comment">// Axia is free software: you can redistribute it and/or modify</span>
 <span class="comment">// it under the terms of the GNU General Public License as published by</span>
 <span class="comment">// the Free Software Foundation, either version 3 of the License, or</span>
 <span class="comment">// (at your option) any later version.</span>
 
-<span class="comment">// Polkadot is distributed in the hope that it will be useful,</span>
+<span class="comment">// Axia is distributed in the hope that it will be useful,</span>
 <span class="comment">// but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
 <span class="comment">// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
 <span class="comment">// GNU General Public License for more details.</span>
 
 <span class="comment">// You should have received a copy of the GNU General Public License</span>
-<span class="comment">// along with Polkadot.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="comment">// along with Axia.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 
 <span class="doccomment">//! Provides the [`WaitOnRelayChainBlock`] type.</span>
 
 <span class="kw">use</span> <span class="ident">futures</span>::{<span class="ident">future::ready</span>, <span class="ident">Future</span>, <span class="ident">FutureExt</span>, <span class="ident">StreamExt</span>};
-<span class="kw">use</span> <span class="ident">polkadot_primitives::v1</span>::{<span class="ident">Block</span> <span class="kw">as</span> <span class="ident">PBlock</span>, <span class="ident">Hash</span> <span class="kw">as</span> <span class="ident">PHash</span>};
+<span class="kw">use</span> <span class="ident">axia_primitives::v1</span>::{<span class="ident">Block</span> <span class="kw">as</span> <span class="ident">PBlock</span>, <span class="ident">Hash</span> <span class="kw">as</span> <span class="ident">PHash</span>};
 <span class="kw">use</span> <span class="ident">sc_client_api</span>::{
 	<span class="ident">blockchain</span>::{<span class="self">self</span>, <span class="ident">BlockStatus</span>, <span class="ident">HeaderBackend</span>},
 	<span class="ident">Backend</span>, <span class="ident">BlockchainEvents</span>,
@@ -361,9 +361,9 @@
 <span class="kw">mod</span> <span class="ident">tests</span> {
 	<span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
-	<span class="kw">use</span> <span class="ident">polkadot_test_client</span>::{
+	<span class="kw">use</span> <span class="ident">axia_test_client</span>::{
 		<span class="ident">construct_transfer_extrinsic</span>, <span class="ident">BlockBuilderExt</span>, <span class="ident">Client</span>, <span class="ident">ClientBlockImportExt</span>,
-		<span class="ident">DefaultTestClientBuilderExt</span>, <span class="ident">ExecutionStrategy</span>, <span class="ident">FullBackend</span>, <span class="ident">InitPolkadotBlockBuilder</span>,
+		<span class="ident">DefaultTestClientBuilderExt</span>, <span class="ident">ExecutionStrategy</span>, <span class="ident">FullBackend</span>, <span class="ident">InitAxiaBlockBuilder</span>,
 		<span class="ident">TestClientBuilder</span>, <span class="ident">TestClientBuilderExt</span>,
 	};
 	<span class="kw">use</span> <span class="ident">sp_consensus::BlockOrigin</span>;
@@ -377,7 +377,7 @@
 		<span class="kw">let</span> <span class="ident">backend</span> <span class="op">=</span> <span class="ident">builder</span>.<span class="ident">backend</span>();
 		<span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">builder</span>.<span class="ident">build</span>());
 
-		<span class="kw">let</span> <span class="ident">block_builder</span> <span class="op">=</span> <span class="ident">client</span>.<span class="ident">init_polkadot_block_builder</span>();
+		<span class="kw">let</span> <span class="ident">block_builder</span> <span class="op">=</span> <span class="ident">client</span>.<span class="ident">init_axia_block_builder</span>();
 		<span class="kw">let</span> <span class="ident">block</span> <span class="op">=</span> <span class="ident">block_builder</span>.<span class="ident">build</span>().<span class="ident">expect</span>(<span class="string">&quot;Finalizes the block&quot;</span>).<span class="ident">block</span>;
 
 		(<span class="ident">client</span>, <span class="ident">backend</span>, <span class="ident">block</span>)
@@ -439,9 +439,9 @@
 			<span class="ident">sp_keyring::Sr25519Keyring::Bob</span>,
 			<span class="number">1000</span>,
 		);
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">block_builder</span> <span class="op">=</span> <span class="ident">client</span>.<span class="ident">init_polkadot_block_builder</span>();
+		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">block_builder</span> <span class="op">=</span> <span class="ident">client</span>.<span class="ident">init_axia_block_builder</span>();
 		<span class="comment">// Push an extrinsic to get a different block hash.</span>
-		<span class="ident">block_builder</span>.<span class="ident">push_polkadot_extrinsic</span>(<span class="ident">ext</span>).<span class="ident">expect</span>(<span class="string">&quot;Push extrinsic&quot;</span>);
+		<span class="ident">block_builder</span>.<span class="ident">push_axia_extrinsic</span>(<span class="ident">ext</span>).<span class="ident">expect</span>(<span class="string">&quot;Push extrinsic&quot;</span>);
 		<span class="kw">let</span> <span class="ident">block2</span> <span class="op">=</span> <span class="ident">block_builder</span>.<span class="ident">build</span>().<span class="ident">expect</span>(<span class="string">&quot;Build second block&quot;</span>).<span class="ident">block</span>;
 		<span class="kw">let</span> <span class="ident">hash2</span> <span class="op">=</span> <span class="ident">block2</span>.<span class="ident">hash</span>();
 

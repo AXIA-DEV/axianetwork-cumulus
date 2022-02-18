@@ -1,4 +1,6 @@
 (function() {var implementors = {};
+implementors["allychain_template_runtime"] = [{"text":"impl Config for <a class=\"struct\" href=\"allychain_template_runtime/struct.XcmConfig.html\" title=\"struct allychain_template_runtime::XcmConfig\">XcmConfig</a>","synthetic":false,"types":["allychain_template_runtime::XcmConfig"]}];
+implementors["betanet_runtime"] = [{"text":"impl Config for <a class=\"struct\" href=\"betanet_runtime/struct.XcmConfig.html\" title=\"struct betanet_runtime::XcmConfig\">XcmConfig</a>","synthetic":false,"types":["betanet_runtime::XcmConfig"]}];
 implementors["parachain_template_runtime"] = [{"text":"impl Config for <a class=\"struct\" href=\"parachain_template_runtime/struct.XcmConfig.html\" title=\"struct parachain_template_runtime::XcmConfig\">XcmConfig</a>","synthetic":false,"types":["parachain_template_runtime::XcmConfig"]}];
 implementors["rococo_runtime"] = [{"text":"impl Config for <a class=\"struct\" href=\"rococo_runtime/struct.XcmConfig.html\" title=\"struct rococo_runtime::XcmConfig\">XcmConfig</a>","synthetic":false,"types":["rococo_runtime::XcmConfig"]}];
 implementors["shell_runtime"] = [{"text":"impl Config for <a class=\"struct\" href=\"shell_runtime/struct.XcmConfig.html\" title=\"struct shell_runtime::XcmConfig\">XcmConfig</a>","synthetic":false,"types":["shell_runtime::XcmConfig"]}];

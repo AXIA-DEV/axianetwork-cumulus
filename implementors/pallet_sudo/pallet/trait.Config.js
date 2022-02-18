@@ -1,4 +1,5 @@
 (function() {var implementors = {};
+implementors["betanet_runtime"] = [{"text":"impl Config for <a class=\"struct\" href=\"betanet_runtime/struct.Runtime.html\" title=\"struct betanet_runtime::Runtime\">Runtime</a>","synthetic":false,"types":["betanet_runtime::Runtime"]}];
 implementors["cumulus_test_runtime"] = [{"text":"impl Config for <a class=\"struct\" href=\"cumulus_test_runtime/struct.Runtime.html\" title=\"struct cumulus_test_runtime::Runtime\">Runtime</a>","synthetic":false,"types":["cumulus_test_runtime::Runtime"]}];
 implementors["cumulus_test_runtime_upgrade"] = [{"text":"impl Config for <a class=\"struct\" href=\"cumulus_test_runtime_upgrade/struct.Runtime.html\" title=\"struct cumulus_test_runtime_upgrade::Runtime\">Runtime</a>","synthetic":false,"types":["cumulus_test_runtime_upgrade::Runtime"]}];
 implementors["rococo_runtime"] = [{"text":"impl Config for <a class=\"struct\" href=\"rococo_runtime/struct.Runtime.html\" title=\"struct rococo_runtime::Runtime\">Runtime</a>","synthetic":false,"types":["rococo_runtime::Runtime"]}];

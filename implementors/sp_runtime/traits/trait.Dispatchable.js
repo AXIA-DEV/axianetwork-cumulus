@@ -1,4 +1,6 @@
 (function() {var implementors = {};
+implementors["allychain_template_runtime"] = [{"text":"impl Dispatchable for <a class=\"enum\" href=\"allychain_template_runtime/enum.Call.html\" title=\"enum allychain_template_runtime::Call\">Call</a>","synthetic":false,"types":["allychain_template_runtime::Call"]}];
+implementors["betanet_runtime"] = [{"text":"impl Dispatchable for <a class=\"enum\" href=\"betanet_runtime/enum.Call.html\" title=\"enum betanet_runtime::Call\">Call</a>","synthetic":false,"types":["betanet_runtime::Call"]}];
 implementors["cumulus_test_runtime"] = [{"text":"impl Dispatchable for <a class=\"enum\" href=\"cumulus_test_runtime/enum.Call.html\" title=\"enum cumulus_test_runtime::Call\">Call</a>","synthetic":false,"types":["cumulus_test_runtime::Call"]}];
 implementors["cumulus_test_runtime_upgrade"] = [{"text":"impl Dispatchable for <a class=\"enum\" href=\"cumulus_test_runtime_upgrade/enum.Call.html\" title=\"enum cumulus_test_runtime_upgrade::Call\">Call</a>","synthetic":false,"types":["cumulus_test_runtime_upgrade::Call"]}];
 implementors["parachain_template_runtime"] = [{"text":"impl Dispatchable for <a class=\"enum\" href=\"parachain_template_runtime/enum.Call.html\" title=\"enum parachain_template_runtime::Call\">Call</a>","synthetic":false,"types":["parachain_template_runtime::Call"]}];
