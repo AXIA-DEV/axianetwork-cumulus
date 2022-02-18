@@ -41,7 +41,7 @@ use cumulus_primitives_core::{
 	ParaId, PersistedValidationData,
 };
 use parking_lot::Mutex;
-use polkadot_client::ClientHandle;
+use axia_client::ClientHandle;
 use sc_client_api::Backend;
 use sc_consensus::{BlockImport, BlockImportParams};
 use sp_api::ProvideRuntimeApi;
@@ -98,8 +98,8 @@ where
 		proposer_factory: PF,
 		create_inherent_data_providers: CIDP,
 		block_import: BI,
-		polkadot_client: Arc<RClient>,
-		polkadot_backend: Arc<RBackend>,
+		axia_client: Arc<RClient>,
+		axia_backend: Arc<RBackend>,
 	) -> Self {
 		Self {
 			para_id,
@@ -108,8 +108,8 @@ where
 			block_import: Arc::new(futures::lock::Mutex::new(ParachainBlockImport::new(
 				block_import,
 			))),
-			relay_chain_backend: polkadot_backend,
-			relay_chain_client: polkadot_client,
+			relay_chain_backend: axia_backend,
+			relay_chain_client: axia_client,
 			_phantom: PhantomData,
 		}
 	}
@@ -234,7 +234,7 @@ pub struct BuildRelayChainConsensusParams<PF, BI, RBackend, CIDP> {
 	pub proposer_factory: PF,
 	pub create_inherent_data_providers: CIDP,
 	pub block_import: BI,
-	pub relay_chain_client: polkadot_client::Client,
+	pub relay_chain_client: axia_client::Client,
 	pub relay_chain_backend: Arc<RBackend>,
 }
 
@@ -278,8 +278,8 @@ where
 /// Relay chain consensus builder.
 ///
 /// Builds a [`RelayChainConsensus`] for a parachain. As this requires
-/// a concrete relay chain client instance, the builder takes a [`polkadot_client::Client`]
-/// that wraps this concrete instanace. By using [`polkadot_client::ExecuteWithClient`]
+/// a concrete relay chain client instance, the builder takes a [`axia_client::Client`]
+/// that wraps this concrete instanace. By using [`axia_client::ExecuteWithClient`]
 /// the builder gets access to this concrete instance.
 struct RelayChainConsensusBuilder<Block, PF, BI, RBackend, CIDP> {
 	para_id: ParaId,
@@ -288,7 +288,7 @@ struct RelayChainConsensusBuilder<Block, PF, BI, RBackend, CIDP> {
 	create_inherent_data_providers: CIDP,
 	block_import: BI,
 	relay_chain_backend: Arc<RBackend>,
-	relay_chain_client: polkadot_client::Client,
+	relay_chain_client: axia_client::Client,
 }
 
 impl<Block, PF, BI, RBackend, CIDP> RelayChainConsensusBuilder<Block, PF, BI, RBackend, CIDP>
@@ -311,7 +311,7 @@ where
 		proposer_factory: PF,
 		block_import: BI,
 		create_inherent_data_providers: CIDP,
-		relay_chain_client: polkadot_client::Client,
+		relay_chain_client: axia_client::Client,
 		relay_chain_backend: Arc<RBackend>,
 	) -> Self {
 		Self {
@@ -331,7 +331,7 @@ where
 	}
 }
 
-impl<Block, PF, BI, RBackend, CIDP> polkadot_client::ExecuteWithClient
+impl<Block, PF, BI, RBackend, CIDP> axia_client::ExecuteWithClient
 	for RelayChainConsensusBuilder<Block, PF, BI, RBackend, CIDP>
 where
 	Block: BlockT,
@@ -353,8 +353,8 @@ where
 		<Api as sp_api::ApiExt<PBlock>>::StateBackend: sp_api::StateBackend<HashFor<PBlock>>,
 		PBackend: Backend<PBlock>,
 		PBackend::State: sp_api::StateBackend<sp_runtime::traits::BlakeTwo256>,
-		Api: polkadot_client::RuntimeApiCollection<StateBackend = PBackend::State>,
-		PClient: polkadot_client::AbstractClient<PBlock, PBackend, Api = Api> + 'static,
+		Api: axia_client::RuntimeApiCollection<StateBackend = PBackend::State>,
+		PClient: axia_client::AbstractClient<PBlock, PBackend, Api = Api> + 'static,
 	{
 		Box::new(RelayChainConsensus::new(
 			self.para_id,

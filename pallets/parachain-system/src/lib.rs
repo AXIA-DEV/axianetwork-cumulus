@@ -43,7 +43,7 @@ use frame_support::{
 	weights::{Pays, PostDispatchInfo, Weight},
 };
 use frame_system::{ensure_none, ensure_root};
-use polkadot_parachain::primitives::RelayChainBlockNumber;
+use axia_parachain::primitives::RelayChainBlockNumber;
 use relay_state_snapshot::MessagingStateSnapshot;
 use sp_runtime::{
 	traits::{BlakeTwo256, Block as BlockT, BlockNumberProvider, Hash},
@@ -424,9 +424,9 @@ pub mod pallet {
 	pub enum Error<T> {
 		/// Attempt to upgrade validation function while existing upgrade pending
 		OverlappingUpgrades,
-		/// Polkadot currently prohibits this parachain from upgrading its validation function
-		ProhibitedByPolkadot,
-		/// The supplied validation function has compiled into a blob larger than Polkadot is
+		/// Axia currently prohibits this parachain from upgrading its validation function
+		ProhibitedByAxia,
+		/// The supplied validation function has compiled into a blob larger than Axia is
 		/// willing to run
 		TooBig,
 		/// The inherent which supplies the validation data did not run this block
@@ -685,7 +685,7 @@ impl<T: Config> GetChannelInfo for Pallet<T> {
 
 impl<T: Config> Pallet<T> {
 	/// Validate the given [`PersistedValidationData`] against the
-	/// [`ValidationParams`](polkadot_parachain::primitives::ValidationParams).
+	/// [`ValidationParams`](axia_parachain::primitives::ValidationParams).
 	///
 	/// This check will only be executed when the block is currently being executed in the context
 	/// of [`validate_block`]. If this is being executed in the context of block building or block
@@ -848,10 +848,10 @@ impl<T: Config> Pallet<T> {
 		weight_used
 	}
 
-	/// Put a new validation function into a particular location where polkadot
-	/// monitors for updates. Calling this function notifies polkadot that a new
+	/// Put a new validation function into a particular location where axia
+	/// monitors for updates. Calling this function notifies axia that a new
 	/// upgrade has been scheduled.
-	fn notify_polkadot_of_pending_upgrade(code: &[u8]) {
+	fn notify_axia_of_pending_upgrade(code: &[u8]) {
 		NewValidationCode::<T>::put(code);
 		<DidSetValidationCode<T>>::put(true);
 	}
@@ -874,20 +874,20 @@ impl<T: Config> Pallet<T> {
 		// Ensure that `ValidationData` exists. We do not care about the validation data per se,
 		// but we do care about the [`UpgradeRestrictionSignal`] which arrives with the same inherent.
 		ensure!(<ValidationData<T>>::exists(), Error::<T>::ValidationDataNotAvailable,);
-		ensure!(<UpgradeRestrictionSignal<T>>::get().is_none(), Error::<T>::ProhibitedByPolkadot);
+		ensure!(<UpgradeRestrictionSignal<T>>::get().is_none(), Error::<T>::ProhibitedByAxia);
 
 		ensure!(!<PendingValidationCode<T>>::exists(), Error::<T>::OverlappingUpgrades);
 		let cfg = Self::host_configuration().ok_or(Error::<T>::HostConfigurationNotAvailable)?;
 		ensure!(validation_function.len() <= cfg.max_code_size as usize, Error::<T>::TooBig);
 
 		// When a code upgrade is scheduled, it has to be applied in two
-		// places, synchronized: both polkadot and the individual parachain
+		// places, synchronized: both axia and the individual parachain
 		// have to upgrade on the same relay chain block.
 		//
-		// `notify_polkadot_of_pending_upgrade` notifies polkadot; the `PendingValidationCode`
+		// `notify_axia_of_pending_upgrade` notifies axia; the `PendingValidationCode`
 		// storage keeps track locally for the parachain upgrade, which will
 		// be applied later: when the relay-chain communicates go-ahead signal to us.
-		Self::notify_polkadot_of_pending_upgrade(&validation_function);
+		Self::notify_axia_of_pending_upgrade(&validation_function);
 		<PendingValidationCode<T>>::put(validation_function);
 		Self::deposit_event(Event::ValidationFunctionStored);
 

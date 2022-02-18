@@ -1,12 +1,12 @@
 [package]
-name = "polkadot-collator"
+name = "axia-collator"
 version = "4.0.0"
 authors = ["Parity Technologies <admin@parity.io>"]
 build = "build.rs"
 edition = "2018"
 
 [[bin]]
-name = "polkadot-collator"
+name = "axia-collator"
 path = "src/main.rs"
 
 [dependencies]
@@ -73,11 +73,11 @@ cumulus-client-network = { path = "../client/network" }
 cumulus-primitives-core = { path = "../primitives/core" }
 cumulus-primitives-parachain-inherent = { path = "../primitives/parachain-inherent" }
 
-# Polkadot dependencies
-polkadot-primitives = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-service = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-cli = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-parachain = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
+# Axia dependencies
+axia-primitives = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-service = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-cli = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-parachain = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 
 [build-dependencies]
 axlib-build-script-utils = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
@@ -90,7 +90,7 @@ tempfile = "3.2.0"
 [features]
 default = []
 runtime-benchmarks = [
-	'polkadot-service/runtime-benchmarks',
+	'axia-service/runtime-benchmarks',
 	'statemint-runtime/runtime-benchmarks',
 	'statemine-runtime/runtime-benchmarks',
 	'westmint-runtime/runtime-benchmarks',

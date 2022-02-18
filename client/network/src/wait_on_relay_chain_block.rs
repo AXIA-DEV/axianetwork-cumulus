@@ -1,23 +1,23 @@
 // Copyright 2020-2021 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Axia.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Axia is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Axia is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Axia.  If not, see <http://www.gnu.org/licenses/>.
 
 //! Provides the [`WaitOnRelayChainBlock`] type.
 
 use futures::{future::ready, Future, FutureExt, StreamExt};
-use polkadot_primitives::v1::{Block as PBlock, Hash as PHash};
+use axia_primitives::v1::{Block as PBlock, Hash as PHash};
 use sc_client_api::{
 	blockchain::{self, BlockStatus, HeaderBackend},
 	Backend, BlockchainEvents,
@@ -125,9 +125,9 @@ where
 mod tests {
 	use super::*;
 
-	use polkadot_test_client::{
+	use axia_test_client::{
 		construct_transfer_extrinsic, BlockBuilderExt, Client, ClientBlockImportExt,
-		DefaultTestClientBuilderExt, ExecutionStrategy, FullBackend, InitPolkadotBlockBuilder,
+		DefaultTestClientBuilderExt, ExecutionStrategy, FullBackend, InitAxiaBlockBuilder,
 		TestClientBuilder, TestClientBuilderExt,
 	};
 	use sp_consensus::BlockOrigin;
@@ -141,7 +141,7 @@ mod tests {
 		let backend = builder.backend();
 		let client = Arc::new(builder.build());
 
-		let block_builder = client.init_polkadot_block_builder();
+		let block_builder = client.init_axia_block_builder();
 		let block = block_builder.build().expect("Finalizes the block").block;
 
 		(client, backend, block)
@@ -203,9 +203,9 @@ mod tests {
 			sp_keyring::Sr25519Keyring::Bob,
 			1000,
 		);
-		let mut block_builder = client.init_polkadot_block_builder();
+		let mut block_builder = client.init_axia_block_builder();
 		// Push an extrinsic to get a different block hash.
-		block_builder.push_polkadot_extrinsic(ext).expect("Push extrinsic");
+		block_builder.push_axia_extrinsic(ext).expect("Push extrinsic");
 		let block2 = block_builder.build().expect("Build second block").block;
 		let hash2 = block2.hash();
 

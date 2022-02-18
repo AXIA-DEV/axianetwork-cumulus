@@ -14,11 +14,11 @@ sp-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 sp-core = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 sc-client-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 
-# Polkadot deps
-polkadot-primitives = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-node-primitives = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-client = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-parachain = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
+# Axia deps
+axia-primitives = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-node-primitives = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-client = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-parachain = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 
 # other deps
 codec = { package = "parity-scale-codec", version = "2.3.0", features = [ "derive" ] }
@@ -35,8 +35,8 @@ tokio = { version = "1.10", features = ["macros"] }
 cumulus-test-service = { path = "../../test/service" }
 cumulus-primitives-core = { path = "../../primitives/core" }
 
-# Polkadot deps
-polkadot-test-client = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
+# Axia deps
+axia-test-client = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 
 # axlib deps
 sc-client-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }

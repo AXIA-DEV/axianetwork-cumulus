@@ -22,7 +22,7 @@ mod common;
 #[test]
 #[cfg(unix)]
 #[ignore]
-fn interrupt_polkadot_mdns_issue_test() {
+fn interrupt_axia_mdns_issue_test() {
 	use nix::{
 		sys::signal::{
 			kill,
@@ -32,9 +32,9 @@ fn interrupt_polkadot_mdns_issue_test() {
 	};
 
 	fn run_command_and_kill(signal: Signal) {
-		let _ = fs::remove_dir_all("interrupt_polkadot_mdns_issue_test");
-		let mut cmd = Command::new(cargo_bin("polkadot-collator"))
-			.args(&["-d", "interrupt_polkadot_mdns_issue_test", "--", "--dev"])
+		let _ = fs::remove_dir_all("interrupt_axia_mdns_issue_test");
+		let mut cmd = Command::new(cargo_bin("axia-collator"))
+			.args(&["-d", "interrupt_axia_mdns_issue_test", "--", "--dev"])
 			.spawn()
 			.unwrap();
 

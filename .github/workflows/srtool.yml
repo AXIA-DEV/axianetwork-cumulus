@@ -35,7 +35,7 @@ jobs:
         uses: chevdor/srtool-actions@v0.3.0
         with:
           chain: ${{ matrix.chain }}
-          runtime_dir: polkadot-parachains/${{ matrix.chain }}
+          runtime_dir: axia-parachains/${{ matrix.chain }}
 
       - name: Summary
         run: |

@@ -6,7 +6,7 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Axia is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -51,9 +51,9 @@ use sp_runtime::{
 	traits::{Block as BlockT, Header as HeaderT, NumberFor},
 };
 
-use polkadot_node_primitives::{AvailableData, POV_BOMB_LIMIT};
-use polkadot_overseer::Handle as OverseerHandle;
-use polkadot_primitives::v1::{
+use axia_node_primitives::{AvailableData, POV_BOMB_LIMIT};
+use axia_overseer::Handle as OverseerHandle;
+use axia_primitives::v1::{
 	Block as PBlock, CandidateReceipt, CommittedCandidateReceipt, Id as ParaId, ParachainHost,
 	SessionIndex,
 };

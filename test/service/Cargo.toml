@@ -34,10 +34,10 @@ sp-timestamp = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "mas
 sp-trie = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 axlib-test-client = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 
-# Polkadot
-polkadot-primitives = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-service = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-test-service = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
+# Axia
+axia-primitives = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-service = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-test-service = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 
 # Cumulus
 cumulus-client-consensus-relay-chain = { path = "../../client/consensus/relay-chain" }
@@ -55,8 +55,8 @@ jsonrpc-core = "18.0.0"
 [dev-dependencies]
 futures = "0.3.5"
 
-# Polkadot dependencies
-polkadot-test-service = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
+# Axia dependencies
+axia-test-service = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 
 # Axlib dependencies
 sc-cli = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }

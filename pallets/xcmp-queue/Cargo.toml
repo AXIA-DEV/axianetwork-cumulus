@@ -17,9 +17,9 @@ sp-runtime = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-feature
 frame-support = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
 frame-system = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
 
-# Polkadot Dependencies
-xcm = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-xcm-executor = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
+# Axia Dependencies
+xcm = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
+xcm-executor = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
 
 # Cumulus Dependencies
 cumulus-primitives-core = { path = "../../primitives/core", default-features = false }
@@ -28,7 +28,7 @@ cumulus-primitives-core = { path = "../../primitives/core", default-features = f
 sp-core = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 sp-io = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 cumulus-pallet-parachain-system = { path = "../parachain-system" }
-xcm-builder = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
+xcm-builder = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 pallet-balances = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 
 [features]

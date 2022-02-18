@@ -15,7 +15,7 @@ sp-runtime = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-feature
 frame-support = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
 frame-system = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
 
-xcm = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
+xcm = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
 
 cumulus-primitives-core = { path = "../../primitives/core", default-features = false }
 

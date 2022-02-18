@@ -66,13 +66,13 @@ pallet-asset-tx-payment = { path = "../../pallets/asset-tx-payment", default-fea
 pallet-collator-selection = { path = "../../pallets/collator-selection", default-features = false }
 parachains-common = { path = "../parachains-common", default-features = false }
 
-# Polkadot dependencies
-polkadot-parachain = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-runtime-common = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-xcm = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-xcm-builder = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-xcm-executor = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-pallet-xcm = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
+# Axia dependencies
+axia-parachain = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
+axia-runtime-common = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
+xcm = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
+xcm-builder = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
+xcm-executor = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
+pallet-xcm = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
 
 [dev-dependencies]
 hex-literal = "0.3.1"

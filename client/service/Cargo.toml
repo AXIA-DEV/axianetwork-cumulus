@@ -25,10 +25,10 @@ sp-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 sp-core = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 sp-blockchain = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 
-# Polkadot dependencies
-polkadot-primitives = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-service = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-overseer = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
+# Axia dependencies
+axia-primitives = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-service = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-overseer = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 
 # Other deps
 tracing = "0.1.22"

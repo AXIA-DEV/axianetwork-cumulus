@@ -26,7 +26,7 @@ use sp_runtime::{
 	traits::{Block as BlockT, Header as HeaderT},
 };
 
-use polkadot_primitives::v1::{
+use axia_primitives::v1::{
 	Block as PBlock, Id as ParaId, OccupiedCoreAssumption, ParachainHost,
 };
 
@@ -37,7 +37,7 @@ use std::{pin::Pin, sync::Arc};
 
 /// Helper for the relay chain client. This is expected to be a lightweight handle like an `Arc`.
 pub trait RelaychainClient: Clone + 'static {
-	/// The error type for interacting with the Polkadot client.
+	/// The error type for interacting with the Axia client.
 	type Error: std::fmt::Debug + Send;
 
 	/// A stream that yields head-data for a parachain.

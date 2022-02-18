@@ -1,34 +1,34 @@
 // Copyright 2020-2021 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Axia.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Axia is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Axia is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Axia.  If not, see <http://www.gnu.org/licenses/>.
 
 use super::*;
 use cumulus_test_service::runtime::{Block, Hash, Header};
 use futures::{executor::block_on, poll, task::Poll};
 use parking_lot::Mutex;
-use polkadot_node_primitives::{SignedFullStatement, Statement};
-use polkadot_primitives::v1::{
+use axia_node_primitives::{SignedFullStatement, Statement};
+use axia_primitives::v1::{
 	Block as PBlock, BlockNumber, CandidateCommitments, CandidateDescriptor, CandidateEvent,
 	CommittedCandidateReceipt, CoreState, GroupRotationInfo, Hash as PHash, HeadData, Id as ParaId,
 	InboundDownwardMessage, InboundHrmpMessage, OccupiedCoreAssumption, ParachainHost,
 	PersistedValidationData, ScrapedOnChainVotes, SessionIndex, SessionInfo, SigningContext,
 	ValidationCode, ValidationCodeHash, ValidatorId, ValidatorIndex,
 };
-use polkadot_test_client::{
+use axia_test_client::{
 	Client as PClient, ClientBlockImportExt, DefaultTestClientBuilderExt, FullBackend as PBackend,
-	InitPolkadotBlockBuilder, TestClientBuilder, TestClientBuilderExt,
+	InitAxiaBlockBuilder, TestClientBuilder, TestClientBuilderExt,
 };
 use sp_api::{ApiRef, ProvideRuntimeApi};
 use sp_blockchain::HeaderBackend;
@@ -121,7 +121,7 @@ async fn make_gossip_message_and_header(
 		},
 		descriptor: CandidateDescriptor {
 			relay_parent,
-			para_head: polkadot_parachain::primitives::HeadData(header.encode()).hash(),
+			para_head: axia_parachain::primitives::HeadData(header.encode()).hash(),
 			..Default::default()
 		},
 	};
@@ -335,7 +335,7 @@ fn relay_parent_not_imported_when_block_announce_is_processed() {
 		let (mut validator, api) = make_validator_and_api();
 
 		let mut client = api.relay_client.clone();
-		let block = client.init_polkadot_block_builder().build().expect("Build new block").block;
+		let block = client.init_axia_block_builder().build().expect("Build new block").block;
 
 		let (signal, header) = make_gossip_message_and_header(api, block.hash(), 0).await;
 
@@ -450,7 +450,7 @@ sp_api::mock_impl_runtime_apis! {
 			if self.data.lock().has_pending_availability {
 				Some(CommittedCandidateReceipt {
 					descriptor: CandidateDescriptor {
-						para_head: polkadot_parachain::primitives::HeadData(
+						para_head: axia_parachain::primitives::HeadData(
 							default_header().encode(),
 						).hash(),
 						..Default::default()

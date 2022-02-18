@@ -13,8 +13,8 @@ sp-state-machine = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-f
 sp-runtime = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
 sp-std = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
 
-# Polkadot dependencies
-polkadot-primitives = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
+# Axia dependencies
+axia-primitives = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
 
 # Cumulus dependencies
 cumulus-primitives-core = { path = "../../primitives/core", default-features = false }

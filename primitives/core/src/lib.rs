@@ -22,26 +22,26 @@ use codec::{Decode, Encode};
 use sp_runtime::{traits::Block as BlockT, RuntimeDebug};
 use sp_std::prelude::*;
 
-pub use polkadot_core_primitives::InboundDownwardMessage;
-pub use polkadot_parachain::primitives::{
+pub use axia_core_primitives::InboundDownwardMessage;
+pub use axia_parachain::primitives::{
 	DmpMessageHandler, Id as ParaId, UpwardMessage, ValidationParams, XcmpMessageFormat,
 	XcmpMessageHandler,
 };
-pub use polkadot_primitives::v1::{
+pub use axia_primitives::v1::{
 	AbridgedHostConfiguration, AbridgedHrmpChannel, PersistedValidationData,
 };
 
 /// A module that re-exports relevant relay chain definitions.
 pub mod relay_chain {
-	pub use polkadot_core_primitives::*;
-	pub use polkadot_primitives::{v1, v1::well_known_keys};
+	pub use axia_core_primitives::*;
+	pub use axia_primitives::{v1, v1::well_known_keys};
 }
 
 /// An inbound HRMP message.
-pub type InboundHrmpMessage = polkadot_primitives::v1::InboundHrmpMessage<relay_chain::BlockNumber>;
+pub type InboundHrmpMessage = axia_primitives::v1::InboundHrmpMessage<relay_chain::BlockNumber>;
 
 /// And outbound HRMP message
-pub type OutboundHrmpMessage = polkadot_primitives::v1::OutboundHrmpMessage<ParaId>;
+pub type OutboundHrmpMessage = axia_primitives::v1::OutboundHrmpMessage<ParaId>;
 
 /// Error description of a message send failure.
 #[derive(Eq, PartialEq, Copy, Clone, RuntimeDebug, Encode, Decode)]

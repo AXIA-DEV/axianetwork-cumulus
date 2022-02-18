@@ -259,7 +259,7 @@ pub fn statemint_development_config(id: ParaId) -> StatemintChainSpec {
 		None,
 		None,
 		Some(properties),
-		Extensions { relay_chain: "polkadot-dev".into(), para_id: id.into() },
+		Extensions { relay_chain: "axia-dev".into(), para_id: id.into() },
 	)
 }
 
@@ -308,7 +308,7 @@ pub fn statemint_local_config(id: ParaId) -> StatemintChainSpec {
 		None,
 		None,
 		Some(properties),
-		Extensions { relay_chain: "polkadot-local".into(), para_id: id.into() },
+		Extensions { relay_chain: "axia-local".into(), para_id: id.into() },
 	)
 }
 

@@ -27,7 +27,7 @@ use cumulus_primitives_core::{
 	relay_chain::v1::{Hash as PHash, PersistedValidationData},
 	ParaId,
 };
-use polkadot_service::NativeExecutionDispatch;
+use axia_service::NativeExecutionDispatch;
 
 use crate::rpc;
 pub use parachains_common::{AccountId, Balance, Block, Hash, Header, Index as Nonce};
@@ -248,7 +248,7 @@ where
 #[sc_tracing::logging::prefix_logs_with("Parachain")]
 async fn start_shell_node_impl<RuntimeApi, Executor, RB, BIQ, BIC>(
 	parachain_config: Configuration,
-	polkadot_config: Configuration,
+	axia_config: Configuration,
 	id: ParaId,
 	rpc_ext_builder: RB,
 	build_import_queue: BIQ,
@@ -295,7 +295,7 @@ where
 		Option<&Registry>,
 		Option<TelemetryHandle>,
 		&TaskManager,
-		&polkadot_service::NewFull<polkadot_service::Client>,
+		&axia_service::NewFull<axia_service::Client>,
 		Arc<
 			sc_transaction_pool::FullPool<
 				Block,
@@ -317,9 +317,9 @@ where
 	let (mut telemetry, telemetry_worker_handle) = params.other;
 
 	let relay_chain_full_node =
-		cumulus_client_service::build_polkadot_full_node(polkadot_config, telemetry_worker_handle)
+		cumulus_client_service::build_axia_full_node(axia_config, telemetry_worker_handle)
 			.map_err(|e| match e {
-				polkadot_service::Error::Sub(x) => x,
+				axia_service::Error::Sub(x) => x,
 				s => format!("{}", s).into(),
 			})?;
 
@@ -424,7 +424,7 @@ where
 #[sc_tracing::logging::prefix_logs_with("Parachain")]
 async fn start_node_impl<RuntimeApi, Executor, RB, BIQ, BIC>(
 	parachain_config: Configuration,
-	polkadot_config: Configuration,
+	axia_config: Configuration,
 	id: ParaId,
 	_rpc_ext_builder: RB,
 	build_import_queue: BIQ,
@@ -473,7 +473,7 @@ where
 		Option<&Registry>,
 		Option<TelemetryHandle>,
 		&TaskManager,
-		&polkadot_service::NewFull<polkadot_service::Client>,
+		&axia_service::NewFull<axia_service::Client>,
 		Arc<
 			sc_transaction_pool::FullPool<
 				Block,
@@ -495,9 +495,9 @@ where
 	let (mut telemetry, telemetry_worker_handle) = params.other;
 
 	let relay_chain_full_node =
-		cumulus_client_service::build_polkadot_full_node(polkadot_config, telemetry_worker_handle)
+		cumulus_client_service::build_axia_full_node(axia_config, telemetry_worker_handle)
 			.map_err(|e| match e {
-				polkadot_service::Error::Sub(x) => x,
+				axia_service::Error::Sub(x) => x,
 				s => format!("{}", s).into(),
 			})?;
 
@@ -666,7 +666,7 @@ pub fn rococo_parachain_build_import_queue(
 /// Start a rococo parachain node.
 pub async fn start_rococo_parachain_node(
 	parachain_config: Configuration,
-	polkadot_config: Configuration,
+	axia_config: Configuration,
 	id: ParaId,
 ) -> sc_service::error::Result<(
 	TaskManager,
@@ -680,7 +680,7 @@ pub async fn start_rococo_parachain_node(
 )> {
 	start_node_impl::<rococo_parachain_runtime::RuntimeApi, RococoParachainRuntimeExecutor, _, _, _>(
 		parachain_config,
-		polkadot_config,
+		axia_config,
 		id,
 		|_| Ok(Default::default()),
 		rococo_parachain_build_import_queue,
@@ -789,10 +789,10 @@ pub fn shell_build_import_queue(
 	.map_err(Into::into)
 }
 
-/// Start a polkadot-shell parachain node.
+/// Start a axia-shell parachain node.
 pub async fn start_shell_node(
 	parachain_config: Configuration,
-	polkadot_config: Configuration,
+	axia_config: Configuration,
 	id: ParaId,
 ) -> sc_service::error::Result<(
 	TaskManager,
@@ -802,7 +802,7 @@ pub async fn start_shell_node(
 )> {
 	start_shell_node_impl::<shell_runtime::RuntimeApi, ShellRuntimeExecutor, _, _, _>(
 		parachain_config,
-		polkadot_config,
+		axia_config,
 		id,
 		|_| Ok(Default::default()),
 		shell_build_import_queue,
@@ -1044,7 +1044,7 @@ where
 /// Start a statemint/statemine/westmint parachain node.
 pub async fn start_statemint_node<RuntimeApi, Executor>(
 	parachain_config: Configuration,
-	polkadot_config: Configuration,
+	axia_config: Configuration,
 	id: ParaId,
 ) -> sc_service::error::Result<(
 	TaskManager,
@@ -1072,7 +1072,7 @@ where
 {
 	start_node_impl::<RuntimeApi, Executor, _, _, _>(
 		parachain_config,
-		polkadot_config,
+		axia_config,
 		id,
 		|_| Ok(Default::default()),
 		statemint_build_import_queue,

@@ -22,7 +22,7 @@ mod common;
 #[test]
 #[cfg(unix)]
 #[ignore]
-fn polkadot_argument_parsing() {
+fn axia_argument_parsing() {
 	use nix::{
 		sys::signal::{
 			kill,
@@ -32,11 +32,11 @@ fn polkadot_argument_parsing() {
 	};
 
 	fn run_command_and_kill(signal: Signal) {
-		let _ = fs::remove_dir_all("polkadot_argument_parsing");
-		let mut cmd = Command::new(cargo_bin("polkadot-collator"))
+		let _ = fs::remove_dir_all("axia_argument_parsing");
+		let mut cmd = Command::new(cargo_bin("axia-collator"))
 			.args(&[
 				"-d",
-				"polkadot_argument_parsing",
+				"axia_argument_parsing",
 				"--",
 				"--dev",
 				"--bootnodes",

@@ -31,7 +31,7 @@ fn purge_chain_works() {
 
 		let base_path = tempfile::tempdir().unwrap();
 
-		let mut cmd = Command::new(cargo_bin("polkadot-collator"))
+		let mut cmd = Command::new(cargo_bin("axia-collator"))
 			.args(&["-d"])
 			.arg(base_path.path())
 			.args(&["--", "--dev"])
@@ -54,9 +54,9 @@ fn purge_chain_works() {
 		let base_path = run_node_and_stop();
 
 		assert!(base_path.path().join("chains/local_testnet/db/full").exists());
-		assert!(base_path.path().join("polkadot/chains/dev/db/full").exists());
+		assert!(base_path.path().join("axia/chains/dev/db/full").exists());
 
-		let status = Command::new(cargo_bin("polkadot-collator"))
+		let status = Command::new(cargo_bin("axia-collator"))
 			.args(&["purge-chain", "-d"])
 			.arg(base_path.path())
 			.arg("-y")
@@ -67,7 +67,7 @@ fn purge_chain_works() {
 		// Make sure that the `parachain_local_testnet` chain folder exists, but the `db` is deleted.
 		assert!(base_path.path().join("chains/local_testnet").exists());
 		assert!(!base_path.path().join("chains/local_testnet/db/full").exists());
-		// assert!(base_path.path().join("polkadot/chains/dev").exists());
-		// assert!(!base_path.path().join("polkadot/chains/dev/db").exists());
+		// assert!(base_path.path().join("axia/chains/dev").exists());
+		// assert!(!base_path.path().join("axia/chains/dev/db").exists());
 	}
 }

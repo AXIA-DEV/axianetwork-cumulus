@@ -14,7 +14,7 @@
 // limitations under the License.
 
 //! Auxillary struct/enums for parachain runtimes.
-//! Taken from polkadot/runtime/common (at a21cd64) and adapted for parachains.
+//! Taken from axia/runtime/common (at a21cd64) and adapted for parachains.
 
 use frame_support::traits::{
 	fungibles::{self, Balanced, CreditOf},
@@ -40,7 +40,7 @@ impl<R> OnUnbalanced<NegativeImbalance<R>> for ToStakingPot<R>
 where
 	R: pallet_balances::Config + pallet_collator_selection::Config,
 	AccountIdOf<R>:
-		From<polkadot_primitives::v1::AccountId> + Into<polkadot_primitives::v1::AccountId>,
+		From<axia_primitives::v1::AccountId> + Into<axia_primitives::v1::AccountId>,
 	<R as frame_system::Config>::Event: From<pallet_balances::Event<R>>,
 {
 	fn on_nonzero_unbalanced(amount: NegativeImbalance<R>) {
@@ -61,7 +61,7 @@ impl<R> OnUnbalanced<NegativeImbalance<R>> for DealWithFees<R>
 where
 	R: pallet_balances::Config + pallet_collator_selection::Config,
 	AccountIdOf<R>:
-		From<polkadot_primitives::v1::AccountId> + Into<polkadot_primitives::v1::AccountId>,
+		From<axia_primitives::v1::AccountId> + Into<axia_primitives::v1::AccountId>,
 	<R as frame_system::Config>::Event: From<pallet_balances::Event<R>>,
 {
 	fn on_unbalanceds<B>(mut fees_then_tips: impl Iterator<Item = NegativeImbalance<R>>) {
@@ -81,7 +81,7 @@ impl<R> HandleCredit<AccountIdOf<R>, pallet_assets::Pallet<R>> for AssetsToBlock
 where
 	R: pallet_authorship::Config + pallet_assets::Config,
 	AccountIdOf<R>:
-		From<polkadot_primitives::v1::AccountId> + Into<polkadot_primitives::v1::AccountId>,
+		From<axia_primitives::v1::AccountId> + Into<axia_primitives::v1::AccountId>,
 {
 	fn handle_credit(credit: CreditOf<AccountIdOf<R>, pallet_assets::Pallet<R>>) {
 		let author = pallet_authorship::Pallet::<R>::author();
@@ -123,7 +123,7 @@ mod tests {
 	};
 	use frame_system::{limits, EnsureRoot};
 	use pallet_collator_selection::IdentityCollator;
-	use polkadot_primitives::v1::AccountId;
+	use axia_primitives::v1::AccountId;
 	use sp_core::H256;
 	use sp_runtime::{
 		testing::Header,

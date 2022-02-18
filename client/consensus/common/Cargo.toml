@@ -15,8 +15,8 @@ sp-blockchain = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "ma
 sp-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 sp-trie = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 
-# Polkadot deps
-polkadot-primitives = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
+# Axia deps
+axia-primitives = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 
 # Other deps
 futures = { version = "0.3.8", features = ["compat"] }

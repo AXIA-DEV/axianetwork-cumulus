@@ -11,9 +11,9 @@ cumulus-primitives-core = { path = "../../primitives/core", default-features = f
 cumulus-primitives-parachain-inherent = { path = "../../primitives/parachain-inherent", default-features = false }
 cumulus-pallet-parachain-system-proc-macro = { path = "proc-macro", default-features = false }
 
-# Polkadot dependencies
-polkadot-parachain = { git = "https://github.com/purestake/polkadot", default-features = false, features = [ "wasm-api" ], branch = "moonbeam-polkadot-v0.9.12" }
-xcm = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
+# Axia dependencies
+axia-parachain = { git = "https://github.com/AXIA-DEV/axia", default-features = false, features = [ "wasm-api" ], branch = "master" }
+xcm = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
 
 # Axlib dependencies
 frame-support = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }

@@ -16,8 +16,8 @@ sp-trie = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features =
 sp-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", optional = true , branch = "master" }
 sp-storage = { git = "https://github.com/AXIA-DEV/axlib-axtend", optional = true , branch = "master" }
 
-# Polkadot dependencies
-polkadot-client = { git = "https://github.com/purestake/polkadot", optional = true, branch = "moonbeam-polkadot-v0.9.12" }
+# Axia dependencies
+axia-client = { git = "https://github.com/AXIA-DEV/axia", optional = true, branch = "master" }
 
 # Cumulus dependencies
 cumulus-primitives-core = { path = "../core", default-features = false }
@@ -45,7 +45,7 @@ std = [
 	"sp-runtime",
 	"sc-client-api",
 	"sp-api",
-	"polkadot-client",
+	"axia-client",
 	"cumulus-test-relay-sproof-builder",
 	"sp-storage",
 ]

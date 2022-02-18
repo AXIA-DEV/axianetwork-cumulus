@@ -14,11 +14,11 @@ sp-maybe-compressed-blob = { git = "https://github.com/AXIA-DEV/axlib-axtend", b
 sc-client-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 sc-consensus = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 
-# Polkadot deps
-polkadot-primitives = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-node-primitives = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-overseer = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-node-subsystem = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
+# Axia deps
+axia-primitives = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-node-primitives = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-overseer = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-node-subsystem = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 
 # Cumulus deps
 cumulus-primitives-core = { path = "../../primitives/core" }

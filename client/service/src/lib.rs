@@ -20,9 +20,9 @@
 
 use cumulus_client_consensus_common::ParachainConsensus;
 use cumulus_primitives_core::{CollectCollationInfo, ParaId};
-use polkadot_overseer::Handle as OverseerHandle;
-use polkadot_primitives::v1::{Block as PBlock, CollatorPair};
-use polkadot_service::{AbstractClient, Client as PClient, ClientHandle, RuntimeApiCollection};
+use axia_overseer::Handle as OverseerHandle;
+use axia_primitives::v1::{Block as PBlock, CollatorPair};
+use axia_service::{AbstractClient, Client as PClient, ClientHandle, RuntimeApiCollection};
 use sc_client_api::{
 	Backend as BackendT, BlockBackend, BlockchainEvents, Finalizer, UsageProvider,
 };
@@ -47,13 +47,13 @@ pub mod genesis;
 /// The relay chain full node handle.
 pub struct RFullNode<C> {
 	/// The relay chain full node handles.
-	pub relay_chain_full_node: polkadot_service::NewFull<C>,
+	pub relay_chain_full_node: axia_service::NewFull<C>,
 	/// The collator key used by the node.
 	pub collator_key: CollatorPair,
 }
 
 impl<C> Deref for RFullNode<C> {
-	type Target = polkadot_service::NewFull<C>;
+	type Target = axia_service::NewFull<C>;
 
 	fn deref(&self) -> &Self::Target {
 		&self.relay_chain_full_node
@@ -126,7 +126,7 @@ where
 		overseer_handle: relay_chain_full_node
 			.overseer_handle
 			.clone()
-			.ok_or_else(|| "Polkadot full node did not provide an `OverseerHandle`!")?,
+			.ok_or_else(|| "Axia full node did not provide an `OverseerHandle`!")?,
 		_phantom: PhantomData,
 	})?;
 
@@ -137,7 +137,7 @@ where
 		overseer_handle: relay_chain_full_node
 			.overseer_handle
 			.clone()
-			.ok_or_else(|| "Polkadot full node did not provide an `OverseerHandle`!")?,
+			.ok_or_else(|| "Axia full node did not provide an `OverseerHandle`!")?,
 		spawner,
 		para_id,
 		key: relay_chain_full_node.collator_key.clone(),
@@ -206,7 +206,7 @@ struct StartConsensus<'a, Block: BlockT, Client, Backend> {
 	_phantom: PhantomData<Backend>,
 }
 
-impl<'a, Block, Client, Backend> polkadot_service::ExecuteWithClient
+impl<'a, Block, Client, Backend> axia_service::ExecuteWithClient
 	for StartConsensus<'a, Block, Client, Backend>
 where
 	Block: BlockT,
@@ -250,7 +250,7 @@ struct StartPoVRecovery<'a, Block: BlockT, Client, IQ> {
 	_phantom: PhantomData<Block>,
 }
 
-impl<'a, Block, Client, IQ> polkadot_service::ExecuteWithClient
+impl<'a, Block, Client, IQ> axia_service::ExecuteWithClient
 	for StartPoVRecovery<'a, Block, Client, IQ>
 where
 	Block: BlockT,
@@ -299,26 +299,26 @@ pub fn prepare_node_config(mut parachain_config: Configuration) -> Configuration
 	parachain_config
 }
 
-/// Build the Polkadot full node using the given `config`.
+/// Build the Axia full node using the given `config`.
 #[sc_tracing::logging::prefix_logs_with("Relaychain")]
-pub fn build_polkadot_full_node(
+pub fn build_axia_full_node(
 	config: Configuration,
 	telemetry_worker_handle: Option<TelemetryWorkerHandle>,
-) -> Result<RFullNode<PClient>, polkadot_service::Error> {
+) -> Result<RFullNode<PClient>, axia_service::Error> {
 	let is_light = matches!(config.role, Role::Light);
 	if is_light {
-		Err(polkadot_service::Error::Sub("Light client not supported.".into()))
+		Err(axia_service::Error::Sub("Light client not supported.".into()))
 	} else {
 		let collator_key = CollatorPair::generate().0;
 
-		let relay_chain_full_node = polkadot_service::build_full(
+		let relay_chain_full_node = axia_service::build_full(
 			config,
-			polkadot_service::IsCollator::Yes(collator_key.clone()),
+			axia_service::IsCollator::Yes(collator_key.clone()),
 			None,
 			true,
 			None,
 			telemetry_worker_handle,
-			polkadot_service::RealOverseerGen,
+			axia_service::RealOverseerGen,
 		)?;
 
 		Ok(RFullNode { relay_chain_full_node, collator_key })

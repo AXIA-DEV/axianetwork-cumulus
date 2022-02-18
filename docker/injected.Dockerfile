@@ -8,8 +8,8 @@ ARG IMAGE_NAME
 LABEL io.parity.image.authors="devops-team@parity.io" \
 	io.parity.image.vendor="Parity Technologies" \
 	io.parity.image.title="${IMAGE_NAME}" \
-	io.parity.image.description="Cumulus, the Polkadot collator." \
-	io.parity.image.source="https://github.com/paritytech/polkadot/blob/${VCS_REF}/scripts/docker/Dockerfile" \
+	io.parity.image.description="Cumulus, the Axia collator." \
+	io.parity.image.source="https://github.com/paritytech/axia/blob/${VCS_REF}/scripts/docker/Dockerfile" \
 	io.parity.image.revision="${VCS_REF}" \
 	io.parity.image.created="${BUILD_DATE}" \
 	io.parity.image.documentation="https://github.com/paritytech/cumulus/"
@@ -27,23 +27,23 @@ RUN apt-get update && \
 	apt-get autoremove -y && \
 	apt-get clean && \
 	find /var/lib/apt/lists/ -type f -not -name lock -delete; \
-# add user and link ~/.local/share/polkadot to /data
-	useradd -m -u 1000 -U -s /bin/sh -d /polkadot polkadot && \
-	mkdir -p /data /polkadot/.local/share && \
-	chown -R polkadot:polkadot /data && \
-	ln -s /data /polkadot/.local/share/polkadot && \
+# add user and link ~/.local/share/axia to /data
+	useradd -m -u 1000 -U -s /bin/sh -d /axia axia && \
+	mkdir -p /data /axia/.local/share && \
+	chown -R axia:axia /data && \
+	ln -s /data /axia/.local/share/axia && \
 	mkdir -p /specs
 
-# add polkadot-collator binary to the docker image
-COPY ./target/release/polkadot-collator /usr/local/bin
-COPY ./polkadot-parachains/res/*.json /specs/
+# add axia-collator binary to the docker image
+COPY ./target/release/axia-collator /usr/local/bin
+COPY ./axia-parachains/res/*.json /specs/
 
-USER polkadot
+USER axia
 
 # check if executable works in this container
-RUN /usr/local/bin/polkadot-collator --version
+RUN /usr/local/bin/axia-collator --version
 
 EXPOSE 30333 9933 9944
-VOLUME ["/polkadot"]
+VOLUME ["/axia"]
 
-ENTRYPOINT ["/usr/local/bin/polkadot-collator"]
+ENTRYPOINT ["/usr/local/bin/axia-collator"]

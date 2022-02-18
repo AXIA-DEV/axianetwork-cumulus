@@ -1,18 +1,18 @@
 // Copyright 2019-2021 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Axia.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Axia is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Axia is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Axia.  If not, see <http://www.gnu.org/licenses/>.
 
 //! Parachain specific networking
 //!
@@ -33,10 +33,10 @@ use sp_runtime::{
 	traits::{Block as BlockT, Header as HeaderT},
 };
 
-use polkadot_client::ClientHandle;
-use polkadot_node_primitives::{CollationSecondedSignal, Statement};
-use polkadot_parachain::primitives::HeadData;
-use polkadot_primitives::v1::{
+use axia_client::ClientHandle;
+use axia_node_primitives::{CollationSecondedSignal, Statement};
+use axia_parachain::primitives::HeadData;
+use axia_primitives::v1::{
 	Block as PBlock, CandidateReceipt, CompactStatement, Hash as PHash, Id as ParaId,
 	OccupiedCoreAssumption, ParachainHost, SigningContext, UncheckedSigned,
 };
@@ -409,7 +409,7 @@ where
 ///
 /// Returns a boxed [`BlockAnnounceValidator`].
 pub fn build_block_announce_validator<Block: BlockT, B>(
-	relay_chain_client: polkadot_client::Client,
+	relay_chain_client: axia_client::Client,
 	para_id: ParaId,
 	relay_chain_sync_oracle: Box<dyn SyncOracle + Send>,
 	relay_chain_backend: Arc<B>,
@@ -429,12 +429,12 @@ where
 /// Block announce validator builder.
 ///
 /// Builds a [`BlockAnnounceValidator`] for a parachain. As this requires
-/// a concrete relay chain client instance, the builder takes a [`polkadot_client::Client`]
-/// that wraps this concrete instanace. By using [`polkadot_client::ExecuteWithClient`]
+/// a concrete relay chain client instance, the builder takes a [`axia_client::Client`]
+/// that wraps this concrete instanace. By using [`axia_client::ExecuteWithClient`]
 /// the builder gets access to this concrete instance.
 struct BlockAnnounceValidatorBuilder<Block, B> {
 	phantom: PhantomData<Block>,
-	relay_chain_client: polkadot_client::Client,
+	relay_chain_client: axia_client::Client,
 	para_id: ParaId,
 	relay_chain_sync_oracle: Box<dyn SyncOracle + Send>,
 	relay_chain_backend: Arc<B>,
@@ -446,7 +446,7 @@ where
 {
 	/// Create a new instance of the builder.
 	fn new(
-		relay_chain_client: polkadot_client::Client,
+		relay_chain_client: axia_client::Client,
 		para_id: ParaId,
 		relay_chain_sync_oracle: Box<dyn SyncOracle + Send>,
 		relay_chain_backend: Arc<B>,
@@ -466,7 +466,7 @@ where
 	}
 }
 
-impl<Block: BlockT, B> polkadot_client::ExecuteWithClient
+impl<Block: BlockT, B> axia_client::ExecuteWithClient
 	for BlockAnnounceValidatorBuilder<Block, B>
 where
 	B: Backend<PBlock> + Send + 'static,
@@ -479,8 +479,8 @@ where
 			sp_api::StateBackend<sp_runtime::traits::BlakeTwo256>,
 		PBackend: Backend<PBlock>,
 		PBackend::State: sp_api::StateBackend<sp_runtime::traits::BlakeTwo256>,
-		Api: polkadot_client::RuntimeApiCollection<StateBackend = PBackend::State>,
-		PClient: polkadot_client::AbstractClient<PBlock, PBackend, Api = Api> + 'static,
+		Api: axia_client::RuntimeApiCollection<StateBackend = PBackend::State>,
+		PClient: axia_client::AbstractClient<PBlock, PBackend, Api = Api> + 'static,
 	{
 		Box::new(BlockAnnounceValidator::new(
 			client.clone(),

@@ -5,7 +5,7 @@
 //! EXECUTION: Some(Wasm), WASM-EXECUTION: Compiled, CHAIN: Some("statemint-dev"), DB CACHE: 128
 
 // Executed Command:
-// ./target/release/polkadot-collator
+// ./target/release/axia-collator
 // benchmark
 // --chain=statemint-dev
 // --execution=wasm
@@ -15,7 +15,7 @@
 // --steps=50
 // --repeat=20
 // --raw
-// --output=./polkadot-parachains/statemint-runtime/src/weights
+// --output=./axia-parachains/statemint-runtime/src/weights
 
 #![allow(unused_parens)]
 #![allow(unused_imports)]

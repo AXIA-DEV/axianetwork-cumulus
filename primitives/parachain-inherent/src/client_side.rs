@@ -26,7 +26,7 @@ use cumulus_primitives_core::{
 	},
 	InboundDownwardMessage, InboundHrmpMessage, ParaId, PersistedValidationData,
 };
-use polkadot_client::{Client, ClientHandle, ExecuteWithClient};
+use axia_client::{Client, ClientHandle, ExecuteWithClient};
 use sc_client_api::Backend;
 use sp_api::ProvideRuntimeApi;
 use sp_runtime::generic::BlockId;
@@ -40,7 +40,7 @@ const LOG_TARGET: &str = "parachain-inherent";
 ///
 /// Returns `None` in case of an error.
 fn retrieve_dmq_contents<PClient>(
-	polkadot_client: &PClient,
+	axia_client: &PClient,
 	para_id: ParaId,
 	relay_parent: PHash,
 ) -> Option<Vec<InboundDownwardMessage>>
@@ -48,7 +48,7 @@ where
 	PClient: ProvideRuntimeApi<PBlock>,
 	PClient::Api: ParachainHost<PBlock>,
 {
-	polkadot_client
+	axia_client
 		.runtime_api()
 		.dmq_contents_with_context(
 			&BlockId::hash(relay_parent),
@@ -71,7 +71,7 @@ where
 ///
 /// Empty channels are also included.
 fn retrieve_all_inbound_hrmp_channel_contents<PClient>(
-	polkadot_client: &PClient,
+	axia_client: &PClient,
 	para_id: ParaId,
 	relay_parent: PHash,
 ) -> Option<BTreeMap<ParaId, Vec<InboundHrmpMessage>>>
@@ -79,7 +79,7 @@ where
 	PClient: ProvideRuntimeApi<PBlock>,
 	PClient::Api: ParachainHost<PBlock>,
 {
-	polkadot_client
+	axia_client
 		.runtime_api()
 		.inbound_hrmp_channels_contents_with_context(
 			&BlockId::hash(relay_parent),
@@ -100,13 +100,13 @@ where
 /// Collect the relevant relay chain state in form of a proof for putting it into the validation
 /// data inherent.
 fn collect_relay_storage_proof(
-	polkadot_backend: &impl Backend<PBlock>,
+	axia_backend: &impl Backend<PBlock>,
 	para_id: ParaId,
 	relay_parent: PHash,
 ) -> Option<sp_state_machine::StorageProof> {
 	use relay_chain::well_known_keys as relay_well_known_keys;
 
-	let relay_parent_state_backend = polkadot_backend
+	let relay_parent_state_backend = axia_backend
 		.state_at(BlockId::Hash(relay_parent))
 		.map_err(|e| {
 			tracing::error!(
@@ -199,8 +199,8 @@ impl ParachainInherentData {
 	/// Returns `None` if the creation failed.
 	pub fn create_at<PClient>(
 		relay_parent: PHash,
-		polkadot_client: &PClient,
-		polkadot_backend: &impl Backend<PBlock>,
+		axia_client: &PClient,
+		axia_backend: &impl Backend<PBlock>,
 		validation_data: &PersistedValidationData,
 		para_id: ParaId,
 	) -> Option<ParachainInherentData>
@@ -209,10 +209,10 @@ impl ParachainInherentData {
 		PClient::Api: ParachainHost<PBlock>,
 	{
 		let relay_chain_state =
-			collect_relay_storage_proof(polkadot_backend, para_id, relay_parent)?;
-		let downward_messages = retrieve_dmq_contents(polkadot_client, para_id, relay_parent)?;
+			collect_relay_storage_proof(axia_backend, para_id, relay_parent)?;
+		let downward_messages = retrieve_dmq_contents(axia_client, para_id, relay_parent)?;
 		let horizontal_messages =
-			retrieve_all_inbound_hrmp_channel_contents(polkadot_client, para_id, relay_parent)?;
+			retrieve_all_inbound_hrmp_channel_contents(axia_client, para_id, relay_parent)?;
 
 		Some(ParachainInherentData {
 			downward_messages,
@@ -227,12 +227,12 @@ impl ParachainInherentData {
 	/// Returns `None` if the creation failed.
 	pub fn create_at_with_client(
 		relay_parent: PHash,
-		polkadot_client: &Client,
+		axia_client: &Client,
 		relay_chain_backend: &impl Backend<PBlock>,
 		validation_data: &PersistedValidationData,
 		para_id: ParaId,
 	) -> Option<ParachainInherentData> {
-		polkadot_client.execute_with(CreateAtWithClient {
+		axia_client.execute_with(CreateAtWithClient {
 			relay_chain_backend,
 			validation_data,
 			para_id,

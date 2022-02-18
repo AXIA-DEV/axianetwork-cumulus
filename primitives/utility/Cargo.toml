@@ -11,11 +11,11 @@ sp-runtime = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-feature
 sp-trie = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
 frame-support = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
 
-# Polkadot dependencies
-polkadot-parachain = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-primitives = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-core-primitives = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-xcm = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
+# Axia dependencies
+axia-parachain = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
+axia-primitives = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
+axia-core-primitives = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
+xcm = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
 
 cumulus-primitives-core = { path = "../core", default-features = false }
 
@@ -28,9 +28,9 @@ default = [ "std" ]
 std = [
 	"codec/std",
 	"sp-std/std",
-	"polkadot-primitives/std",
-	"polkadot-parachain/std",
-	"polkadot-core-primitives/std",
+	"axia-primitives/std",
+	"axia-parachain/std",
+	"axia-core-primitives/std",
 	"sp-runtime/std",
 	"sp-trie/std",
 	"frame-support/std",

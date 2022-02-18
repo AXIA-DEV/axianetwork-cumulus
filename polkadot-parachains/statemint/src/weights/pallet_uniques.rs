@@ -21,7 +21,7 @@
 //! EXECUTION: Some(Wasm), WASM-EXECUTION: Compiled, CHAIN: Some("statemine-dev"), DB CACHE: 128
 
 // Executed Command:
-// ./target/release/polkadot-collator
+// ./target/release/axia-collator
 // benchmark
 // --chain=statemine-dev
 // --steps=50
@@ -32,7 +32,7 @@
 // --wasm-execution=compiled
 // --heap-pages=4096
 // --header=./file_header.txt
-// --output=./polkadot-parachains/statemine-runtime/src/weights/
+// --output=./axia-parachains/statemine-runtime/src/weights/
 
 #![allow(unused_parens)]
 #![allow(unused_imports)]

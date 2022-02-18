@@ -166,7 +166,7 @@ where
 #[sc_tracing::logging::prefix_logs_with("Parachain")]
 async fn start_node_impl<RuntimeApi, Executor, RB, BIQ, BIC>(
 	parachain_config: Configuration,
-	polkadot_config: Configuration,
+	axia_config: Configuration,
 	id: ParaId,
 	_rpc_ext_builder: RB,
 	build_import_queue: BIQ,
@@ -215,7 +215,7 @@ where
 		Option<&Registry>,
 		Option<TelemetryHandle>,
 		&TaskManager,
-		&polkadot_service::NewFull<polkadot_service::Client>,
+		&axia_service::NewFull<axia_service::Client>,
 		Arc<
 			sc_transaction_pool::FullPool<
 				Block,
@@ -237,9 +237,9 @@ where
 	let (mut telemetry, telemetry_worker_handle) = params.other;
 
 	let relay_chain_full_node =
-		cumulus_client_service::build_polkadot_full_node(polkadot_config, telemetry_worker_handle)
+		cumulus_client_service::build_axia_full_node(axia_config, telemetry_worker_handle)
 			.map_err(|e| match e {
-				polkadot_service::Error::Sub(x) => x,
+				axia_service::Error::Sub(x) => x,
 				s => format!("{}", s).into(),
 			})?;
 
@@ -399,7 +399,7 @@ pub fn parachain_build_import_queue(
 /// Start a parachain node.
 pub async fn start_parachain_node(
 	parachain_config: Configuration,
-	polkadot_config: Configuration,
+	axia_config: Configuration,
 	id: ParaId,
 ) -> sc_service::error::Result<(
 	TaskManager,
@@ -407,7 +407,7 @@ pub async fn start_parachain_node(
 )> {
 	start_node_impl::<RuntimeApi, TemplateRuntimeExecutor, _, _, _>(
 		parachain_config,
-		polkadot_config,
+		axia_config,
 		id,
 		|_| Ok(Default::default()),
 		parachain_build_import_queue,

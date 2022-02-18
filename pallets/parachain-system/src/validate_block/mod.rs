@@ -16,7 +16,7 @@
 
 //! A module that enables a runtime to work as parachain.
 
-use polkadot_parachain::primitives::ValidationParams;
+use axia_parachain::primitives::ValidationParams;
 
 #[cfg(not(feature = "std"))]
 #[doc(hidden)]
@@ -26,7 +26,7 @@ mod tests;
 
 #[cfg(not(feature = "std"))]
 #[doc(hidden)]
-pub use polkadot_parachain;
+pub use axia_parachain;
 #[cfg(not(feature = "std"))]
 #[doc(hidden)]
 pub use sp_runtime::traits::GetRuntimeBlockType;

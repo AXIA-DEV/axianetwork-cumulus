@@ -26,7 +26,7 @@ use codec::Encode;
 use cumulus_client_service::genesis::generate_genesis_block;
 use cumulus_primitives_core::ParaId;
 use log::info;
-use polkadot_parachain::primitives::AccountIdConversion;
+use axia_parachain::primitives::AccountIdConversion;
 use sc_cli::{
 	ChainSpec, CliConfiguration, DefaultConfigurationValues, ImportParams, KeystoreParams,
 	NetworkParams, Result, RuntimeVersion, SharedParams, AxlibCli,
@@ -130,7 +130,7 @@ fn load_spec(
 
 impl AxlibCli for Cli {
 	fn impl_name() -> String {
-		"Polkadot collator".into()
+		"Axia collator".into()
 	}
 
 	fn impl_version() -> String {
@@ -139,7 +139,7 @@ impl AxlibCli for Cli {
 
 	fn description() -> String {
 		format!(
-			"Polkadot collator\n\nThe command-line arguments provided first will be \
+			"Axia collator\n\nThe command-line arguments provided first will be \
 		passed to the parachain node, while the arguments provided after -- will be passed \
 		to the relaychain node.\n\n\
 		{} [parachain-args] -- [relaychain-args]",
@@ -180,7 +180,7 @@ impl AxlibCli for Cli {
 
 impl AxlibCli for RelayChainCli {
 	fn impl_name() -> String {
-		"Polkadot collator".into()
+		"Axia collator".into()
 	}
 
 	fn impl_version() -> String {
@@ -189,7 +189,7 @@ impl AxlibCli for RelayChainCli {
 
 	fn description() -> String {
 		format!(
-			"Polkadot collator\n\nThe command-line arguments provided first will be \
+			"Axia collator\n\nThe command-line arguments provided first will be \
 		passed to the parachain node, while the arguments provided after -- will be passed \
 		to the relaychain node.\n\n\
 		{} [parachain-args] -- [relaychain-args]",
@@ -210,12 +210,12 @@ impl AxlibCli for RelayChainCli {
 	}
 
 	fn load_spec(&self, id: &str) -> std::result::Result<Box<dyn sc_service::ChainSpec>, String> {
-		polkadot_cli::Cli::from_iter([RelayChainCli::executable_name().to_string()].iter())
+		axia_cli::Cli::from_iter([RelayChainCli::executable_name().to_string()].iter())
 			.load_spec(id)
 	}
 
 	fn native_runtime_version(chain_spec: &Box<dyn ChainSpec>) -> &'static RuntimeVersion {
-		polkadot_cli::Cli::native_runtime_version(chain_spec)
+		axia_cli::Cli::native_runtime_version(chain_spec)
 	}
 }
 
@@ -317,21 +317,21 @@ pub fn run() -> Result<()> {
 			let runner = cli.create_runner(cmd)?;
 
 			runner.sync_run(|config| {
-				let polkadot_cli = RelayChainCli::new(
+				let axia_cli = RelayChainCli::new(
 					&config,
 					[RelayChainCli::executable_name().to_string()]
 						.iter()
 						.chain(cli.relaychain_args.iter()),
 				);
 
-				let polkadot_config = AxlibCli::create_configuration(
-					&polkadot_cli,
-					&polkadot_cli,
+				let axia_config = AxlibCli::create_configuration(
+					&axia_cli,
+					&axia_cli,
 					config.tokio_handle.clone(),
 				)
 				.map_err(|err| format!("Relay chain argument error: {}", err))?;
 
-				cmd.run(config, polkadot_config)
+				cmd.run(config, axia_config)
 			})
 		},
 		Some(Subcommand::Revert(cmd)) => construct_async_run!(|components, cli, cmd, config| {
@@ -407,7 +407,7 @@ pub fn run() -> Result<()> {
 				let para_id =
 					chain_spec::Extensions::try_get(&*config.chain_spec).map(|e| e.para_id);
 
-				let polkadot_cli = RelayChainCli::new(
+				let axia_cli = RelayChainCli::new(
 					&config,
 					[RelayChainCli::executable_name().to_string()]
 						.iter()
@@ -417,15 +417,15 @@ pub fn run() -> Result<()> {
 				let id = ParaId::from(cli.run.parachain_id.or(para_id).unwrap_or(DEFAULT_PARA_ID));
 
 				let parachain_account =
-					AccountIdConversion::<polkadot_primitives::v0::AccountId>::into_account(&id);
+					AccountIdConversion::<axia_primitives::v0::AccountId>::into_account(&id);
 
 				let block: crate::service::Block =
 					generate_genesis_block(&config.chain_spec).map_err(|e| format!("{:?}", e))?;
 				let genesis_state = format!("0x{:?}", HexDisplay::from(&block.header().encode()));
 
 				let tokio_handle = config.tokio_handle.clone();
-				let polkadot_config =
-					AxlibCli::create_configuration(&polkadot_cli, &polkadot_cli, tokio_handle)
+				let axia_config =
+					AxlibCli::create_configuration(&axia_cli, &axia_cli, tokio_handle)
 						.map_err(|err| format!("Relay chain argument error: {}", err))?;
 
 				info!("Parachain id: {:?}", id);
@@ -437,7 +437,7 @@ pub fn run() -> Result<()> {
 					crate::service::start_statemint_node::<
 						statemint_runtime::RuntimeApi,
 						StatemintRuntimeExecutor,
-					>(config, polkadot_config, id)
+					>(config, axia_config, id)
 					.await
 					.map(|r| r.0)
 					.map_err(Into::into)
@@ -445,7 +445,7 @@ pub fn run() -> Result<()> {
 					crate::service::start_statemint_node::<
 						statemine_runtime::RuntimeApi,
 						StatemineRuntimeExecutor,
-					>(config, polkadot_config, id)
+					>(config, axia_config, id)
 					.await
 					.map(|r| r.0)
 					.map_err(Into::into)
@@ -453,17 +453,17 @@ pub fn run() -> Result<()> {
 					crate::service::start_statemint_node::<
 						westmint_runtime::RuntimeApi,
 						WestmintRuntimeExecutor,
-					>(config, polkadot_config, id)
+					>(config, axia_config, id)
 					.await
 					.map(|r| r.0)
 					.map_err(Into::into)
 				} else if config.chain_spec.is_shell() {
-					crate::service::start_shell_node(config, polkadot_config, id)
+					crate::service::start_shell_node(config, axia_config, id)
 						.await
 						.map(|r| r.0)
 						.map_err(Into::into)
 				} else {
-					crate::service::start_rococo_parachain_node(config, polkadot_config, id)
+					crate::service::start_rococo_parachain_node(config, axia_config, id)
 						.await
 						.map(|r| r.0)
 						.map_err(Into::into)
@@ -532,7 +532,7 @@ impl CliConfiguration<Self> for RelayChainCli {
 	}
 
 	fn init<C: AxlibCli>(&self) -> Result<()> {
-		unreachable!("PolkadotCli is never initialized; qed");
+		unreachable!("AxiaCli is never initialized; qed");
 	}
 
 	fn chain_id(&self, is_dev: bool) -> Result<String> {

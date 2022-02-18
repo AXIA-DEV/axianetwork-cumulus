@@ -26,11 +26,11 @@ pallet-balances = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-fe
 sp-runtime = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false , branch = "master" }
 sp-core = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false , branch = "master" }
 
-# Polkadot dependencies
-polkadot-runtime-common = { git = "https://github.com/purestake/polkadot", default-features = false , branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-primitives = { git = "https://github.com/purestake/polkadot", default-features = false , branch = "moonbeam-polkadot-v0.9.12" }
-xcm = { git = "https://github.com/purestake/polkadot", default-features = false , branch = "moonbeam-polkadot-v0.9.12" }
-xcm-executor = { git = "https://github.com/purestake/polkadot", default-features = false , branch = "moonbeam-polkadot-v0.9.12" }
+# Axia dependencies
+axia-runtime-common = { git = "https://github.com/AXIA-DEV/axia", default-features = false , branch = "master" }
+axia-primitives = { git = "https://github.com/AXIA-DEV/axia", default-features = false , branch = "master" }
+xcm = { git = "https://github.com/AXIA-DEV/axia", default-features = false , branch = "master" }
+xcm-executor = { git = "https://github.com/AXIA-DEV/axia", default-features = false , branch = "master" }
 
 # Local dependencies
 pallet-asset-tx-payment = { path = '../../pallets/asset-tx-payment', default-features = false }
@@ -59,6 +59,6 @@ std = [
 	'pallet-assets/std',
 	'pallet-authorship/std',
 	'pallet-balances/std',
-	'polkadot-runtime-common/std',
-	'polkadot-primitives/std',
+	'axia-runtime-common/std',
+	'axia-primitives/std',
 ]

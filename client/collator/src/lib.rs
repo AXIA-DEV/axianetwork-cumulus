@@ -29,12 +29,12 @@ use sp_runtime::{
 };
 
 use cumulus_client_consensus_common::ParachainConsensus;
-use polkadot_node_primitives::{
+use axia_node_primitives::{
 	BlockData, Collation, CollationGenerationConfig, CollationResult, PoV,
 };
-use polkadot_node_subsystem::messages::{CollationGenerationMessage, CollatorProtocolMessage};
-use polkadot_overseer::Handle as OverseerHandle;
-use polkadot_primitives::v1::{CollatorPair, Hash as PHash, HeadData, Id as ParaId};
+use axia_node_subsystem::messages::{CollationGenerationMessage, CollatorProtocolMessage};
+use axia_overseer::Handle as OverseerHandle;
+use axia_primitives::v1::{CollatorPair, Hash as PHash, HeadData, Id as ParaId};
 
 use codec::{Decode, Encode};
 use futures::{channel::oneshot, FutureExt};
@@ -326,8 +326,8 @@ mod tests {
 	};
 	use cumulus_test_runtime::{Block, Header};
 	use futures::{channel::mpsc, executor::block_on, StreamExt};
-	use polkadot_node_subsystem_test_helpers::ForwardSubsystem;
-	use polkadot_overseer::{dummy::dummy_overseer_builder, HeadSupportsParachains};
+	use axia_node_subsystem_test_helpers::ForwardSubsystem;
+	use axia_overseer::{dummy::dummy_overseer_builder, HeadSupportsParachains};
 	use sp_consensus::BlockOrigin;
 	use sp_core::{testing::TaskExecutor, Pair};
 	use sp_runtime::traits::BlakeTwo256;

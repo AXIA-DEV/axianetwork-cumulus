@@ -30,9 +30,9 @@ cumulus-test-relay-sproof-builder = { path = "../relay-sproof-builder" }
 cumulus-primitives-core = { path = "../../primitives/core" }
 cumulus-primitives-parachain-inherent = { path = "../../primitives/parachain-inherent" }
 
-# Polkadot deps
-polkadot-primitives = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-parachain = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
+# Axia deps
+axia-primitives = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-parachain = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 
 # Other deps
 codec = { package = "parity-scale-codec", version = "2.3.0", default-features = false, features = [ "derive" ] }

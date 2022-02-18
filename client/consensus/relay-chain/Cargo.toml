@@ -18,8 +18,8 @@ sc-client-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "ma
 sc-consensus = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 axlib-prometheus-endpoint = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 
-# Polkadot dependencies
-polkadot-client = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
+# Axia dependencies
+axia-client = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 
 # Cumulus dependencies
 cumulus-client-consensus-common = { path = "../common" }

@@ -68,15 +68,15 @@ cumulus-primitives-core = { path = "../../primitives/core", default-features = f
 cumulus-primitives-timestamp = { path = "../../primitives/timestamp", default-features = false }
 cumulus-primitives-utility = { path = "../../primitives/utility", default-features = false }
 pallet-collator-selection = { path = "../../pallets/collator-selection", default-features = false }
-parachain-info = { path = "../../polkadot-parachains/pallets/parachain-info", default-features = false }
+parachain-info = { path = "../../axia-parachains/pallets/parachain-info", default-features = false }
 
-# Polkadot Dependencies
-pallet-xcm = { git = "https://github.com/purestake/polkadot", default-features = false , branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-parachain = { git = "https://github.com/purestake/polkadot", default-features = false , branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-runtime-common = { git = "https://github.com/purestake/polkadot", default-features = false, branch = "moonbeam-polkadot-v0.9.12" }
-xcm = { git = "https://github.com/purestake/polkadot", default-features = false , branch = "moonbeam-polkadot-v0.9.12" }
-xcm-builder = { git = "https://github.com/purestake/polkadot", default-features = false , branch = "moonbeam-polkadot-v0.9.12" }
-xcm-executor = { git = "https://github.com/purestake/polkadot", default-features = false , branch = "moonbeam-polkadot-v0.9.12" }
+# Axia Dependencies
+pallet-xcm = { git = "https://github.com/AXIA-DEV/axia", default-features = false , branch = "master" }
+axia-parachain = { git = "https://github.com/AXIA-DEV/axia", default-features = false , branch = "master" }
+axia-runtime-common = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
+xcm = { git = "https://github.com/AXIA-DEV/axia", default-features = false , branch = "master" }
+xcm-builder = { git = "https://github.com/AXIA-DEV/axia", default-features = false , branch = "master" }
+xcm-executor = { git = "https://github.com/AXIA-DEV/axia", default-features = false , branch = "master" }
 
 [features]
 default = [
@@ -122,8 +122,8 @@ std = [
 	"cumulus-primitives-utility/std",
 	"cumulus-pallet-dmp-queue/std",
 	"parachain-info/std",
-	"polkadot-parachain/std",
-	"polkadot-runtime-common/std",
+	"axia-parachain/std",
+	"axia-runtime-common/std",
 	"xcm-builder/std",
 	"xcm-executor/std",
 	"xcm/std",

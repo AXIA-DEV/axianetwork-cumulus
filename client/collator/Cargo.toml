@@ -12,11 +12,11 @@ sp-consensus = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "mas
 sp-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 sc-client-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 
-# Polkadot dependencies
-polkadot-primitives = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-node-primitives = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-overseer = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
-polkadot-node-subsystem = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
+# Axia dependencies
+axia-primitives = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-node-primitives = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-overseer = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-node-subsystem = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 
 # Cumulus dependencies
 cumulus-client-network = { path = "../network" }
@@ -30,8 +30,8 @@ parking_lot = "0.10.2"
 tracing = "0.1.25"
 
 [dev-dependencies]
-# Polkadot dependencies
-polkadot-node-subsystem-test-helpers = { git = "https://github.com/purestake/polkadot", branch = "moonbeam-polkadot-v0.9.12" }
+# Axia dependencies
+axia-node-subsystem-test-helpers = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 
 # Cumulus dependencies
 cumulus-test-runtime = { path = "../../test/runtime" }
