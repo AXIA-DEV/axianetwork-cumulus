@@ -18,7 +18,7 @@ sc-client-api = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "ma
 axia-primitives = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 axia-node-primitives = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 axia-client = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
-axia-parachain = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-allychain = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 
 # other deps
 codec = { package = "parity-scale-codec", version = "2.3.0", features = [ "derive" ] }

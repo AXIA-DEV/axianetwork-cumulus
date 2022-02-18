@@ -87,9 +87,9 @@ impl Parse for Input {
 }
 
 fn crate_() -> Result<Ident, Error> {
-	match crate_name("cumulus-pallet-parachain-system") {
+	match crate_name("cumulus-pallet-allychain-system") {
 		Ok(FoundCrate::Itself) =>
-			Ok(syn::Ident::new("cumulus_pallet_parachain_system", Span::call_site())),
+			Ok(syn::Ident::new("cumulus_pallet_allychain_system", Span::call_site())),
 		Ok(FoundCrate::Name(name)) => Ok(Ident::new(&name, Span::call_site())),
 		Err(e) => Err(Error::new(Span::call_site(), e)),
 	}
@@ -110,12 +110,12 @@ pub fn register_validate_block(input: proc_macro::TokenStream) -> proc_macro::To
 	if cfg!(not(feature = "std")) {
 		quote::quote! {
 			#[doc(hidden)]
-			mod parachain_validate_block {
+			mod allychain_validate_block {
 				use super::*;
 
 				#[no_mangle]
 				unsafe fn validate_block(arguments: *const u8, arguments_len: usize) -> u64 {
-					let params = #crate_::validate_block::axia_parachain::load_params(
+					let params = #crate_::validate_block::axia_allychain::load_params(
 						arguments,
 						arguments_len,
 					);
@@ -127,7 +127,7 @@ pub fn register_validate_block(input: proc_macro::TokenStream) -> proc_macro::To
 						#check_inherents,
 					>(params);
 
-					#crate_::validate_block::axia_parachain::write_result(&res)
+					#crate_::validate_block::axia_allychain::write_result(&res)
 				}
 			}
 		}

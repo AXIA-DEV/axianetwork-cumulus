@@ -7,8 +7,8 @@ use codec::Encode;
 use cumulus_client_service::genesis::generate_genesis_block;
 use cumulus_primitives_core::ParaId;
 use log::info;
-use parachain_template_runtime::{Block, RuntimeApi};
-use axia_parachain::primitives::AccountIdConversion;
+use allychain_template_runtime::{Block, RuntimeApi};
+use axia_allychain::primitives::AccountIdConversion;
 use sc_cli::{
 	ChainSpec, CliConfiguration, DefaultConfigurationValues, ImportParams, KeystoreParams,
 	NetworkParams, Result, RuntimeVersion, SharedParams, AxlibCli,
@@ -24,7 +24,7 @@ fn load_spec(
 ) -> std::result::Result<Box<dyn sc_service::ChainSpec>, String> {
 	Ok(match id {
 		"dev" => Box::new(chain_spec::development_config(para_id)),
-		"template-rococo" => Box::new(chain_spec::local_testnet_config(para_id)),
+		"template-betanet" => Box::new(chain_spec::local_testnet_config(para_id)),
 		"" | "local" => Box::new(chain_spec::local_testnet_config(para_id)),
 		path => Box::new(chain_spec::ChainSpec::from_json_file(std::path::PathBuf::from(path))?),
 	})
@@ -32,7 +32,7 @@ fn load_spec(
 
 impl AxlibCli for Cli {
 	fn impl_name() -> String {
-		"Parachain Collator Template".into()
+		"Allychain Collator Template".into()
 	}
 
 	fn impl_version() -> String {
@@ -41,10 +41,10 @@ impl AxlibCli for Cli {
 
 	fn description() -> String {
 		format!(
-			"Parachain Collator Template\n\nThe command-line arguments provided first will be \
-		passed to the parachain node, while the arguments provided after -- will be passed \
+			"Allychain Collator Template\n\nThe command-line arguments provided first will be \
+		passed to the allychain node, while the arguments provided after -- will be passed \
 		to the relaychain node.\n\n\
-		{} [parachain-args] -- [relaychain-args]",
+		{} [allychain-args] -- [relaychain-args]",
 			Self::executable_name()
 		)
 	}
@@ -62,17 +62,17 @@ impl AxlibCli for Cli {
 	}
 
 	fn load_spec(&self, id: &str) -> std::result::Result<Box<dyn sc_service::ChainSpec>, String> {
-		load_spec(id, self.run.parachain_id.unwrap_or(2000).into())
+		load_spec(id, self.run.allychain_id.unwrap_or(2000).into())
 	}
 
 	fn native_runtime_version(_: &Box<dyn ChainSpec>) -> &'static RuntimeVersion {
-		&parachain_template_runtime::VERSION
+		&allychain_template_runtime::VERSION
 	}
 }
 
 impl AxlibCli for RelayChainCli {
 	fn impl_name() -> String {
-		"Parachain Collator Template".into()
+		"Allychain Collator Template".into()
 	}
 
 	fn impl_version() -> String {
@@ -80,10 +80,10 @@ impl AxlibCli for RelayChainCli {
 	}
 
 	fn description() -> String {
-		"Parachain Collator Template\n\nThe command-line arguments provided first will be \
-		passed to the parachain node, while the arguments provided after -- will be passed \
+		"Allychain Collator Template\n\nThe command-line arguments provided first will be \
+		passed to the allychain node, while the arguments provided after -- will be passed \
 		to the relaychain node.\n\n\
-		parachain-collator [parachain-args] -- [relaychain-args]"
+		allychain-collator [allychain-args] -- [relaychain-args]"
 			.into()
 	}
 
@@ -128,7 +128,7 @@ macro_rules! construct_async_run {
 				_
 			>(
 				&$config,
-				crate::service::parachain_build_import_queue,
+				crate::service::allychain_build_import_queue,
 			)?;
 			let task_manager = $components.task_manager;
 			{ $( $code )* }.map(|v| (v, task_manager))
@@ -196,7 +196,7 @@ pub fn run() -> Result<()> {
 
 			let block: Block = generate_genesis_block(&load_spec(
 				&params.chain.clone().unwrap_or_default(),
-				params.parachain_id.unwrap_or(2000).into(),
+				params.allychain_id.unwrap_or(2000).into(),
 			)?)?;
 			let raw_header = block.header().encode();
 			let output_buf = if params.raw {
@@ -256,9 +256,9 @@ pub fn run() -> Result<()> {
 					[RelayChainCli::executable_name()].iter().chain(cli.relaychain_args.iter()),
 				);
 
-				let id = ParaId::from(cli.run.parachain_id.or(para_id).unwrap_or(2000));
+				let id = ParaId::from(cli.run.allychain_id.or(para_id).unwrap_or(2000));
 
-				let parachain_account =
+				let allychain_account =
 					AccountIdConversion::<axia_primitives::v0::AccountId>::into_account(&id);
 
 				let block: Block =
@@ -270,12 +270,12 @@ pub fn run() -> Result<()> {
 					AxlibCli::create_configuration(&axia_cli, &axia_cli, tokio_handle)
 						.map_err(|err| format!("Relay chain argument error: {}", err))?;
 
-				info!("Parachain id: {:?}", id);
-				info!("Parachain Account: {}", parachain_account);
-				info!("Parachain genesis state: {}", genesis_state);
+				info!("Allychain id: {:?}", id);
+				info!("Allychain Account: {}", allychain_account);
+				info!("Allychain genesis state: {}", genesis_state);
 				info!("Is collating: {}", if config.role.is_authority() { "yes" } else { "no" });
 
-				crate::service::start_parachain_node(config, axia_config, id)
+				crate::service::start_allychain_node(config, axia_config, id)
 					.await
 					.map(|r| r.0)
 					.map_err(Into::into)

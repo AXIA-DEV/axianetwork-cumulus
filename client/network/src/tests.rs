@@ -22,7 +22,7 @@ use axia_node_primitives::{SignedFullStatement, Statement};
 use axia_primitives::v1::{
 	Block as PBlock, BlockNumber, CandidateCommitments, CandidateDescriptor, CandidateEvent,
 	CommittedCandidateReceipt, CoreState, GroupRotationInfo, Hash as PHash, HeadData, Id as ParaId,
-	InboundDownwardMessage, InboundHrmpMessage, OccupiedCoreAssumption, ParachainHost,
+	InboundDownwardMessage, InboundHrmpMessage, OccupiedCoreAssumption, AllychainHost,
 	PersistedValidationData, ScrapedOnChainVotes, SessionIndex, SessionInfo, SigningContext,
 	ValidationCode, ValidationCodeHash, ValidatorId, ValidatorIndex,
 };
@@ -121,7 +121,7 @@ async fn make_gossip_message_and_header(
 		},
 		descriptor: CandidateDescriptor {
 			relay_parent,
-			para_head: axia_parachain::primitives::HeadData(header.encode()).hash(),
+			para_head: axia_allychain::primitives::HeadData(header.encode()).hash(),
 			..Default::default()
 		},
 	};
@@ -414,7 +414,7 @@ impl ProvideRuntimeApi<PBlock> for TestApi {
 }
 
 sp_api::mock_impl_runtime_apis! {
-	impl ParachainHost<PBlock> for RuntimeApi {
+	impl AllychainHost<PBlock> for RuntimeApi {
 		fn validators(&self) -> Vec<ValidatorId> {
 			self.data.lock().validators.clone()
 		}
@@ -450,7 +450,7 @@ sp_api::mock_impl_runtime_apis! {
 			if self.data.lock().has_pending_availability {
 				Some(CommittedCandidateReceipt {
 					descriptor: CandidateDescriptor {
-						para_head: axia_parachain::primitives::HeadData(
+						para_head: axia_allychain::primitives::HeadData(
 							default_header().encode(),
 						).hash(),
 						..Default::default()

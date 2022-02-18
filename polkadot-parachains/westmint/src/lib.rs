@@ -54,8 +54,8 @@ use frame_system::{
 	limits::{BlockLength, BlockWeights},
 	EnsureRoot,
 };
-pub use parachains_common as common;
-use parachains_common::{
+pub use allychains_common as common;
+use allychains_common::{
 	impls::{AssetsToBlockAuthor, DealWithFees, NonZeroIssuance},
 	opaque, AccountId, AssetId, AuraId, Balance, BlockNumber, Hash, Header, Index, Signature,
 	AVERAGE_ON_INITIALIZE_RATIO, HOURS, MAXIMUM_BLOCK_WEIGHT, NORMAL_DISPATCH_RATIO, SLOT_DURATION,
@@ -66,15 +66,15 @@ pub use sp_runtime::BuildStorage;
 
 // Axia imports
 use pallet_xcm::XcmPassthrough;
-use axia_parachain::primitives::Sibling;
+use axia_allychain::primitives::Sibling;
 use axia_runtime_common::{BlockHashCount, RocksDbWeight, SlowAdjustingFeeUpdate};
 use xcm::latest::prelude::*;
 use xcm_builder::{
 	AccountId32Aliases, AllowTopLevelPaidExecutionFrom, AllowUnpaidExecutionFrom,
 	AsPrefixedGeneralIndex, ConvertedConcreteAssetId, CurrencyAdapter, EnsureXcmOrigin,
 	FixedWeightBounds, FungiblesAdapter, IsConcrete, LocationInverter, NativeAsset,
-	ParentAsSuperuser, ParentIsDefault, RelayChainAsNative, SiblingParachainAsNative,
-	SiblingParachainConvertsVia, SignedAccountId32AsNative, SignedToAccountId32,
+	ParentAsSuperuser, ParentIsDefault, RelayChainAsNative, SiblingAllychainAsNative,
+	SiblingAllychainConvertsVia, SignedAccountId32AsNative, SignedToAccountId32,
 	SovereignSignedViaLocation, TakeWeightCredit, UsingComponents,
 };
 use xcm_executor::{traits::JustTry, Config, XcmExecutor};
@@ -151,7 +151,7 @@ impl frame_system::Config for Runtime {
 	type AccountData = pallet_balances::AccountData<Balance>;
 	type SystemWeightInfo = ();
 	type SS58Prefix = SS58Prefix;
-	type OnSetCode = cumulus_pallet_parachain_system::ParachainSetCode<Self>;
+	type OnSetCode = cumulus_pallet_allychain_system::AllychainSetCode<Self>;
 }
 
 parameter_types! {
@@ -411,10 +411,10 @@ parameter_types! {
 	pub const ReservedDmpWeight: Weight = MAXIMUM_BLOCK_WEIGHT / 4;
 }
 
-impl cumulus_pallet_parachain_system::Config for Runtime {
+impl cumulus_pallet_allychain_system::Config for Runtime {
 	type Event = Event;
 	type OnValidationData = ();
-	type SelfParaId = parachain_info::Pallet<Runtime>;
+	type SelfParaId = allychain_info::Pallet<Runtime>;
 	type DmpMessageHandler = DmpQueue;
 	type ReservedDmpWeight = ReservedDmpWeight;
 	type OutboundXcmpMessageSource = XcmpQueue;
@@ -422,15 +422,15 @@ impl cumulus_pallet_parachain_system::Config for Runtime {
 	type ReservedXcmpWeight = ReservedXcmpWeight;
 }
 
-impl parachain_info::Config for Runtime {}
+impl allychain_info::Config for Runtime {}
 
 impl cumulus_pallet_aura_ext::Config for Runtime {}
 
 parameter_types! {
-	pub const WestendLocation: MultiLocation = MultiLocation::parent();
-	pub RelayNetwork: NetworkId = NetworkId::Named(b"Westend".to_vec());
+	pub const AlphanetLocation: MultiLocation = MultiLocation::parent();
+	pub RelayNetwork: NetworkId = NetworkId::Named(b"Alphanet".to_vec());
 	pub RelayChainOrigin: Origin = cumulus_pallet_xcm::Origin::Relay.into();
-	pub Ancestry: MultiLocation = Parachain(ParachainInfo::parachain_id().into()).into();
+	pub Ancestry: MultiLocation = Allychain(AllychainInfo::allychain_id().into()).into();
 	pub const Local: MultiLocation = Here.into();
 	pub CheckingAccount: AccountId = AxiaXcm::check_account();
 }
@@ -441,8 +441,8 @@ parameter_types! {
 pub type LocationToAccountId = (
 	// The parent (Relay-chain) origin converts to the default `AccountId`.
 	ParentIsDefault<AccountId>,
-	// Sibling parachain origins convert to AccountId via the `ParaId::into`.
-	SiblingParachainConvertsVia<Sibling, AccountId>,
+	// Sibling allychain origins convert to AccountId via the `ParaId::into`.
+	SiblingAllychainConvertsVia<Sibling, AccountId>,
 	// Straight up local `AccountId32` origins just alias directly to `AccountId`.
 	AccountId32Aliases<RelayNetwork, AccountId>,
 );
@@ -452,7 +452,7 @@ pub type CurrencyTransactor = CurrencyAdapter<
 	// Use this currency:
 	Balances,
 	// Use this currency when it is a fungible asset matching the given location or name:
-	IsConcrete<WestendLocation>,
+	IsConcrete<AlphanetLocation>,
 	// Convert an XCM MultiLocation into a local account id:
 	LocationToAccountId,
 	// Our chain's account ID type (we can't get away without mentioning it explicitly):
@@ -496,9 +496,9 @@ pub type XcmOriginToTransactDispatchOrigin = (
 	// Native converter for Relay-chain (Parent) location; will convert to a `Relay` origin when
 	// recognized.
 	RelayChainAsNative<RelayChainOrigin, Origin>,
-	// Native converter for sibling Parachains; will convert to a `SiblingPara` origin when
+	// Native converter for sibling Allychains; will convert to a `SiblingPara` origin when
 	// recognized.
-	SiblingParachainAsNative<cumulus_pallet_xcm::Origin, Origin>,
+	SiblingAllychainAsNative<cumulus_pallet_xcm::Origin, Origin>,
 	// Superuser converter for the Relay-chain (Parent) location. This will allow it to issue a
 	// transaction from the Root origin.
 	ParentAsSuperuser<Origin>,
@@ -539,7 +539,7 @@ impl Config for XcmConfig {
 	type LocationInverter = LocationInverter<Ancestry>;
 	type Barrier = Barrier;
 	type Weigher = FixedWeightBounds<UnitWeightCost, Call, MaxInstructions>;
-	type Trader = UsingComponents<IdentityFee<Balance>, WestendLocation, AccountId, Balances, ()>;
+	type Trader = UsingComponents<IdentityFee<Balance>, AlphanetLocation, AccountId, Balances, ()>;
 	type ResponseHandler = AxiaXcm;
 	type AssetTrap = AxiaXcm;
 	type AssetClaims = AxiaXcm;
@@ -557,7 +557,7 @@ pub type LocalOriginToLocation = SignedToAccountId32<Origin, AccountId, RelayNet
 /// queues.
 pub type XcmRouter = (
 	// Two routers - use UMP to communicate with the relay chain:
-	cumulus_primitives_utility::ParentAsUmp<ParachainSystem, ()>,
+	cumulus_primitives_utility::ParentAsUmp<AllychainSystem, ()>,
 	// ..and XCMP to communicate with the sibling chains.
 	XcmpQueue,
 );
@@ -589,7 +589,7 @@ impl cumulus_pallet_xcm::Config for Runtime {
 impl cumulus_pallet_xcmp_queue::Config for Runtime {
 	type Event = Event;
 	type XcmExecutor = XcmExecutor<XcmConfig>;
-	type ChannelInfo = ParachainSystem;
+	type ChannelInfo = AllychainSystem;
 	type VersionWrapper = ();
 }
 
@@ -694,12 +694,12 @@ construct_runtime!(
 	{
 		// System support stuff;
 		System: frame_system::{Pallet, Call, Config, Storage, Event<T>},
-		ParachainSystem: cumulus_pallet_parachain_system::{
+		AllychainSystem: cumulus_pallet_allychain_system::{
 			Pallet, Call, Config, Storage, Inherent, Event<T>, ValidateUnsigned,
 		},
 		RandomnessCollectiveFlip: pallet_randomness_collective_flip::{Pallet, Storage},
 		Timestamp: pallet_timestamp::{Pallet, Call, Storage, Inherent},
-		ParachainInfo: parachain_info::{Pallet, Storage, Config},
+		AllychainInfo: allychain_info::{Pallet, Storage, Config},
 		Sudo: pallet_sudo::{Pallet, Call, Config<T>, Storage, Event<T>},
 
 		// Monetary stuff;
@@ -868,7 +868,7 @@ impl_runtime_apis! {
 
 	impl cumulus_primitives_core::CollectCollationInfo<Block> for Runtime {
 		fn collect_collation_info() -> cumulus_primitives_core::CollationInfo {
-			ParachainSystem::collect_collation_info()
+			AllychainSystem::collect_collation_info()
 		}
 	}
 
@@ -946,10 +946,10 @@ impl_runtime_apis! {
 
 struct CheckInherents;
 
-impl cumulus_pallet_parachain_system::CheckInherents<Block> for CheckInherents {
+impl cumulus_pallet_allychain_system::CheckInherents<Block> for CheckInherents {
 	fn check_inherents(
 		block: &Block,
-		relay_state_proof: &cumulus_pallet_parachain_system::RelayChainStateProof,
+		relay_state_proof: &cumulus_pallet_allychain_system::RelayChainStateProof,
 	) -> sp_inherents::CheckInherentsResult {
 		let relay_chain_slot = relay_state_proof
 			.read_slot()
@@ -967,7 +967,7 @@ impl cumulus_pallet_parachain_system::CheckInherents<Block> for CheckInherents {
 	}
 }
 
-cumulus_pallet_parachain_system::register_validate_block! {
+cumulus_pallet_allychain_system::register_validate_block! {
 	Runtime = Runtime,
 	BlockExecutor = cumulus_pallet_aura_ext::BlockExecutor::<Runtime, Executive>,
 	CheckInherents = CheckInherents,

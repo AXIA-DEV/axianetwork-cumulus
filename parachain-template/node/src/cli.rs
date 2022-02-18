@@ -5,11 +5,11 @@ use structopt::StructOpt;
 /// Sub-commands supported by the collator.
 #[derive(Debug, StructOpt)]
 pub enum Subcommand {
-	/// Export the genesis state of the parachain.
+	/// Export the genesis state of the allychain.
 	#[structopt(name = "export-genesis-state")]
 	ExportGenesisState(ExportGenesisStateCommand),
 
-	/// Export the genesis wasm of the parachain.
+	/// Export the genesis wasm of the allychain.
 	#[structopt(name = "export-genesis-wasm")]
 	ExportGenesisWasm(ExportGenesisWasmCommand),
 
@@ -39,25 +39,25 @@ pub enum Subcommand {
 	Benchmark(frame_benchmarking_cli::BenchmarkCmd),
 }
 
-/// Command for exporting the genesis state of the parachain
+/// Command for exporting the genesis state of the allychain
 #[derive(Debug, StructOpt)]
 pub struct ExportGenesisStateCommand {
 	/// Output file name or stdout if unspecified.
 	#[structopt(parse(from_os_str))]
 	pub output: Option<PathBuf>,
 
-	/// Id of the parachain this state is for.
+	/// Id of the allychain this state is for.
 	///
 	/// Default: 100
 	#[structopt(long, conflicts_with = "chain")]
-	pub parachain_id: Option<u32>,
+	pub allychain_id: Option<u32>,
 
 	/// Write output in binary. Default is to write in hex.
 	#[structopt(short, long)]
 	pub raw: bool,
 
 	/// The name of the chain for that the genesis state should be exported.
-	#[structopt(long, conflicts_with = "parachain-id")]
+	#[structopt(long, conflicts_with = "allychain-id")]
 	pub chain: Option<String>,
 }
 

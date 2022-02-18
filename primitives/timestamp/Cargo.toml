@@ -3,7 +3,7 @@ name = "cumulus-primitives-timestamp"
 version = "0.1.0"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
-description = "Provides timestamp related functionality for parachains."
+description = "Provides timestamp related functionality for allychains."
 
 [dependencies]
 # Axlib dependencies

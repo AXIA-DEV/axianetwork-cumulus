@@ -12,7 +12,7 @@ sp-trie = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features =
 frame-support = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-features = false, branch = "master" }
 
 # Axia dependencies
-axia-parachain = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
+axia-allychain = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
 axia-primitives = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
 axia-core-primitives = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
 xcm = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
@@ -29,7 +29,7 @@ std = [
 	"codec/std",
 	"sp-std/std",
 	"axia-primitives/std",
-	"axia-parachain/std",
+	"axia-allychain/std",
 	"axia-core-primitives/std",
 	"sp-runtime/std",
 	"sp-trie/std",

@@ -25,7 +25,7 @@ pub mod currency {
 	pub const GRAND: Balance = CENTS * 100_000;
 
 	pub const fn deposit(items: u32, bytes: u32) -> Balance {
-		// 1/10 of Westend testnet
+		// 1/10 of Alphanet testnet
 		(items as Balance * 100 * CENTS + (bytes as Balance) * 5 * MILLICENTS) / 10
 	}
 }

@@ -27,7 +27,7 @@ use sp_runtime::{
 };
 
 use axia_primitives::v1::{
-	Block as PBlock, Id as ParaId, OccupiedCoreAssumption, ParachainHost,
+	Block as PBlock, Id as ParaId, OccupiedCoreAssumption, AllychainHost,
 };
 
 use codec::Decode;
@@ -40,28 +40,28 @@ pub trait RelaychainClient: Clone + 'static {
 	/// The error type for interacting with the Axia client.
 	type Error: std::fmt::Debug + Send;
 
-	/// A stream that yields head-data for a parachain.
+	/// A stream that yields head-data for a allychain.
 	type HeadStream: Stream<Item = Vec<u8>> + Send + Unpin;
 
-	/// Get a stream of new best heads for the given parachain.
+	/// Get a stream of new best heads for the given allychain.
 	fn new_best_heads(&self, para_id: ParaId) -> Self::HeadStream;
 
-	/// Get a stream of finalized heads for the given parachain.
+	/// Get a stream of finalized heads for the given allychain.
 	fn finalized_heads(&self, para_id: ParaId) -> Self::HeadStream;
 
-	/// Returns the parachain head for the given `para_id` at the given block id.
-	fn parachain_head_at(
+	/// Returns the allychain head for the given `para_id` at the given block id.
+	fn allychain_head_at(
 		&self,
 		at: &BlockId<PBlock>,
 		para_id: ParaId,
 	) -> ClientResult<Option<Vec<u8>>>;
 }
 
-/// Follow the finalized head of the given parachain.
+/// Follow the finalized head of the given allychain.
 ///
-/// For every finalized block of the relay chain, it will get the included parachain header
-/// corresponding to `para_id` and will finalize it in the parachain.
-async fn follow_finalized_head<P, Block, B, R>(para_id: ParaId, parachain: Arc<P>, relay_chain: R)
+/// For every finalized block of the relay chain, it will get the included allychain header
+/// corresponding to `para_id` and will finalize it in the allychain.
+async fn follow_finalized_head<P, Block, B, R>(para_id: ParaId, allychain: Arc<P>, relay_chain: R)
 where
 	Block: BlockT,
 	P: Finalizer<Block, B> + UsageProvider<Block>,
@@ -84,7 +84,7 @@ where
 				tracing::debug!(
 					target: "cumulus-consensus",
 					error = ?err,
-					"Could not decode parachain header while following finalized heads.",
+					"Could not decode allychain header while following finalized heads.",
 				);
 				continue
 			},
@@ -93,8 +93,8 @@ where
 		let hash = header.hash();
 
 		// don't finalize the same block multiple times.
-		if parachain.usage_info().chain.finalized_hash != hash {
-			if let Err(e) = parachain.finalize_block(BlockId::hash(hash), None, true) {
+		if allychain.usage_info().chain.finalized_hash != hash {
+			if let Err(e) = allychain.finalize_block(BlockId::hash(hash), None, true) {
 				match e {
 					ClientError::UnknownBlock(_) => tracing::debug!(
 						target: "cumulus-consensus",
@@ -113,19 +113,19 @@ where
 	}
 }
 
-/// Run the parachain consensus.
+/// Run the allychain consensus.
 ///
-/// This will follow the given `relay_chain` to act as consesus for the parachain that corresponds
-/// to the given `para_id`. It will set the new best block of the parachain as it gets aware of it.
+/// This will follow the given `relay_chain` to act as consesus for the allychain that corresponds
+/// to the given `para_id`. It will set the new best block of the allychain as it gets aware of it.
 /// The same happens for the finalized block.
 ///
 /// # Note
 ///
-/// This will access the backend of the parachain and thus, this future should be spawned as blocking
+/// This will access the backend of the allychain and thus, this future should be spawned as blocking
 /// task.
-pub async fn run_parachain_consensus<P, R, Block, B>(
+pub async fn run_allychain_consensus<P, R, Block, B>(
 	para_id: ParaId,
-	parachain: Arc<P>,
+	allychain: Arc<P>,
 	relay_chain: R,
 	announce_block: Arc<dyn Fn(Block::Hash, Option<Vec<u8>>) + Send + Sync>,
 ) where
@@ -141,18 +141,18 @@ pub async fn run_parachain_consensus<P, R, Block, B>(
 	B: Backend<Block>,
 {
 	let follow_new_best =
-		follow_new_best(para_id, parachain.clone(), relay_chain.clone(), announce_block);
-	let follow_finalized_head = follow_finalized_head(para_id, parachain, relay_chain);
+		follow_new_best(para_id, allychain.clone(), relay_chain.clone(), announce_block);
+	let follow_finalized_head = follow_finalized_head(para_id, allychain, relay_chain);
 	select! {
 		_ = follow_new_best.fuse() => {},
 		_ = follow_finalized_head.fuse() => {},
 	}
 }
 
-/// Follow the relay chain new best head, to update the Parachain new best head.
+/// Follow the relay chain new best head, to update the Allychain new best head.
 async fn follow_new_best<P, R, Block, B>(
 	para_id: ParaId,
-	parachain: Arc<P>,
+	allychain: Arc<P>,
 	relay_chain: R,
 	announce_block: Arc<dyn Fn(Block::Hash, Option<Vec<u8>>) + Send + Sync>,
 ) where
@@ -168,9 +168,9 @@ async fn follow_new_best<P, R, Block, B>(
 	B: Backend<Block>,
 {
 	let mut new_best_heads = relay_chain.new_best_heads(para_id).fuse();
-	let mut imported_blocks = parachain.import_notification_stream().fuse();
-	// The unset best header of the parachain. Will be `Some(_)` when we have imported a relay chain
-	// block before the parachain block it included. In this case we need to wait for this block to
+	let mut imported_blocks = allychain.import_notification_stream().fuse();
+	// The unset best header of the allychain. Will be `Some(_)` when we have imported a relay chain
+	// block before the allychain block it included. In this case we need to wait for this block to
 	// be imported to set it as new best.
 	let mut unset_best_header = None;
 
@@ -178,9 +178,9 @@ async fn follow_new_best<P, R, Block, B>(
 		select! {
 			h = new_best_heads.next() => {
 				match h {
-					Some(h) => handle_new_best_parachain_head(
+					Some(h) => handle_new_best_allychain_head(
 						h,
-						&*parachain,
+						&*allychain,
 						&mut unset_best_header,
 					).await,
 					None => {
@@ -197,7 +197,7 @@ async fn follow_new_best<P, R, Block, B>(
 					Some(i) => handle_new_block_imported(
 						i,
 						&mut unset_best_header,
-						&*parachain,
+						&*allychain,
 						&*announce_block,
 					).await,
 					None => {
@@ -213,11 +213,11 @@ async fn follow_new_best<P, R, Block, B>(
 	}
 }
 
-/// Handle a new import block of the parachain.
+/// Handle a new import block of the allychain.
 async fn handle_new_block_imported<Block, P>(
 	notification: BlockImportNotification<Block>,
 	unset_best_header_opt: &mut Option<Block::Header>,
-	parachain: &P,
+	allychain: &P,
 	announce_block: &(dyn Fn(Block::Hash, Option<Vec<u8>>) + Send + Sync),
 ) where
 	Block: BlockT,
@@ -251,14 +251,14 @@ async fn handle_new_block_imported<Block, P>(
 		unset_best_header.hash()
 	};
 
-	match parachain.block_status(&BlockId::Hash(unset_hash)) {
+	match allychain.block_status(&BlockId::Hash(unset_hash)) {
 		Ok(BlockStatus::InChainWithState) => {
 			drop(unset_best_header);
 			let unset_best_header = unset_best_header_opt
 				.take()
 				.expect("We checked above that the value is set; qed");
 
-			import_block_as_new_best(unset_hash, unset_best_header, parachain).await;
+			import_block_as_new_best(unset_hash, unset_best_header, allychain).await;
 		},
 		state => tracing::debug!(
 			target: "cumulus-consensus",
@@ -270,31 +270,31 @@ async fn handle_new_block_imported<Block, P>(
 	}
 }
 
-/// Handle the new best parachain head as extracted from the new best relay chain.
-async fn handle_new_best_parachain_head<Block, P>(
+/// Handle the new best allychain head as extracted from the new best relay chain.
+async fn handle_new_best_allychain_head<Block, P>(
 	head: Vec<u8>,
-	parachain: &P,
+	allychain: &P,
 	unset_best_header: &mut Option<Block::Header>,
 ) where
 	Block: BlockT,
 	P: UsageProvider<Block> + Send + Sync + BlockBackend<Block>,
 	for<'a> &'a P: BlockImport<Block>,
 {
-	let parachain_head = match <<Block as BlockT>::Header>::decode(&mut &head[..]) {
+	let allychain_head = match <<Block as BlockT>::Header>::decode(&mut &head[..]) {
 		Ok(header) => header,
 		Err(err) => {
 			tracing::debug!(
 				target: "cumulus-consensus",
 				error = ?err,
-				"Could not decode Parachain header while following best heads.",
+				"Could not decode Allychain header while following best heads.",
 			);
 			return
 		},
 	};
 
-	let hash = parachain_head.hash();
+	let hash = allychain_head.hash();
 
-	if parachain.usage_info().chain.best_hash == hash {
+	if allychain.usage_info().chain.best_hash == hash {
 		tracing::debug!(
 			target: "cumulus-consensus",
 			block_hash = ?hash,
@@ -302,11 +302,11 @@ async fn handle_new_best_parachain_head<Block, P>(
 		)
 	} else {
 		// Make sure the block is already known or otherwise we skip setting new best.
-		match parachain.block_status(&BlockId::Hash(hash)) {
+		match allychain.block_status(&BlockId::Hash(hash)) {
 			Ok(BlockStatus::InChainWithState) => {
 				unset_best_header.take();
 
-				import_block_as_new_best(hash, parachain_head, parachain).await;
+				import_block_as_new_best(hash, allychain_head, allychain).await;
 			},
 			Ok(BlockStatus::InChainPruned) => {
 				tracing::error!(
@@ -316,12 +316,12 @@ async fn handle_new_best_parachain_head<Block, P>(
 				);
 			},
 			Ok(BlockStatus::Unknown) => {
-				*unset_best_header = Some(parachain_head);
+				*unset_best_header = Some(allychain_head);
 
 				tracing::debug!(
 					target: "cumulus-collator",
 					block_hash = ?hash,
-					"Parachain block not yet imported, waiting for import to enact as best block.",
+					"Allychain block not yet imported, waiting for import to enact as best block.",
 				);
 			},
 			Err(e) => {
@@ -337,13 +337,13 @@ async fn handle_new_best_parachain_head<Block, P>(
 	}
 }
 
-async fn import_block_as_new_best<Block, P>(hash: Block::Hash, header: Block::Header, parachain: &P)
+async fn import_block_as_new_best<Block, P>(hash: Block::Hash, header: Block::Header, allychain: &P)
 where
 	Block: BlockT,
 	P: UsageProvider<Block> + Send + Sync + BlockBackend<Block>,
 	for<'a> &'a P: BlockImport<Block>,
 {
-	let best_number = parachain.usage_info().chain.best_number;
+	let best_number = allychain.usage_info().chain.best_number;
 	if *header.number() < best_number {
 		tracing::debug!(
 			target: "cumulus-consensus",
@@ -360,7 +360,7 @@ where
 	block_import_params.fork_choice = Some(ForkChoiceStrategy::Custom(true));
 	block_import_params.import_existing = true;
 
-	if let Err(err) = (&*parachain).import_block(block_import_params, Default::default()).await {
+	if let Err(err) = (&*allychain).import_block(block_import_params, Default::default()).await {
 		tracing::warn!(
 			target: "cumulus-consensus",
 			block_hash = ?hash,
@@ -373,7 +373,7 @@ where
 impl<T> RelaychainClient for Arc<T>
 where
 	T: sc_client_api::BlockchainEvents<PBlock> + ProvideRuntimeApi<PBlock> + 'static + Send + Sync,
-	<T as ProvideRuntimeApi<PBlock>>::Api: ParachainHost<PBlock>,
+	<T as ProvideRuntimeApi<PBlock>>::Api: AllychainHost<PBlock>,
 {
 	type Error = ClientError;
 
@@ -385,7 +385,7 @@ where
 		self.import_notification_stream()
 			.filter_map(move |n| {
 				future::ready(if n.is_new_best {
-					relay_chain.parachain_head_at(&BlockId::hash(n.hash), para_id).ok().flatten()
+					relay_chain.allychain_head_at(&BlockId::hash(n.hash), para_id).ok().flatten()
 				} else {
 					None
 				})
@@ -399,13 +399,13 @@ where
 		self.finality_notification_stream()
 			.filter_map(move |n| {
 				future::ready(
-					relay_chain.parachain_head_at(&BlockId::hash(n.hash), para_id).ok().flatten(),
+					relay_chain.allychain_head_at(&BlockId::hash(n.hash), para_id).ok().flatten(),
 				)
 			})
 			.boxed()
 	}
 
-	fn parachain_head_at(
+	fn allychain_head_at(
 		&self,
 		at: &BlockId<PBlock>,
 		para_id: ParaId,

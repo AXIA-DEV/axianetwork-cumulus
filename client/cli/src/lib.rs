@@ -30,7 +30,7 @@ use std::{
 };
 use structopt::StructOpt;
 
-/// The `purge-chain` command used to remove the whole chain: the parachain and the relaychain.
+/// The `purge-chain` command used to remove the whole chain: the allychain and the relaychain.
 #[derive(Debug, StructOpt)]
 pub struct PurgeChainCmd {
 	/// The base struct of the purge-chain command.
@@ -39,7 +39,7 @@ pub struct PurgeChainCmd {
 
 	/// Only delete the para chain database
 	#[structopt(long, aliases = &["para"])]
-	pub parachain: bool,
+	pub allychain: bool,
 
 	/// Only delete the relay chain database
 	#[structopt(long, aliases = &["relay"])]
@@ -53,10 +53,10 @@ impl PurgeChainCmd {
 		para_config: sc_service::Configuration,
 		relay_config: sc_service::Configuration,
 	) -> sc_cli::Result<()> {
-		let databases = match (self.parachain, self.relaychain) {
+		let databases = match (self.allychain, self.relaychain) {
 			(true, true) | (false, false) =>
-				vec![("parachain", para_config.database), ("relaychain", relay_config.database)],
-			(true, false) => vec![("parachain", para_config.database)],
+				vec![("allychain", para_config.database), ("relaychain", relay_config.database)],
+			(true, false) => vec![("allychain", para_config.database)],
 			(false, true) => vec![("relaychain", relay_config.database)],
 		};
 
@@ -125,9 +125,9 @@ pub struct RunCmd {
 	#[structopt(flatten)]
 	pub base: sc_cli::RunCmd,
 
-	/// Id of the parachain this collator collates for.
+	/// Id of the allychain this collator collates for.
 	#[structopt(long)]
-	pub parachain_id: Option<u32>,
+	pub allychain_id: Option<u32>,
 
 	/// Run node as collator.
 	///
@@ -142,8 +142,8 @@ pub struct RunCmd {
 pub struct NormalizedRunCmd {
 	/// The cumulus RunCmd inherents from sc_cli's
 	pub base: sc_cli::RunCmd,
-	/// Id of the parachain this collator collates for.
-	pub parachain_id: Option<u32>,
+	/// Id of the allychain this collator collates for.
+	pub allychain_id: Option<u32>,
 }
 
 impl RunCmd {
@@ -153,7 +153,7 @@ impl RunCmd {
 
 		new_base.validator = self.base.validator || self.collator;
 
-		NormalizedRunCmd { base: new_base, parachain_id: self.parachain_id }
+		NormalizedRunCmd { base: new_base, allychain_id: self.allychain_id }
 	}
 }
 

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Cumulus.  If not, see <http://www.gnu.org/licenses/>.
 
-use crate::{ParachainInherentData, INHERENT_IDENTIFIER};
+use crate::{AllychainInherentData, INHERENT_IDENTIFIER};
 use codec::Decode;
 use cumulus_primitives_core::{
 	relay_chain, InboundDownwardMessage, InboundHrmpMessage, ParaId, PersistedValidationData,
@@ -35,17 +35,17 @@ use cumulus_test_relay_sproof_builder::RelayStateSproofBuilder;
 ///
 /// We mock a relay chain block number as follows:
 /// relay_block_number = offset + relay_blocks_per_para_block * current_para_block
-/// To simulate a parachain that starts in relay block 1000 and gets a block in every other relay
+/// To simulate a allychain that starts in relay block 1000 and gets a block in every other relay
 /// block, use 1000 and 2
 ///
 /// Optionally, mock XCM messages can be injected into the runtime. When mocking XCM,
 /// in addition to the messages themselves, you must provide some information about
-/// your parachain's configuration in order to mock the MQC heads properly.
+/// your allychain's configuration in order to mock the MQC heads properly.
 /// See `MockXcmConfig` for more information
 pub struct MockValidationDataInherentDataProvider {
-	/// The current block number of the local block chain (the parachain)
+	/// The current block number of the local block chain (the allychain)
 	pub current_para_block: u32,
-	/// The relay block in which this parachain appeared to start. This will be the relay block
+	/// The relay block in which this allychain appeared to start. This will be the relay block
 	/// number in para block #P1
 	pub relay_offset: u32,
 	/// The number of relay blocks that elapses between each parablock. Probably set this to 1 or 2
@@ -60,27 +60,27 @@ pub struct MockValidationDataInherentDataProvider {
 }
 
 /// Parameters for how the Mock inherent data provider should inject XCM messages.
-/// In addition to the messages themselves, some information about the parachain's
+/// In addition to the messages themselves, some information about the allychain's
 /// configuration is also required so that the MQC heads can be read out of the
-/// parachain's storage, and the corresponding relay data mocked.
+/// allychain's storage, and the corresponding relay data mocked.
 #[derive(Default)]
 pub struct MockXcmConfig {
-	/// The parachain id of the parachain being mocked.
+	/// The allychain id of the allychain being mocked.
 	pub para_id: ParaId,
 	/// The starting state of the dmq_mqc_head.
 	pub starting_dmq_mqc_head: relay_chain::Hash,
-	/// The starting state of each parachain's mqc head
+	/// The starting state of each allychain's mqc head
 	pub starting_hrmp_mqc_heads: BTreeMap<ParaId, relay_chain::Hash>,
 }
 
-/// The same string name that is used for the parachain system pallet in the
-/// runtime. The parachain template, and many other popular chains use `ParachainSystem`,
+/// The same string name that is used for the allychain system pallet in the
+/// runtime. The allychain template, and many other popular chains use `AllychainSystem`,
 /// and a corresponding `Default` implementation of this type exists.
-pub struct ParachainSystemName(pub &'static [u8]);
+pub struct AllychainSystemName(pub &'static [u8]);
 
-impl Default for ParachainSystemName {
+impl Default for AllychainSystemName {
 	fn default() -> Self {
-		Self(b"ParachainSystem")
+		Self(b"AllychainSystem")
 	}
 }
 
@@ -91,13 +91,13 @@ impl MockXcmConfig {
 		client: &C,
 		parent_block: B::Hash,
 		para_id: ParaId,
-		parachain_system_name: ParachainSystemName,
+		allychain_system_name: AllychainSystemName,
 	) -> Self {
 		let starting_dmq_mqc_head = client
 			.storage(
 				&BlockId::Hash(parent_block),
 				&sp_storage::StorageKey(
-					[twox_128(parachain_system_name.0), twox_128(b"LastDmqMqcHead")]
+					[twox_128(allychain_system_name.0), twox_128(b"LastDmqMqcHead")]
 						.concat()
 						.to_vec(),
 				),
@@ -112,7 +112,7 @@ impl MockXcmConfig {
 			.storage(
 				&BlockId::Hash(parent_block),
 				&sp_storage::StorageKey(
-					[twox_128(b"ParachainSystem"), twox_128(b"LastHrmpMqcHeads")].concat().to_vec(),
+					[twox_128(b"AllychainSystem"), twox_128(b"LastHrmpMqcHeads")].concat().to_vec(),
 				),
 			)
 			.expect("We should be able to read storage from the parent block.")
@@ -185,7 +185,7 @@ impl InherentDataProvider for MockValidationDataInherentDataProvider {
 
 		inherent_data.put_data(
 			INHERENT_IDENTIFIER,
-			&ParachainInherentData {
+			&AllychainInherentData {
 				validation_data: PersistedValidationData {
 					parent_head: Default::default(),
 					relay_parent_storage_root,

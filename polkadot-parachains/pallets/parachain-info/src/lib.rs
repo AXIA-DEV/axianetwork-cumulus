@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Cumulus.  If not, see <http://www.gnu.org/licenses/>.
 
-//! Minimal Pallet that injects a ParachainId into Runtime storage from
+//! Minimal Pallet that injects a AllychainId into Runtime storage from
 
 #![cfg_attr(not(feature = "std"), no_std)]
 
@@ -41,36 +41,36 @@ pub mod pallet {
 
 	#[pallet::genesis_config]
 	pub struct GenesisConfig {
-		pub parachain_id: ParaId,
+		pub allychain_id: ParaId,
 	}
 
 	#[cfg(feature = "std")]
 	impl Default for GenesisConfig {
 		fn default() -> Self {
-			Self { parachain_id: 100.into() }
+			Self { allychain_id: 100.into() }
 		}
 	}
 
 	#[pallet::genesis_build]
 	impl<T: Config> GenesisBuild<T> for GenesisConfig {
 		fn build(&self) {
-			<ParachainId<T>>::put(&self.parachain_id);
+			<AllychainId<T>>::put(&self.allychain_id);
 		}
 	}
 
 	#[pallet::type_value]
-	pub(super) fn DefaultForParachainId() -> ParaId {
+	pub(super) fn DefaultForAllychainId() -> ParaId {
 		100.into()
 	}
 
 	#[pallet::storage]
-	#[pallet::getter(fn parachain_id)]
-	pub(super) type ParachainId<T: Config> =
-		StorageValue<_, ParaId, ValueQuery, DefaultForParachainId>;
+	#[pallet::getter(fn allychain_id)]
+	pub(super) type AllychainId<T: Config> =
+		StorageValue<_, ParaId, ValueQuery, DefaultForAllychainId>;
 
 	impl<T: Config> Get<ParaId> for Pallet<T> {
 		fn get() -> ParaId {
-			Self::parachain_id()
+			Self::allychain_id()
 		}
 	}
 }

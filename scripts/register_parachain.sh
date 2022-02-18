@@ -2,7 +2,7 @@
 
 usage() {
     echo Usage:
-    echo "$0 <url> <seed> <wasm> <genesis> <parachain-id> <types>"
+    echo "$0 <url> <seed> <wasm> <genesis> <allychain-id> <types>"
     exit 1
 }
 
@@ -10,15 +10,15 @@ url=$1
 seed=$2
 wasm=$3
 genesis=$4
-parachain_id=$5
-types=$6 # we can remove this once parachain types are included in axia-js-api
+allychain_id=$5
+types=$6 # we can remove this once allychain types are included in axia-js-api
 
 [ -z "$url" ] && usage
 [ -z "$seed" ] && usage
 [ -z "$wasm" ] && usage
 [ -z "$types" ] && usage
 [ -z "$genesis" ] && usage
-[ -z "$parachain_id" ] && usage
+[ -z "$allychain_id" ] && usage
 if ! [ -r "$wasm" ]; then
     echo "Could not read: $wasm"
     exit 1
@@ -46,5 +46,5 @@ axia-js-api \
     --seed "${seed?}" \
     --types "${types?}" \
     tx.parasSudoWrapper.sudoScheduleParaInitialize \
-        "${parachain_id?}" \
-        "{ \"genesisHead\":\"${genesis?}\", \"validationCode\":\"${wasm?}\", \"parachain\": true }" \
+        "${allychain_id?}" \
+        "{ \"genesisHead\":\"${genesis?}\", \"validationCode\":\"${wasm?}\", \"allychain\": true }" \

@@ -52,7 +52,7 @@ pub mod pallet {
 		type XcmSender: SendXcm;
 	}
 
-	/// The target parachains to ping.
+	/// The target allychains to ping.
 	#[pallet::storage]
 	pub(super) type Targets<T: Config> = StorageValue<_, Vec<(ParaId, Vec<u8>)>, ValueQuery>;
 
@@ -89,7 +89,7 @@ pub mod pallet {
 					*seq
 				});
 				match T::XcmSender::send_xcm(
-					(1, Junction::Parachain(para.into())),
+					(1, Junction::Allychain(para.into())),
 					Xcm(vec![Transact {
 						origin_type: OriginKind::Native,
 						require_weight_at_most: 1_000,
@@ -165,7 +165,7 @@ pub mod pallet {
 
 			Self::deposit_event(Event::Pinged(para, seq, payload.clone()));
 			match T::XcmSender::send_xcm(
-				(1, Junction::Parachain(para.into())),
+				(1, Junction::Allychain(para.into())),
 				Xcm(vec![Transact {
 					origin_type: OriginKind::Native,
 					require_weight_at_most: 1_000,

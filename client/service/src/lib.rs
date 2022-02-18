@@ -18,7 +18,7 @@
 //!
 //! Provides functions for starting a collator node or a normal full node.
 
-use cumulus_client_consensus_common::ParachainConsensus;
+use cumulus_client_consensus_common::AllychainConsensus;
 use cumulus_primitives_core::{CollectCollationInfo, ParaId};
 use axia_overseer::Handle as OverseerHandle;
 use axia_primitives::v1::{Block as PBlock, CollatorPair};
@@ -69,15 +69,15 @@ pub struct StartCollatorParams<'a, Block: BlockT, BS, Client, Spawner, RClient, 
 	pub para_id: ParaId,
 	pub relay_chain_full_node: RFullNode<RClient>,
 	pub task_manager: &'a mut TaskManager,
-	pub parachain_consensus: Box<dyn ParachainConsensus<Block>>,
+	pub allychain_consensus: Box<dyn AllychainConsensus<Block>>,
 	pub import_queue: IQ,
 }
 
-/// Start a collator node for a parachain.
+/// Start a collator node for a allychain.
 ///
 /// A collator is similar to a validator in a normal blockchain.
 /// It is responsible for producing blocks and sending the blocks to a
-/// parachain validator for validation and inclusion into the relay chain.
+/// allychain validator for validation and inclusion into the relay chain.
 pub async fn start_collator<'a, Block, BS, Client, Backend, Spawner, RClient, IQ>(
 	StartCollatorParams {
 		block_status,
@@ -87,7 +87,7 @@ pub async fn start_collator<'a, Block, BS, Client, Backend, Spawner, RClient, IQ
 		para_id,
 		task_manager,
 		relay_chain_full_node,
-		parachain_consensus,
+		allychain_consensus,
 		import_queue,
 	}: StartCollatorParams<'a, Block, BS, Client, Spawner, RClient, IQ>,
 ) -> sc_service::error::Result<()>
@@ -141,7 +141,7 @@ where
 		spawner,
 		para_id,
 		key: relay_chain_full_node.collator_key.clone(),
-		parachain_consensus,
+		allychain_consensus,
 	})
 	.await;
 
@@ -159,9 +159,9 @@ pub struct StartFullNodeParams<'a, Block: BlockT, Client, PClient> {
 	pub announce_block: Arc<dyn Fn(Block::Hash, Option<Vec<u8>>) + Send + Sync>,
 }
 
-/// Start a full node for a parachain.
+/// Start a full node for a allychain.
 ///
-/// A full node will only sync the given parachain and will follow the
+/// A full node will only sync the given allychain and will follow the
 /// tip of the chain.
 pub fn start_full_node<Block, Client, Backend, PClient>(
 	StartFullNodeParams {
@@ -230,7 +230,7 @@ where
 		Api: RuntimeApiCollection<StateBackend = PBackend::State>,
 		PClient: AbstractClient<PBlock, PBackend, Api = Api> + 'static,
 	{
-		let consensus = cumulus_client_consensus_common::run_parachain_consensus(
+		let consensus = cumulus_client_consensus_common::run_allychain_consensus(
 			self.para_id,
 			self.client.clone(),
 			client.clone(),
@@ -289,14 +289,14 @@ where
 	}
 }
 
-/// Prepare the parachain's node condifugration
+/// Prepare the allychain's node condifugration
 ///
-/// This function will disable the default announcement of Axlib for the parachain in favor
+/// This function will disable the default announcement of Axlib for the allychain in favor
 /// of the one of Cumulus.
-pub fn prepare_node_config(mut parachain_config: Configuration) -> Configuration {
-	parachain_config.announce_block = false;
+pub fn prepare_node_config(mut allychain_config: Configuration) -> Configuration {
+	allychain_config.announce_block = false;
 
-	parachain_config
+	allychain_config
 }
 
 /// Build the Axia full node using the given `config`.

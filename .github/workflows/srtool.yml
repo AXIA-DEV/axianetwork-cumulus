@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        chain: ["statemine", "westmint", "statemint", "rococo", "shell"]
+        chain: ["statemine", "westmint", "statemint", "betanet", "shell"]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -35,7 +35,7 @@ jobs:
         uses: chevdor/srtool-actions@v0.3.0
         with:
           chain: ${{ matrix.chain }}
-          runtime_dir: axia-parachains/${{ matrix.chain }}
+          runtime_dir: axia-allychains/${{ matrix.chain }}
 
       - name: Summary
         run: |

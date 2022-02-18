@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Cumulus. If not, see <http://www.gnu.org/licenses/>.
 
-//! A module that enables a runtime to work as parachain.
+//! A module that enables a runtime to work as allychain.
 
-use axia_parachain::primitives::ValidationParams;
+use axia_allychain::primitives::ValidationParams;
 
 #[cfg(not(feature = "std"))]
 #[doc(hidden)]
@@ -26,14 +26,14 @@ mod tests;
 
 #[cfg(not(feature = "std"))]
 #[doc(hidden)]
-pub use axia_parachain;
+pub use axia_allychain;
 #[cfg(not(feature = "std"))]
 #[doc(hidden)]
 pub use sp_runtime::traits::GetRuntimeBlockType;
 
 // Stores the [`ValidationParams`] that are being passed to `validate_block`.
 //
-// This value will only be set when a parachain validator validates a given `PoV`.
+// This value will only be set when a allychain validator validates a given `PoV`.
 environmental::environmental!(VALIDATION_PARAMS: ValidationParams);
 
 /// Execute the given closure with the [`ValidationParams`].

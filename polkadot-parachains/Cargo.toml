@@ -18,13 +18,13 @@ serde = { version = "1.0.101", features = ["derive"] }
 hex-literal = "0.2.1"
 async-trait = "0.1.42"
 
-# Parachain runtimes
-rococo-parachain-runtime = { package = "rococo-runtime", path = "rococo" }
+# Allychain runtimes
+betanet-allychain-runtime = { package = "betanet-runtime", path = "betanet" }
 shell-runtime = { path = "shell" }
 statemint-runtime = { path = "statemint" }
 statemine-runtime = { path = "statemine" }
 westmint-runtime = { path = "westmint" }
-parachains-common = { path = "parachains-common" }
+allychains-common = { path = "allychains-common" }
 
 # Axlib dependencies
 frame-benchmarking = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
@@ -71,13 +71,13 @@ cumulus-client-consensus-common = { path = "../client/consensus/common" }
 cumulus-client-service = { path = "../client/service" }
 cumulus-client-network = { path = "../client/network" }
 cumulus-primitives-core = { path = "../primitives/core" }
-cumulus-primitives-parachain-inherent = { path = "../primitives/parachain-inherent" }
+cumulus-primitives-allychain-inherent = { path = "../primitives/allychain-inherent" }
 
 # Axia dependencies
 axia-primitives = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 axia-service = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 axia-cli = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
-axia-parachain = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
+axia-allychain = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 
 [build-dependencies]
 axlib-build-script-utils = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }

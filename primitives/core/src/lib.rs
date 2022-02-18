@@ -23,7 +23,7 @@ use sp_runtime::{traits::Block as BlockT, RuntimeDebug};
 use sp_std::prelude::*;
 
 pub use axia_core_primitives::InboundDownwardMessage;
-pub use axia_parachain::primitives::{
+pub use axia_allychain::primitives::{
 	DmpMessageHandler, Id as ParaId, UpwardMessage, ValidationParams, XcmpMessageFormat,
 	XcmpMessageHandler,
 };
@@ -144,21 +144,21 @@ pub trait OnValidationData {
 	fn on_validation_data(data: &PersistedValidationData);
 }
 
-/// The parachain block that is created by a collator.
+/// The allychain block that is created by a collator.
 ///
 /// This is send as PoV (proof of validity block) to the relay-chain validators. There it will be
-/// passed to the parachain validation Wasm blob to be validated.
+/// passed to the allychain validation Wasm blob to be validated.
 #[derive(codec::Encode, codec::Decode, Clone)]
-pub struct ParachainBlockData<B: BlockT> {
-	/// The header of the parachain block.
+pub struct AllychainBlockData<B: BlockT> {
+	/// The header of the allychain block.
 	header: B::Header,
-	/// The extrinsics of the parachain block.
+	/// The extrinsics of the allychain block.
 	extrinsics: sp_std::vec::Vec<B::Extrinsic>,
 	/// The data that is required to emulate the storage accesses executed by all extrinsics.
 	storage_proof: sp_trie::CompactProof,
 }
 
-impl<B: BlockT> ParachainBlockData<B> {
+impl<B: BlockT> AllychainBlockData<B> {
 	/// Creates a new instance of `Self`.
 	pub fn new(
 		header: <B as BlockT>::Header,
@@ -204,7 +204,7 @@ impl<B: BlockT> ParachainBlockData<B> {
 pub struct CollationInfo {
 	/// Messages destined to be interpreted by the Relay chain itself.
 	pub upward_messages: Vec<UpwardMessage>,
-	/// The horizontal messages sent by the parachain.
+	/// The horizontal messages sent by the allychain.
 	pub horizontal_messages: Vec<OutboundHrmpMessage>,
 	/// New validation code.
 	pub new_validation_code: Option<relay_chain::v1::ValidationCode>,

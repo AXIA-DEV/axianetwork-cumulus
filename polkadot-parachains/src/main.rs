@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Cumulus.  If not, see <http://www.gnu.org/licenses/>.
 
-//! Cumulus test parachain collator
+//! Cumulus test allychain collator
 
 #![warn(missing_docs)]
 #![warn(unused_extern_crates)]

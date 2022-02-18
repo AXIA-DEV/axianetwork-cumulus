@@ -36,7 +36,7 @@ RUN apt-get update && \
 
 # add axia-collator binary to the docker image
 COPY ./target/release/axia-collator /usr/local/bin
-COPY ./axia-parachains/res/*.json /specs/
+COPY ./axia-allychains/res/*.json /specs/
 
 USER axia
 

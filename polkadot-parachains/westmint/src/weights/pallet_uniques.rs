@@ -32,7 +32,7 @@
 // --wasm-execution=compiled
 // --heap-pages=4096
 // --header=./file_header.txt
-// --output=./axia-parachains/statemine-runtime/src/weights/
+// --output=./axia-allychains/statemine-runtime/src/weights/
 
 #![allow(unused_parens)]
 #![allow(unused_imports)]

@@ -45,7 +45,7 @@ cumulus-client-network = { path = "../../client/network" }
 cumulus-client-service = { path = "../../client/service" }
 cumulus-client-consensus-common = { path = "../../client/consensus/common" }
 cumulus-primitives-core = { path = "../../primitives/core" }
-cumulus-primitives-parachain-inherent = { path = "../../primitives/parachain-inherent" }
+cumulus-primitives-allychain-inherent = { path = "../../primitives/allychain-inherent" }
 cumulus-test-runtime = { path = "../runtime" }
 cumulus-test-relay-validation-worker-provider = { path = "../relay-validation-worker-provider" }
 

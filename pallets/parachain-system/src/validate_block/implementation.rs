@@ -22,7 +22,7 @@ use sp_runtime::traits::{Block as BlockT, Extrinsic, HashFor, Header as HeaderT,
 use sp_io::KillStorageResult;
 use sp_std::prelude::*;
 
-use axia_parachain::primitives::{HeadData, ValidationParams, ValidationResult};
+use axia_allychain::primitives::{HeadData, ValidationParams, ValidationResult};
 
 use codec::{Decode, Encode};
 
@@ -38,7 +38,7 @@ fn with_externalities<F: FnOnce(&mut dyn Externalities) -> R, R>(f: F) -> R {
 	sp_externalities::with_externalities(f).expect("Environmental externalities not set.")
 }
 
-/// Validate a given parachain block on a validator.
+/// Validate a given allychain block on a validator.
 #[doc(hidden)]
 pub fn validate_block<
 	B: BlockT,
@@ -53,8 +53,8 @@ where
 	<B::Extrinsic as Extrinsic>::Call: IsSubType<crate::Call<PSC>>,
 {
 	let block_data =
-		cumulus_primitives_core::ParachainBlockData::<B>::decode(&mut &params.block_data.0[..])
-			.expect("Invalid parachain block data");
+		cumulus_primitives_core::AllychainBlockData::<B>::decode(&mut &params.block_data.0[..])
+			.expect("Invalid allychain block data");
 
 	let parent_head =
 		B::Header::decode(&mut &params.parent_head.0[..]).expect("Invalid parent head");

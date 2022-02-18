@@ -3,9 +3,9 @@
 steps=50
 repeat=20
 
-statemineOutput=./axia-parachains/statemine/src/weights
-statemintOutput=./axia-parachains/statemint/src/weights
-westmintOutput=./axia-parachains/westmint/src/weights
+statemineOutput=./axia-allychains/statemine/src/weights
+statemintOutput=./axia-allychains/statemint/src/weights
+westmintOutput=./axia-allychains/westmint/src/weights
 
 statemineChain=statemine-dev
 statemintChain=statemint-dev

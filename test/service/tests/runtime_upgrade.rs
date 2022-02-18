@@ -37,9 +37,9 @@ async fn test_runtime_upgrade() {
 	let bob =
 		run_relay_chain_validator_node(tokio_handle.clone(), Bob, || {}, vec![alice.addr.clone()]);
 
-	// register parachain
+	// register allychain
 	alice
-		.register_parachain(
+		.register_allychain(
 			para_id,
 			cumulus_test_runtime::WASM_BINARY
 				.expect("You need to build the WASM binary to run this test!")
@@ -49,7 +49,7 @@ async fn test_runtime_upgrade() {
 		.await
 		.unwrap();
 
-	// run cumulus charlie (a parachain collator)
+	// run cumulus charlie (a allychain collator)
 	let charlie =
 		cumulus_test_service::TestNodeBuilder::new(para_id, tokio_handle.clone(), Charlie)
 			.enable_collator()
@@ -57,9 +57,9 @@ async fn test_runtime_upgrade() {
 			.build()
 			.await;
 
-	// run cumulus dave (a parachain full node)
+	// run cumulus dave (a allychain full node)
 	let dave = cumulus_test_service::TestNodeBuilder::new(para_id, tokio_handle, Dave)
-		.connect_to_parachain_node(&charlie)
+		.connect_to_allychain_node(&charlie)
 		.connect_to_relay_chain_nodes(vec![&alice, &bob])
 		.build()
 		.await;

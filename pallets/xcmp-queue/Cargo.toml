@@ -27,7 +27,7 @@ cumulus-primitives-core = { path = "../../primitives/core", default-features = f
 [dev-dependencies]
 sp-core = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 sp-io = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
-cumulus-pallet-parachain-system = { path = "../parachain-system" }
+cumulus-pallet-allychain-system = { path = "../allychain-system" }
 xcm-builder = { git = "https://github.com/AXIA-DEV/axia", branch = "master" }
 pallet-balances = { git = "https://github.com/AXIA-DEV/axlib-axtend", branch = "master" }
 

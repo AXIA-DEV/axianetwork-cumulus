@@ -16,14 +16,14 @@
 
 #![cfg_attr(not(feature = "std"), no_std)]
 
-//! cumulus-pallet-parachain-system is a base pallet for cumulus-based parachains.
+//! cumulus-pallet-allychain-system is a base pallet for cumulus-based allychains.
 //!
-//! This pallet handles low-level details of being a parachain. It's responsibilities include:
+//! This pallet handles low-level details of being a allychain. It's responsibilities include:
 //!
-//! - ingestion of the parachain validation data
+//! - ingestion of the allychain validation data
 //! - ingestion of incoming downward and lateral messages and dispatching them
 //! - coordinating upgrades with the relay-chain
-//! - communication of parachain outputs, such as sent messages, signalling an upgrade, etc.
+//! - communication of allychain outputs, such as sent messages, signalling an upgrade, etc.
 //!
 //! Users must ensure that they register this pallet as an inherent provider.
 
@@ -33,7 +33,7 @@ use cumulus_primitives_core::{
 	OutboundHrmpMessage, ParaId, PersistedValidationData, UpwardMessage, UpwardMessageSender,
 	XcmpMessageHandler, XcmpMessageSource,
 };
-use cumulus_primitives_parachain_inherent::ParachainInherentData;
+use cumulus_primitives_allychain_inherent::AllychainInherentData;
 use frame_support::{
 	dispatch::{DispatchError, DispatchResult},
 	ensure,
@@ -43,7 +43,7 @@ use frame_support::{
 	weights::{Pays, PostDispatchInfo, Weight},
 };
 use frame_system::{ensure_none, ensure_root};
-use axia_parachain::primitives::RelayChainBlockNumber;
+use axia_allychain::primitives::RelayChainBlockNumber;
 use relay_state_snapshot::MessagingStateSnapshot;
 use sp_runtime::{
 	traits::{BlakeTwo256, Block as BlockT, BlockNumberProvider, Hash},
@@ -61,7 +61,7 @@ pub mod validate_block;
 #[cfg(test)]
 mod tests;
 
-/// Register the `validate_block` function that is used by parachains to validate blocks on a
+/// Register the `validate_block` function that is used by allychains to validate blocks on a
 /// validator.
 ///
 /// Does *nothing* when `std` feature is enabled.
@@ -75,7 +75,7 @@ mod tests;
 ///     struct Runtime;
 ///     struct CheckInherents;
 ///
-///     cumulus_pallet_parachain_system::register_validate_block! {
+///     cumulus_pallet_allychain_system::register_validate_block! {
 ///         Runtime = Runtime,
 ///         BlockExecutor = Executive,
 ///         CheckInherents = CheckInherents,
@@ -83,7 +83,7 @@ mod tests;
 ///
 /// # fn main() {}
 /// ```
-pub use cumulus_pallet_parachain_system_proc_macro::register_validate_block;
+pub use cumulus_pallet_allychain_system_proc_macro::register_validate_block;
 pub use relay_state_snapshot::RelayChainStateProof;
 
 pub use pallet::*;
@@ -99,14 +99,14 @@ pub mod pallet {
 	pub struct Pallet<T>(_);
 
 	#[pallet::config]
-	pub trait Config: frame_system::Config<OnSetCode = ParachainSetCode<Self>> {
+	pub trait Config: frame_system::Config<OnSetCode = AllychainSetCode<Self>> {
 		/// The overarching event type.
 		type Event: From<Event<Self>> + IsType<<Self as frame_system::Config>::Event>;
 
 		/// Something which can be notified when the validation data is set.
 		type OnValidationData: OnValidationData;
 
-		/// Returns the parachain ID we are running with.
+		/// Returns the allychain ID we are running with.
 		type SelfParaId: Get<ParaId>;
 
 		/// The place where outbound XCMP messages come from. This is queried in `finalize_block`.
@@ -288,7 +288,7 @@ pub mod pallet {
 		// TODO: This weight should be corrected.
 		pub fn set_validation_data(
 			origin: OriginFor<T>,
-			data: ParachainInherentData,
+			data: AllychainInherentData,
 		) -> DispatchResultWithPostInfo {
 			ensure_none(origin)?;
 			assert!(
@@ -296,7 +296,7 @@ pub mod pallet {
 				"ValidationData must be updated only once in a block",
 			);
 
-			let ParachainInherentData {
+			let AllychainInherentData {
 				validation_data: vfp,
 				relay_chain_state,
 				downward_messages,
@@ -326,7 +326,7 @@ pub mod pallet {
 					);
 					let validation_code = <PendingValidationCode<T>>::take();
 
-					Self::put_parachain_code(&validation_code);
+					Self::put_allychain_code(&validation_code);
 					Self::deposit_event(Event::ValidationFunctionApplied(vfp.relay_parent_number));
 				},
 				Some(relay_chain::v1::UpgradeGoAhead::Abort) => {
@@ -424,7 +424,7 @@ pub mod pallet {
 	pub enum Error<T> {
 		/// Attempt to upgrade validation function while existing upgrade pending
 		OverlappingUpgrades,
-		/// Axia currently prohibits this parachain from upgrading its validation function
+		/// Axia currently prohibits this allychain from upgrading its validation function
 		ProhibitedByAxia,
 		/// The supplied validation function has compiled into a blob larger than Axia is
 		/// willing to run
@@ -451,7 +451,7 @@ pub mod pallet {
 	#[pallet::getter(fn new_validation_function)]
 	pub(super) type PendingValidationCode<T: Config> = StorageValue<_, Vec<u8>, ValueQuery>;
 
-	/// Validation code that is set by the parachain and is to be communicated to collator and
+	/// Validation code that is set by the allychain and is to be communicated to collator and
 	/// consequently the relay-chain.
 	///
 	/// This will be cleared in `on_initialize` of each new block if no other pallet already set
@@ -474,14 +474,14 @@ pub mod pallet {
 	/// In other words, if this is `Some` and [`NewValidationCode`] is `Some` then the produced
 	/// candidate will be invalid.
 	///
-	/// This storage item is a mirror of the corresponding value for the current parachain from the
+	/// This storage item is a mirror of the corresponding value for the current allychain from the
 	/// relay-chain. This value is ephemeral which means it doesn't hit the storage. This value is
 	/// set after the inherent.
 	#[pallet::storage]
 	pub(super) type UpgradeRestrictionSignal<T: Config> =
 		StorageValue<_, Option<relay_chain::v1::UpgradeRestriction>, ValueQuery>;
 
-	/// The snapshot of some state related to messaging relevant to the current parachain as per
+	/// The snapshot of some state related to messaging relevant to the current allychain as per
 	/// the relay parent.
 	///
 	/// This field is meant to be updated each block with the validation data inherent. Therefore,
@@ -492,7 +492,7 @@ pub mod pallet {
 	#[pallet::getter(fn relevant_messaging_state)]
 	pub(super) type RelevantMessagingState<T: Config> = StorageValue<_, MessagingStateSnapshot>;
 
-	/// The parachain host configuration that was obtained from the relay parent.
+	/// The allychain host configuration that was obtained from the relay parent.
 	///
 	/// This field is meant to be updated each block with the validation data inherent. Therefore,
 	/// before processing of the inherent, e.g. in `on_initialize` this data may be stale.
@@ -572,10 +572,10 @@ pub mod pallet {
 		type Call = Call<T>;
 		type Error = sp_inherents::MakeFatalError<()>;
 		const INHERENT_IDENTIFIER: InherentIdentifier =
-			cumulus_primitives_parachain_inherent::INHERENT_IDENTIFIER;
+			cumulus_primitives_allychain_inherent::INHERENT_IDENTIFIER;
 
 		fn create_inherent(data: &InherentData) -> Option<Self::Call> {
-			let data: ParachainInherentData =
+			let data: AllychainInherentData =
 				data.get_data(&Self::INHERENT_IDENTIFIER).ok().flatten().expect(
 					"validation function params are always injected into inherent data; qed",
 				);
@@ -685,7 +685,7 @@ impl<T: Config> GetChannelInfo for Pallet<T> {
 
 impl<T: Config> Pallet<T> {
 	/// Validate the given [`PersistedValidationData`] against the
-	/// [`ValidationParams`](axia_parachain::primitives::ValidationParams).
+	/// [`ValidationParams`](axia_allychain::primitives::ValidationParams).
 	///
 	/// This check will only be executed when the block is currently being executed in the context
 	/// of [`validate_block`]. If this is being executed in the context of block building or block
@@ -759,7 +759,7 @@ impl<T: Config> Pallet<T> {
 	/// channels.
 	///
 	/// **Panics** if either any of horizontal messages submitted by the collator was sent from
-	///            a para which has no open channel to this parachain or if after processing
+	///            a para which has no open channel to this allychain or if after processing
 	///            messages across all inbound channels MQCs were obtained which do not
 	///            correspond to the ones found on the relay-chain.
 	fn process_inbound_horizontal_messages(
@@ -772,7 +772,7 @@ impl<T: Config> Pallet<T> {
 		for sender in horizontal_messages.keys() {
 			// A violation of the assertion below indicates that one of the messages submitted
 			// by the collator was sent from a sender that doesn't have a channel opened to
-			// this parachain, according to the relay-parent state.
+			// this allychain, according to the relay-parent state.
 			assert!(ingress_channels.binary_search_by_key(sender, |&(s, _)| s).is_ok(),);
 		}
 
@@ -857,19 +857,19 @@ impl<T: Config> Pallet<T> {
 	}
 
 	/// Put a new validation function into a particular location where this
-	/// parachain will execute it on subsequent blocks.
-	fn put_parachain_code(code: &[u8]) {
+	/// allychain will execute it on subsequent blocks.
+	fn put_allychain_code(code: &[u8]) {
 		storage::unhashed::put_raw(sp_core::storage::well_known_keys::CODE, code);
 	}
 
 	/// The maximum code size permitted, in bytes.
 	///
-	/// Returns `None` if the relay chain parachain host configuration hasn't been submitted yet.
+	/// Returns `None` if the relay chain allychain host configuration hasn't been submitted yet.
 	pub fn max_code_size() -> Option<u32> {
 		<HostConfiguration<T>>::get().map(|cfg| cfg.max_code_size)
 	}
 
-	/// The implementation of the runtime upgrade functionality for parachains.
+	/// The implementation of the runtime upgrade functionality for allychains.
 	fn set_code_impl(validation_function: Vec<u8>) -> DispatchResult {
 		// Ensure that `ValidationData` exists. We do not care about the validation data per se,
 		// but we do care about the [`UpgradeRestrictionSignal`] which arrives with the same inherent.
@@ -881,11 +881,11 @@ impl<T: Config> Pallet<T> {
 		ensure!(validation_function.len() <= cfg.max_code_size as usize, Error::<T>::TooBig);
 
 		// When a code upgrade is scheduled, it has to be applied in two
-		// places, synchronized: both axia and the individual parachain
+		// places, synchronized: both axia and the individual allychain
 		// have to upgrade on the same relay chain block.
 		//
 		// `notify_axia_of_pending_upgrade` notifies axia; the `PendingValidationCode`
-		// storage keeps track locally for the parachain upgrade, which will
+		// storage keeps track locally for the allychain upgrade, which will
 		// be applied later: when the relay-chain communicates go-ahead signal to us.
 		Self::notify_axia_of_pending_upgrade(&validation_function);
 		<PendingValidationCode<T>>::put(validation_function);
@@ -909,9 +909,9 @@ impl<T: Config> Pallet<T> {
 	}
 }
 
-pub struct ParachainSetCode<T>(sp_std::marker::PhantomData<T>);
+pub struct AllychainSetCode<T>(sp_std::marker::PhantomData<T>);
 
-impl<T: Config> frame_system::SetCode<T> for ParachainSetCode<T> {
+impl<T: Config> frame_system::SetCode<T> for AllychainSetCode<T> {
 	fn set_code(code: Vec<u8>) -> DispatchResult {
 		Pallet::<T>::set_code_impl(code)
 	}

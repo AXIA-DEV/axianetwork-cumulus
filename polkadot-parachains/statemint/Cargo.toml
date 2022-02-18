@@ -3,13 +3,13 @@ name = 'statemint-runtime'
 version = '1.0.0'
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = '2018'
-description = "Statemint parachain runtime"
+description = "Statemint allychain runtime"
 
 [dependencies]
 codec = { package = "parity-scale-codec", version = "2.3.0", default-features = false, features = ["derive", "max-encoded-len"] }
 hex-literal = { version = '0.3.1', optional = true }
 log = { version = "0.4.14", default-features = false }
-parachain-info = { path = "../pallets/parachain-info", default-features = false }
+allychain-info = { path = "../pallets/allychain-info", default-features = false }
 serde = { version = "1.0.101", optional = true, features = ["derive"] }
 scale-info = { version = "1.0.0", default-features = false, features = ["derive"] }
 smallvec = "1.6.1"
@@ -53,7 +53,7 @@ node-primitives = { git = "https://github.com/AXIA-DEV/axlib-axtend", default-fe
 
 # Cumulus dependencies
 cumulus-pallet-aura-ext = { path = "../../pallets/aura-ext", default-features = false }
-cumulus-pallet-parachain-system = { path = "../../pallets/parachain-system", default-features = false }
+cumulus-pallet-allychain-system = { path = "../../pallets/allychain-system", default-features = false }
 cumulus-primitives-core = { path = "../../primitives/core", default-features = false }
 cumulus-primitives-timestamp = { path = "../../primitives/timestamp", default-features = false }
 cumulus-primitives-utility = { path = "../../primitives/utility", default-features = false }
@@ -64,10 +64,10 @@ cumulus-pallet-session-benchmarking = { path = "../../pallets/session-benchmarki
 cumulus-ping = { path = "../pallets/ping", default-features = false }
 pallet-asset-tx-payment = { path = "../../pallets/asset-tx-payment", default-features = false }
 pallet-collator-selection = { path = "../../pallets/collator-selection", default-features = false }
-parachains-common = { path = "../parachains-common", default-features = false }
+allychains-common = { path = "../allychains-common", default-features = false }
 
 # Axia dependencies
-axia-parachain = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
+axia-allychain = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
 axia-runtime-common = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
 xcm = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
 xcm-builder = { git = "https://github.com/AXIA-DEV/axia", default-features = false, branch = "master" }
@@ -135,12 +135,12 @@ std = [
 	"pallet-transaction-payment-rpc-runtime-api/std",
 	"pallet-uniques/std",
 	"pallet-utility/std",
-	"parachain-info/std",
+	"allychain-info/std",
 	"cumulus-pallet-aura-ext/std",
 	"pallet-asset-tx-payment/std",
 	"pallet-collator-selection/std",
 	"cumulus-pallet-dmp-queue/std",
-	"cumulus-pallet-parachain-system/std",
+	"cumulus-pallet-allychain-system/std",
 	"cumulus-pallet-xcmp-queue/std",
 	"cumulus-pallet-xcm/std",
 	"cumulus-primitives-core/std",
@@ -152,5 +152,5 @@ std = [
 	"xcm-executor/std",
 	"sp-consensus-aura/std",
 	"node-primitives/std",
-	"parachains-common/std",
+	"allychains-common/std",
 ]

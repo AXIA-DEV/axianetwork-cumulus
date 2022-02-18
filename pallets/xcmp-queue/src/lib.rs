@@ -20,7 +20,7 @@
 //! * `XcmpMessageSource`
 //!
 //! Also provides an implementation of `SendXcm` which can be placed in a router tuple for relaying
-//! XCM over XCMP if the destination is `Parent/Parachain`. It requires an implementation of
+//! XCM over XCMP if the destination is `Parent/Allychain`. It requires an implementation of
 //! `XcmExecutor` for dispatching incoming XCM messages.
 
 #![cfg_attr(not(feature = "std"), no_std)]
@@ -108,7 +108,7 @@ pub mod pallet {
 		BadFormat(Option<T::Hash>),
 		/// An upward message was sent to the relay chain.
 		UpwardMessageSent(Option<T::Hash>),
-		/// An HRMP message was sent to a sibling parachain.
+		/// An HRMP message was sent to a sibling allychain.
 		XcmpMessageSent(Option<T::Hash>),
 	}
 
@@ -347,7 +347,7 @@ impl<T: Config> Pallet<T> {
 		log::debug!("Processing XCMP-XCM: {:?}", &hash);
 		let (result, event) = match Xcm::<T::Call>::try_from(xcm) {
 			Ok(xcm) => {
-				let location = (1, Parachain(sender.into()));
+				let location = (1, Allychain(sender.into()));
 				match T::XcmExecutor::execute_xcm(location, xcm, max_weight) {
 					Outcome::Error(e) => (Err(e.clone()), Event::Fail(Some(hash), e)),
 					Outcome::Complete(w) => (Ok(w), Event::Success(Some(hash))),
@@ -755,14 +755,14 @@ impl<T: Config> XcmpMessageSource for Pallet<T> {
 	}
 }
 
-/// Xcm sender for sending to a sibling parachain.
+/// Xcm sender for sending to a sibling allychain.
 impl<T: Config> SendXcm for Pallet<T> {
 	fn send_xcm(dest: impl Into<MultiLocation>, msg: Xcm<()>) -> Result<(), SendError> {
 		let dest = dest.into();
 
 		match &dest {
-			// An HRMP message for a sibling parachain.
-			MultiLocation { parents: 1, interior: X1(Parachain(id)) } => {
+			// An HRMP message for a sibling allychain.
+			MultiLocation { parents: 1, interior: X1(Allychain(id)) } => {
 				let versioned_xcm = T::VersionWrapper::wrap_version(&dest, msg)
 					.map_err(|()| SendError::DestinationUnsupported)?;
 				let hash = T::Hashing::hash_of(&versioned_xcm);

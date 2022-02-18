@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Axia.  If not, see <http://www.gnu.org/licenses/>.
 
-//! Parachain specific networking
+//! Allychain specific networking
 //!
-//! Provides a custom block announcement implementation for parachains
+//! Provides a custom block announcement implementation for allychains
 //! that use the relay chain provided consensus. See [`BlockAnnounceValidator`]
 //! and [`WaitToAnnounce`] for more information about this implementation.
 
@@ -35,10 +35,10 @@ use sp_runtime::{
 
 use axia_client::ClientHandle;
 use axia_node_primitives::{CollationSecondedSignal, Statement};
-use axia_parachain::primitives::HeadData;
+use axia_allychain::primitives::HeadData;
 use axia_primitives::v1::{
 	Block as PBlock, CandidateReceipt, CompactStatement, Hash as PHash, Id as ParaId,
-	OccupiedCoreAssumption, ParachainHost, SigningContext, UncheckedSigned,
+	OccupiedCoreAssumption, AllychainHost, SigningContext, UncheckedSigned,
 };
 
 use codec::{Decode, DecodeAll, Encode};
@@ -141,7 +141,7 @@ impl BlockAnnounceData {
 	) -> Result<Validation, BlockAnnounceError>
 	where
 		P: ProvideRuntimeApi<PBlock> + Send + Sync + 'static,
-		P::Api: ParachainHost<PBlock>,
+		P::Api: AllychainHost<PBlock>,
 	{
 		let runtime_api = relay_chain_client.runtime_api();
 		let validator_index = self.statement.unchecked_validator_index();
@@ -203,9 +203,9 @@ impl TryFrom<&'_ CollationSecondedSignal> for BlockAnnounceData {
 	}
 }
 
-/// Parachain specific block announce validator.
+/// Allychain specific block announce validator.
 ///
-/// This block announce validator is required if the parachain is running
+/// This block announce validator is required if the allychain is running
 /// with the relay chain provided consensus to make sure each node only
 /// imports a reasonable number of blocks per round. The relay chain provided
 /// consensus doesn't have any authorities and so it could happen that without
@@ -214,7 +214,7 @@ impl TryFrom<&'_ CollationSecondedSignal> for BlockAnnounceData {
 ///
 /// To solve this problem, each block announcement is delayed until a collator
 /// has received a [`Statement::Seconded`] for its `PoV`. This message tells the
-/// collator that its `PoV` was validated successfully by a parachain validator and
+/// collator that its `PoV` was validated successfully by a allychain validator and
 /// that it is very likely that this `PoV` will be included in the relay chain. Every
 /// collator that doesn't receive the message for its `PoV` will not announce its block.
 /// For more information on the block announcement, see [`WaitToAnnounce`].
@@ -224,7 +224,7 @@ impl TryFrom<&'_ CollationSecondedSignal> for BlockAnnounceData {
 /// We call this extra data `justification`.
 /// It is expected that the attached data is a SCALE encoded [`BlockAnnounceData`]. The
 /// statement is checked to be a [`CompactStatement::Candidate`] and that it is signed by an active
-/// parachain validator.
+/// allychain validator.
 ///
 /// If no justification was provided we check if the block announcement is at the tip of the known
 /// chain. If it is at the tip, it is required to provide a justification or otherwise we reject
@@ -265,10 +265,10 @@ impl<Block, R, B, BCE> BlockAnnounceValidator<Block, R, B, BCE> {
 impl<Block: BlockT, R, B, BCE> BlockAnnounceValidator<Block, R, B, BCE>
 where
 	R: ProvideRuntimeApi<PBlock> + Send + Sync + 'static,
-	R::Api: ParachainHost<PBlock>,
+	R::Api: AllychainHost<PBlock>,
 	B: Backend<PBlock> + 'static,
 {
-	/// Get the included block of the given parachain in the relay chain.
+	/// Get the included block of the given allychain in the relay chain.
 	fn included_block(
 		relay_chain_client: &R,
 		block_id: &BlockId<PBlock>,
@@ -279,19 +279,19 @@ where
 			.persisted_validation_data(block_id, para_id, OccupiedCoreAssumption::TimedOut)
 			.map_err(|e| Box::new(BlockAnnounceError(format!("{:?}", e))) as Box<_>)?
 			.ok_or_else(|| {
-				Box::new(BlockAnnounceError("Could not find parachain head in relay chain".into()))
+				Box::new(BlockAnnounceError("Could not find allychain head in relay chain".into()))
 					as Box<_>
 			})?;
 		let para_head =
 			Block::Header::decode(&mut &validation_data.parent_head.0[..]).map_err(|e| {
-				Box::new(BlockAnnounceError(format!("Failed to decode parachain head: {:?}", e)))
+				Box::new(BlockAnnounceError(format!("Failed to decode allychain head: {:?}", e)))
 					as Box<_>
 			})?;
 
 		Ok(para_head)
 	}
 
-	/// Get the backed block hash of the given parachain in the relay chain.
+	/// Get the backed block hash of the given allychain in the relay chain.
 	fn backed_block_hash(
 		relay_chain_client: &R,
 		block_id: &BlockId<PBlock>,
@@ -352,7 +352,7 @@ impl<Block: BlockT, P, B, BCE> BlockAnnounceValidatorT<Block>
 	for BlockAnnounceValidator<Block, P, B, BCE>
 where
 	P: ProvideRuntimeApi<PBlock> + Send + Sync + 'static,
-	P::Api: ParachainHost<PBlock>,
+	P::Api: AllychainHost<PBlock>,
 	B: Backend<PBlock> + 'static,
 	BCE: BlockchainEvents<PBlock> + 'static + Send + Sync,
 {
@@ -428,7 +428,7 @@ where
 
 /// Block announce validator builder.
 ///
-/// Builds a [`BlockAnnounceValidator`] for a parachain. As this requires
+/// Builds a [`BlockAnnounceValidator`] for a allychain. As this requires
 /// a concrete relay chain client instance, the builder takes a [`axia_client::Client`]
 /// that wraps this concrete instanace. By using [`axia_client::ExecuteWithClient`]
 /// the builder gets access to this concrete instance.

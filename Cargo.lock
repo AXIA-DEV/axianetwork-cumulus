@@ -874,7 +874,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "bp-rococo"
+name = "bp-betanet"
 version = "0.1.0"
 source = "git+https://github.com/purestake/axia?branch=moonbeam-axia-v0.9.12#415ce0db8dd603903476a2361f23641a5dd0af47"
 dependencies = [
@@ -930,7 +930,7 @@ source = "git+https://github.com/purestake/axia?branch=moonbeam-axia-v0.9.12#415
 dependencies = [
  "bp-messages",
  "bp-axia-core",
- "bp-rococo",
+ "bp-betanet",
  "bp-runtime",
  "parity-scale-codec",
  "sp-api 4.0.0-dev (git+https://github.com/purestake/substrate?branch=moonbeam-axia-v0.9.12)",
@@ -1604,7 +1604,7 @@ dependencies = [
  "parking_lot 0.10.2",
  "axia-client",
  "axia-node-primitives",
- "axia-parachain",
+ "axia-allychain",
  "axia-primitives",
  "axia-test-client",
  "sc-cli 0.10.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
@@ -1680,7 +1680,7 @@ dependencies = [
 name = "cumulus-pallet-aura-ext"
 version = "0.1.0"
 dependencies = [
- "cumulus-pallet-parachain-system",
+ "cumulus-pallet-allychain-system",
  "frame-executive 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "frame-support 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "frame-system 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
@@ -1714,12 +1714,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "cumulus-pallet-parachain-system"
+name = "cumulus-pallet-allychain-system"
 version = "0.1.0"
 dependencies = [
- "cumulus-pallet-parachain-system-proc-macro",
+ "cumulus-pallet-allychain-system-proc-macro",
  "cumulus-primitives-core",
- "cumulus-primitives-parachain-inherent",
+ "cumulus-primitives-allychain-inherent",
  "cumulus-test-client",
  "cumulus-test-relay-sproof-builder",
  "environmental",
@@ -1730,7 +1730,7 @@ dependencies = [
  "log",
  "pallet-balances 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "parity-scale-codec",
- "axia-parachain",
+ "axia-allychain",
  "sc-client-api 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "scale-info",
  "serde",
@@ -1749,7 +1749,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "cumulus-pallet-parachain-system-proc-macro"
+name = "cumulus-pallet-allychain-system-proc-macro"
 version = "0.1.0"
 dependencies = [
  "proc-macro-crate 1.1.2",
@@ -1790,7 +1790,7 @@ dependencies = [
 name = "cumulus-pallet-xcmp-queue"
 version = "0.1.0"
 dependencies = [
- "cumulus-pallet-parachain-system",
+ "cumulus-pallet-allychain-system",
  "cumulus-primitives-core",
  "frame-support 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "frame-system 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
@@ -1832,7 +1832,7 @@ dependencies = [
  "impl-trait-for-tuples",
  "parity-scale-codec",
  "axia-core-primitives",
- "axia-parachain",
+ "axia-allychain",
  "axia-primitives",
  "sp-api 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "sp-runtime 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
@@ -1841,7 +1841,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "cumulus-primitives-parachain-inherent"
+name = "cumulus-primitives-allychain-inherent"
 version = "0.1.0"
 dependencies = [
  "async-trait",
@@ -1887,7 +1887,7 @@ dependencies = [
  "frame-support 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "parity-scale-codec",
  "axia-core-primitives",
- "axia-parachain",
+ "axia-allychain",
  "axia-primitives",
  "sp-runtime 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "sp-std 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
@@ -1901,7 +1901,7 @@ version = "0.1.0"
 dependencies = [
  "axlib-test-client",
  "cumulus-primitives-core",
- "cumulus-primitives-parachain-inherent",
+ "cumulus-primitives-allychain-inherent",
  "cumulus-test-relay-sproof-builder",
  "cumulus-test-runtime",
  "cumulus-test-service",
@@ -1909,7 +1909,7 @@ dependencies = [
  "pallet-balances 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "pallet-transaction-payment 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "parity-scale-codec",
- "axia-parachain",
+ "axia-allychain",
  "axia-primitives",
  "sc-block-builder 0.10.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "sc-consensus 0.10.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
@@ -1950,7 +1950,7 @@ name = "cumulus-test-runtime"
 version = "0.1.0"
 dependencies = [
  "axlib-wasm-builder",
- "cumulus-pallet-parachain-system",
+ "cumulus-pallet-allychain-system",
  "cumulus-primitives-core",
  "cumulus-primitives-timestamp",
  "frame-executive 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
@@ -1982,7 +1982,7 @@ name = "cumulus-test-runtime-upgrade"
 version = "0.1.0"
 dependencies = [
  "axlib-wasm-builder",
- "cumulus-pallet-parachain-system",
+ "cumulus-pallet-allychain-system",
  "cumulus-primitives-core",
  "cumulus-primitives-timestamp",
  "frame-executive 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
@@ -2021,7 +2021,7 @@ dependencies = [
  "cumulus-client-network",
  "cumulus-client-service",
  "cumulus-primitives-core",
- "cumulus-primitives-parachain-inherent",
+ "cumulus-primitives-allychain-inherent",
  "cumulus-test-relay-validation-worker-provider",
  "cumulus-test-runtime",
  "cumulus-test-runtime-upgrade",
@@ -3813,7 +3813,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "kusama-runtime"
+name = "axctest-runtime"
 version = "0.9.12"
 source = "git+https://github.com/purestake/axia?branch=moonbeam-axia-v0.9.12#415ce0db8dd603903476a2361f23641a5dd0af47"
 dependencies = [
@@ -3869,7 +3869,7 @@ dependencies = [
  "parity-scale-codec",
  "axia-primitives",
  "axia-runtime-common",
- "axia-runtime-parachains",
+ "axia-runtime-allychains",
  "rustc-hex",
  "scale-info",
  "serde",
@@ -6361,7 +6361,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "parachain-info"
+name = "allychain-info"
 version = "0.1.0"
 dependencies = [
  "cumulus-primitives-core",
@@ -6373,7 +6373,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "parachain-template-node"
+name = "allychain-template-node"
 version = "0.1.0"
 dependencies = [
  "axlib-build-script-utils",
@@ -6386,7 +6386,7 @@ dependencies = [
  "cumulus-client-network",
  "cumulus-client-service",
  "cumulus-primitives-core",
- "cumulus-primitives-parachain-inherent",
+ "cumulus-primitives-allychain-inherent",
  "derive_more",
  "frame-benchmarking 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "frame-benchmarking-cli 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
@@ -6394,10 +6394,10 @@ dependencies = [
  "jsonrpc-core",
  "log",
  "pallet-transaction-payment-rpc 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
- "parachain-template-runtime",
+ "allychain-template-runtime",
  "parity-scale-codec",
  "axia-cli",
- "axia-parachain",
+ "axia-allychain",
  "axia-primitives",
  "axia-service",
  "axia-test-service",
@@ -6434,13 +6434,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "parachain-template-runtime"
+name = "allychain-template-runtime"
 version = "0.1.0"
 dependencies = [
  "axlib-wasm-builder",
  "cumulus-pallet-aura-ext",
  "cumulus-pallet-dmp-queue",
- "cumulus-pallet-parachain-system",
+ "cumulus-pallet-allychain-system",
  "cumulus-pallet-xcm",
  "cumulus-pallet-xcmp-queue",
  "cumulus-primitives-core",
@@ -6465,9 +6465,9 @@ dependencies = [
  "pallet-transaction-payment 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "pallet-transaction-payment-rpc-runtime-api 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "pallet-xcm",
- "parachain-info",
+ "allychain-info",
  "parity-scale-codec",
- "axia-parachain",
+ "axia-allychain",
  "axia-runtime-common",
  "scale-info",
  "serde",
@@ -6490,7 +6490,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "parachains-common"
+name = "allychains-common"
 version = "1.0.0"
 dependencies = [
  "axlib-wasm-builder",
@@ -6997,7 +6997,7 @@ dependencies = [
  "cumulus-client-network",
  "cumulus-client-service",
  "cumulus-primitives-core",
- "cumulus-primitives-parachain-inherent",
+ "cumulus-primitives-allychain-inherent",
  "frame-benchmarking 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "frame-benchmarking-cli 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "futures 0.3.21",
@@ -7006,13 +7006,13 @@ dependencies = [
  "log",
  "nix",
  "pallet-transaction-payment-rpc 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
- "parachains-common",
+ "allychains-common",
  "parity-scale-codec",
  "axia-cli",
- "axia-parachain",
+ "axia-allychain",
  "axia-primitives",
  "axia-service",
- "rococo-runtime 0.1.0",
+ "betanet-runtime 0.1.0",
  "sc-basic-authorship 0.10.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "sc-chain-spec 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "sc-cli 0.10.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
@@ -7269,7 +7269,7 @@ dependencies = [
  "axia-node-primitives",
  "axia-node-subsystem",
  "axia-node-subsystem-util",
- "axia-parachain",
+ "axia-allychain",
  "axia-primitives",
  "sp-maybe-compressed-blob 4.0.0-dev (git+https://github.com/purestake/substrate?branch=moonbeam-axia-v0.9.12)",
  "tracing",
@@ -7340,7 +7340,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "axia-node-core-parachains-inherent"
+name = "axia-node-core-allychains-inherent"
 version = "0.9.12"
 source = "git+https://github.com/purestake/axia?branch=moonbeam-axia-v0.9.12#415ce0db8dd603903476a2361f23641a5dd0af47"
 dependencies = [
@@ -7387,7 +7387,7 @@ dependencies = [
  "pin-project 1.0.10",
  "axia-core-primitives",
  "axia-node-subsystem-util",
- "axia-parachain",
+ "axia-allychain",
  "rand 0.8.5",
  "sc-executor 0.10.0-dev (git+https://github.com/purestake/substrate?branch=moonbeam-axia-v0.9.12)",
  "sc-executor-common 0.10.0-dev (git+https://github.com/purestake/substrate?branch=moonbeam-axia-v0.9.12)",
@@ -7475,7 +7475,7 @@ dependencies = [
  "bounded-vec",
  "futures 0.3.21",
  "parity-scale-codec",
- "axia-parachain",
+ "axia-allychain",
  "axia-primitives",
  "schnorrkel",
  "serde",
@@ -7613,7 +7613,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "axia-parachain"
+name = "axia-allychain"
 version = "0.9.12"
 source = "git+https://github.com/purestake/axia?branch=moonbeam-axia-v0.9.12#415ce0db8dd603903476a2361f23641a5dd0af47"
 dependencies = [
@@ -7640,7 +7640,7 @@ dependencies = [
  "parity-scale-codec",
  "parity-util-mem",
  "axia-core-primitives",
- "axia-parachain",
+ "axia-allychain",
  "scale-info",
  "serde",
  "sp-api 4.0.0-dev (git+https://github.com/purestake/substrate?branch=moonbeam-axia-v0.9.12)",
@@ -7742,7 +7742,7 @@ dependencies = [
  "parity-scale-codec",
  "axia-primitives",
  "axia-runtime-common",
- "axia-runtime-parachains",
+ "axia-runtime-allychains",
  "rustc-hex",
  "scale-info",
  "serde",
@@ -7795,7 +7795,7 @@ dependencies = [
  "pallet-vesting",
  "parity-scale-codec",
  "axia-primitives",
- "axia-runtime-parachains",
+ "axia-runtime-allychains",
  "rustc-hex",
  "scale-info",
  "serde",
@@ -7815,7 +7815,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "axia-runtime-parachains"
+name = "axia-runtime-allychains"
 version = "0.9.12"
 source = "git+https://github.com/purestake/axia?branch=moonbeam-axia-v0.9.12#415ce0db8dd603903476a2361f23641a5dd0af47"
 dependencies = [
@@ -7864,7 +7864,7 @@ dependencies = [
  "frame-system-rpc-runtime-api 4.0.0-dev (git+https://github.com/purestake/substrate?branch=moonbeam-axia-v0.9.12)",
  "futures 0.3.21",
  "hex-literal 0.3.4",
- "kusama-runtime",
+ "axctest-runtime",
  "kvdb",
  "kvdb-rocksdb",
  "lru 0.7.2",
@@ -7892,7 +7892,7 @@ dependencies = [
  "axia-node-core-chain-selection",
  "axia-node-core-dispute-coordinator",
  "axia-node-core-dispute-participation",
- "axia-node-core-parachains-inherent",
+ "axia-node-core-allychains-inherent",
  "axia-node-core-provisioner",
  "axia-node-core-runtime-api",
  "axia-node-network-protocol",
@@ -7900,13 +7900,13 @@ dependencies = [
  "axia-node-subsystem",
  "axia-node-subsystem-util",
  "axia-overseer",
- "axia-parachain",
+ "axia-allychain",
  "axia-primitives",
  "axia-rpc",
  "axia-runtime",
- "axia-runtime-parachains",
+ "axia-runtime-allychains",
  "axia-statement-distribution",
- "rococo-runtime 0.9.12",
+ "betanet-runtime 0.9.12",
  "sc-authority-discovery",
  "sc-basic-authorship 0.10.0-dev (git+https://github.com/purestake/substrate?branch=moonbeam-axia-v0.9.12)",
  "sc-block-builder 0.10.0-dev (git+https://github.com/purestake/substrate?branch=moonbeam-axia-v0.9.12)",
@@ -7948,7 +7948,7 @@ dependencies = [
  "substrate-prometheus-endpoint",
  "thiserror",
  "tracing",
- "westend-runtime",
+ "alphanet-runtime",
 ]
 
 [[package]]
@@ -8039,10 +8039,10 @@ dependencies = [
  "pallet-vesting",
  "pallet-xcm",
  "parity-scale-codec",
- "axia-parachain",
+ "axia-allychain",
  "axia-primitives",
  "axia-runtime-common",
- "axia-runtime-parachains",
+ "axia-runtime-allychains",
  "rustc-hex",
  "scale-info",
  "serde",
@@ -8084,11 +8084,11 @@ dependencies = [
  "axia-node-primitives",
  "axia-node-subsystem",
  "axia-overseer",
- "axia-parachain",
+ "axia-allychain",
  "axia-primitives",
  "axia-rpc",
  "axia-runtime-common",
- "axia-runtime-parachains",
+ "axia-runtime-allychains",
  "axia-service",
  "axia-test-runtime",
  "rand 0.8.5",
@@ -8692,13 +8692,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "rococo-runtime"
+name = "betanet-runtime"
 version = "0.1.0"
 dependencies = [
  "axlib-wasm-builder",
  "cumulus-pallet-aura-ext",
  "cumulus-pallet-dmp-queue",
- "cumulus-pallet-parachain-system",
+ "cumulus-pallet-allychain-system",
  "cumulus-pallet-xcm",
  "cumulus-pallet-xcmp-queue",
  "cumulus-ping",
@@ -8719,10 +8719,10 @@ dependencies = [
  "pallet-transaction-payment 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "pallet-transaction-payment-rpc-runtime-api 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "pallet-xcm",
- "parachain-info",
- "parachains-common",
+ "allychain-info",
+ "allychains-common",
  "parity-scale-codec",
- "axia-parachain",
+ "axia-allychain",
  "scale-info",
  "serde",
  "sp-api 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
@@ -8743,13 +8743,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "rococo-runtime"
+name = "betanet-runtime"
 version = "0.9.12"
 source = "git+https://github.com/purestake/axia?branch=moonbeam-axia-v0.9.12#415ce0db8dd603903476a2361f23641a5dd0af47"
 dependencies = [
  "beefy-primitives",
  "bp-messages",
- "bp-rococo",
+ "bp-betanet",
  "bp-runtime",
  "bp-wococo",
  "bridge-runtime-common",
@@ -8788,10 +8788,10 @@ dependencies = [
  "pallet-utility 4.0.0-dev (git+https://github.com/purestake/substrate?branch=moonbeam-axia-v0.9.12)",
  "pallet-xcm",
  "parity-scale-codec",
- "axia-parachain",
+ "axia-allychain",
  "axia-primitives",
  "axia-runtime-common",
- "axia-runtime-parachains",
+ "axia-runtime-allychains",
  "scale-info",
  "serde",
  "serde_derive",
@@ -10925,7 +10925,7 @@ version = "0.1.0"
 dependencies = [
  "axlib-wasm-builder",
  "cumulus-pallet-dmp-queue",
- "cumulus-pallet-parachain-system",
+ "cumulus-pallet-allychain-system",
  "cumulus-pallet-xcm",
  "cumulus-primitives-core",
  "cumulus-primitives-utility",
@@ -10933,7 +10933,7 @@ dependencies = [
  "frame-support 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "frame-system 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "log",
- "parachain-info",
+ "allychain-info",
  "parity-scale-codec",
  "scale-info",
  "serde",
@@ -12405,7 +12405,7 @@ dependencies = [
  "axlib-wasm-builder",
  "cumulus-pallet-aura-ext",
  "cumulus-pallet-dmp-queue",
- "cumulus-pallet-parachain-system",
+ "cumulus-pallet-allychain-system",
  "cumulus-pallet-session-benchmarking",
  "cumulus-pallet-xcm",
  "cumulus-pallet-xcmp-queue",
@@ -12439,10 +12439,10 @@ dependencies = [
  "pallet-uniques",
  "pallet-utility 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "pallet-xcm",
- "parachain-info",
- "parachains-common",
+ "allychain-info",
+ "allychains-common",
  "parity-scale-codec",
- "axia-parachain",
+ "axia-allychain",
  "axia-runtime-common",
  "scale-info",
  "serde",
@@ -12471,7 +12471,7 @@ dependencies = [
  "axlib-wasm-builder",
  "cumulus-pallet-aura-ext",
  "cumulus-pallet-dmp-queue",
- "cumulus-pallet-parachain-system",
+ "cumulus-pallet-allychain-system",
  "cumulus-pallet-session-benchmarking",
  "cumulus-pallet-xcm",
  "cumulus-pallet-xcmp-queue",
@@ -12505,10 +12505,10 @@ dependencies = [
  "pallet-uniques",
  "pallet-utility 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "pallet-xcm",
- "parachain-info",
- "parachains-common",
+ "allychain-info",
+ "allychains-common",
  "parity-scale-codec",
- "axia-parachain",
+ "axia-allychain",
  "axia-runtime-common",
  "scale-info",
  "serde",
@@ -13761,7 +13761,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "westend-runtime"
+name = "alphanet-runtime"
 version = "0.9.12"
 source = "git+https://github.com/purestake/axia?branch=moonbeam-axia-v0.9.12#415ce0db8dd603903476a2361f23641a5dd0af47"
 dependencies = [
@@ -13814,10 +13814,10 @@ dependencies = [
  "pallet-xcm",
  "pallet-xcm-benchmarks",
  "parity-scale-codec",
- "axia-parachain",
+ "axia-allychain",
  "axia-primitives",
  "axia-runtime-common",
- "axia-runtime-parachains",
+ "axia-runtime-allychains",
  "rustc-hex",
  "scale-info",
  "serde",
@@ -13851,7 +13851,7 @@ dependencies = [
  "axlib-wasm-builder",
  "cumulus-pallet-aura-ext",
  "cumulus-pallet-dmp-queue",
- "cumulus-pallet-parachain-system",
+ "cumulus-pallet-allychain-system",
  "cumulus-pallet-session-benchmarking",
  "cumulus-pallet-xcm",
  "cumulus-pallet-xcmp-queue",
@@ -13885,10 +13885,10 @@ dependencies = [
  "pallet-uniques",
  "pallet-utility 4.0.0-dev (git+https://github.com/AXIA-DEV/axlib-axtend?branch=master)",
  "pallet-xcm",
- "parachain-info",
- "parachains-common",
+ "allychain-info",
+ "allychains-common",
  "parity-scale-codec",
- "axia-parachain",
+ "axia-allychain",
  "axia-runtime-common",
  "scale-info",
  "serde",
@@ -14029,7 +14029,7 @@ dependencies = [
  "log",
  "pallet-transaction-payment 4.0.0-dev (git+https://github.com/purestake/substrate?branch=moonbeam-axia-v0.9.12)",
  "parity-scale-codec",
- "axia-parachain",
+ "axia-allychain",
  "scale-info",
  "sp-arithmetic 4.0.0-dev (git+https://github.com/purestake/substrate?branch=moonbeam-axia-v0.9.12)",
  "sp-io 4.0.0-dev (git+https://github.com/purestake/substrate?branch=moonbeam-axia-v0.9.12)",

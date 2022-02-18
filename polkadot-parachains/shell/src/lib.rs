@@ -149,7 +149,7 @@ impl frame_system::Config for Runtime {
 	type BlockWeights = RuntimeBlockWeights;
 	type BlockLength = RuntimeBlockLength;
 	type SS58Prefix = SS58Prefix;
-	type OnSetCode = cumulus_pallet_parachain_system::ParachainSetCode<Self>;
+	type OnSetCode = cumulus_pallet_allychain_system::AllychainSetCode<Self>;
 }
 
 parameter_types! {
@@ -157,10 +157,10 @@ parameter_types! {
 	pub const ReservedDmpWeight: Weight = MAXIMUM_BLOCK_WEIGHT / 2;
 }
 
-impl cumulus_pallet_parachain_system::Config for Runtime {
+impl cumulus_pallet_allychain_system::Config for Runtime {
 	type Event = Event;
 	type OnValidationData = ();
-	type SelfParaId = parachain_info::Pallet<Runtime>;
+	type SelfParaId = allychain_info::Pallet<Runtime>;
 	type OutboundXcmpMessageSource = ();
 	type DmpMessageHandler = cumulus_pallet_xcm::UnlimitedDmpExecution<Runtime>;
 	type ReservedDmpWeight = ReservedDmpWeight;
@@ -168,12 +168,12 @@ impl cumulus_pallet_parachain_system::Config for Runtime {
 	type ReservedXcmpWeight = ();
 }
 
-impl parachain_info::Config for Runtime {}
+impl allychain_info::Config for Runtime {}
 
 parameter_types! {
-	pub const RococoLocation: MultiLocation = MultiLocation::parent();
-	pub const RococoNetwork: NetworkId = NetworkId::Axia;
-	pub Ancestry: MultiLocation = Parachain(ParachainInfo::parachain_id().into()).into();
+	pub const BetanetLocation: MultiLocation = MultiLocation::parent();
+	pub const BetanetNetwork: NetworkId = NetworkId::Axia;
+	pub Ancestry: MultiLocation = Allychain(AllychainInfo::allychain_id().into()).into();
 }
 
 /// This is the type we use to convert an (incoming) XCM origin into a local `Origin` instance,
@@ -229,10 +229,10 @@ construct_runtime! {
 		UncheckedExtrinsic = UncheckedExtrinsic,
 	{
 		System: frame_system::{Pallet, Call, Storage, Config, Event<T>},
-		ParachainSystem: cumulus_pallet_parachain_system::{
+		AllychainSystem: cumulus_pallet_allychain_system::{
 			Pallet, Call, Config, Storage, Inherent, Event<T>, ValidateUnsigned,
 		},
-		ParachainInfo: parachain_info::{Pallet, Storage, Config},
+		AllychainInfo: allychain_info::{Pallet, Storage, Config},
 
 		// DMP handler.
 		CumulusXcm: cumulus_pallet_xcm::{Pallet, Call, Storage, Event<T>, Origin},
@@ -370,23 +370,23 @@ impl_runtime_apis! {
 
 	impl cumulus_primitives_core::CollectCollationInfo<Block> for Runtime {
 		fn collect_collation_info() -> cumulus_primitives_core::CollationInfo {
-			ParachainSystem::collect_collation_info()
+			AllychainSystem::collect_collation_info()
 		}
 	}
 }
 
 struct CheckInherents;
 
-impl cumulus_pallet_parachain_system::CheckInherents<Block> for CheckInherents {
+impl cumulus_pallet_allychain_system::CheckInherents<Block> for CheckInherents {
 	fn check_inherents(
 		_: &Block,
-		_: &cumulus_pallet_parachain_system::RelayChainStateProof,
+		_: &cumulus_pallet_allychain_system::RelayChainStateProof,
 	) -> sp_inherents::CheckInherentsResult {
 		sp_inherents::CheckInherentsResult::new()
 	}
 }
 
-cumulus_pallet_parachain_system::register_validate_block! {
+cumulus_pallet_allychain_system::register_validate_block! {
 	Runtime = Runtime,
 	BlockExecutor = Executive,
 	CheckInherents = CheckInherents,

@@ -73,8 +73,8 @@ impl_opaque_keys! {
 #[cfg(feature = "upgrade")]
 #[sp_version::runtime_version]
 pub const VERSION: RuntimeVersion = RuntimeVersion {
-	spec_name: create_runtime_str!("cumulus-test-parachain"),
-	impl_name: create_runtime_str!("cumulus-test-parachain"),
+	spec_name: create_runtime_str!("cumulus-test-allychain"),
+	impl_name: create_runtime_str!("cumulus-test-allychain"),
 	authoring_version: 1,
 	// Read the note above.
 	spec_version: 4,
@@ -86,8 +86,8 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 #[cfg(not(feature = "upgrade"))]
 #[sp_version::runtime_version]
 pub const VERSION: RuntimeVersion = RuntimeVersion {
-	spec_name: create_runtime_str!("cumulus-test-parachain"),
-	impl_name: create_runtime_str!("cumulus-test-parachain"),
+	spec_name: create_runtime_str!("cumulus-test-allychain"),
+	impl_name: create_runtime_str!("cumulus-test-allychain"),
 	authoring_version: 1,
 	// Read the note above.
 	spec_version: 3,
@@ -186,7 +186,7 @@ impl frame_system::Config for Runtime {
 	type BlockWeights = RuntimeBlockWeights;
 	type BlockLength = RuntimeBlockLength;
 	type SS58Prefix = SS58Prefix;
-	type OnSetCode = cumulus_pallet_parachain_system::ParachainSetCode<Self>;
+	type OnSetCode = cumulus_pallet_allychain_system::AllychainSetCode<Self>;
 }
 
 parameter_types! {
@@ -242,8 +242,8 @@ impl pallet_sudo::Config for Runtime {
 	type Event = Event;
 }
 
-impl cumulus_pallet_parachain_system::Config for Runtime {
-	type SelfParaId = ParachainId;
+impl cumulus_pallet_allychain_system::Config for Runtime {
+	type SelfParaId = AllychainId;
 	type Event = Event;
 	type OnValidationData = ();
 	type OutboundXcmpMessageSource = ();
@@ -254,7 +254,7 @@ impl cumulus_pallet_parachain_system::Config for Runtime {
 }
 
 parameter_types! {
-	pub storage ParachainId: cumulus_primitives_core::ParaId = 100.into();
+	pub storage AllychainId: cumulus_primitives_core::ParaId = 100.into();
 }
 
 construct_runtime! {
@@ -264,7 +264,7 @@ construct_runtime! {
 		UncheckedExtrinsic = UncheckedExtrinsic,
 	{
 		System: frame_system::{Pallet, Call, Storage, Config, Event<T>},
-		ParachainSystem: cumulus_pallet_parachain_system::{
+		AllychainSystem: cumulus_pallet_allychain_system::{
 			Pallet, Call, Config, Storage, Inherent, Event<T>, ValidateUnsigned,
 		},
 		Timestamp: pallet_timestamp::{Pallet, Call, Storage, Inherent},
@@ -409,17 +409,17 @@ impl_runtime_apis! {
 
 	impl cumulus_primitives_core::CollectCollationInfo<Block> for Runtime {
 		fn collect_collation_info() -> cumulus_primitives_core::CollationInfo {
-			ParachainSystem::collect_collation_info()
+			AllychainSystem::collect_collation_info()
 		}
 	}
 }
 
 struct CheckInherents;
 
-impl cumulus_pallet_parachain_system::CheckInherents<Block> for CheckInherents {
+impl cumulus_pallet_allychain_system::CheckInherents<Block> for CheckInherents {
 	fn check_inherents(
 		block: &Block,
-		relay_state_proof: &cumulus_pallet_parachain_system::RelayChainStateProof,
+		relay_state_proof: &cumulus_pallet_allychain_system::RelayChainStateProof,
 	) -> sp_inherents::CheckInherentsResult {
 		if relay_state_proof.read_slot().expect("Reads slot") == 1337u64 {
 			let mut res = sp_inherents::CheckInherentsResult::new();
@@ -442,7 +442,7 @@ impl cumulus_pallet_parachain_system::CheckInherents<Block> for CheckInherents {
 	}
 }
 
-cumulus_pallet_parachain_system::register_validate_block! {
+cumulus_pallet_allychain_system::register_validate_block! {
 	Runtime = Runtime,
 	BlockExecutor = Executive,
 	CheckInherents = CheckInherents,

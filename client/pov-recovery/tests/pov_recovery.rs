@@ -21,9 +21,9 @@ use std::sync::Arc;
 
 /// Tests the PoV recovery.
 ///
-/// If there is a block of the parachain included/backed by the relay chain that isn't circulated in
-/// the parachain network, we need to recover the PoV from the relay chain. Using this PoV we can
-/// recover the block, import it and share it with the other nodes of the parachain network.
+/// If there is a block of the allychain included/backed by the relay chain that isn't circulated in
+/// the allychain network, we need to recover the PoV from the relay chain. Using this PoV we can
+/// recover the block, import it and share it with the other nodes of the allychain network.
 #[axlib_test_utils::test]
 #[ignore]
 async fn pov_recovery() {
@@ -50,9 +50,9 @@ async fn pov_recovery() {
 		vec![alice.addr.clone()],
 	);
 
-	// Register parachain
+	// Register allychain
 	alice
-		.register_parachain(
+		.register_allychain(
 			para_id,
 			cumulus_test_service::runtime::WASM_BINARY
 				.expect("You need to build the WASM binary to run this test!")
@@ -62,7 +62,7 @@ async fn pov_recovery() {
 		.await
 		.unwrap();
 
-	// Run charlie as parachain collator
+	// Run charlie as allychain collator
 	let charlie =
 		cumulus_test_service::TestNodeBuilder::new(para_id, tokio_handle.clone(), Charlie)
 			.enable_collator()
@@ -74,13 +74,13 @@ async fn pov_recovery() {
 			.build()
 			.await;
 
-	// Run dave as parachain full node
+	// Run dave as allychain full node
 	//
 	// It will need to recover the pov blocks through availability recovery.
 	let dave = cumulus_test_service::TestNodeBuilder::new(para_id, tokio_handle, Dave)
 		.enable_collator()
 		.use_null_consensus()
-		.connect_to_parachain_node(&charlie)
+		.connect_to_allychain_node(&charlie)
 		.connect_to_relay_chain_nodes(vec![&alice, &bob])
 		.build()
 		.await;

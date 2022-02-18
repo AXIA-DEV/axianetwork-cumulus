@@ -15,7 +15,7 @@
 // --steps=50
 // --repeat=20
 // --raw
-// --output=./axia-parachains/statemine-runtime/src/weights
+// --output=./axia-allychains/statemine-runtime/src/weights
 
 #![allow(unused_parens)]
 #![allow(unused_imports)]

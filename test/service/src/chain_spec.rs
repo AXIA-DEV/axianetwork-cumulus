@@ -24,7 +24,7 @@ use serde::{Deserialize, Serialize};
 use sp_core::{sr25519, Pair, Public};
 use sp_runtime::traits::{IdentifyAccount, Verify};
 
-/// Specialized `ChainSpec` for the normal parachain runtime.
+/// Specialized `ChainSpec` for the normal allychain runtime.
 pub type ChainSpec = sc_service::GenericChainSpec<cumulus_test_runtime::GenesisConfig, Extensions>;
 
 /// Helper function to generate a crypto pair from seed
@@ -38,7 +38,7 @@ pub fn get_from_seed<TPublic: Public>(seed: &str) -> <TPublic::Pair as Pair>::Pu
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, ChainSpecGroup, ChainSpecExtension)]
 #[serde(deny_unknown_fields)]
 pub struct Extensions {
-	/// The id of the Parachain.
+	/// The id of the Allychain.
 	pub para_id: u32,
 }
 
@@ -59,7 +59,7 @@ where
 	AccountPublic::from(get_from_seed::<TPublic>(seed)).into_account()
 }
 
-/// Get the chain spec for a specific parachain ID.
+/// Get the chain spec for a specific allychain ID.
 pub fn get_chain_spec(id: ParaId) -> ChainSpec {
 	ChainSpec::from_genesis(
 		"Local Testnet",
@@ -106,7 +106,7 @@ fn testnet_genesis(
 				.to_vec(),
 			..Default::default()
 		},
-		parachain_system: Default::default(),
+		allychain_system: Default::default(),
 		balances: cumulus_test_runtime::BalancesConfig {
 			balances: endowed_accounts.iter().cloned().map(|k| (k, 1 << 60)).collect(),
 		},

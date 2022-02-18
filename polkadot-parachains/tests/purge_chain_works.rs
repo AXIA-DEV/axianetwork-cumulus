@@ -64,7 +64,7 @@ fn purge_chain_works() {
 			.unwrap();
 		assert!(status.success());
 
-		// Make sure that the `parachain_local_testnet` chain folder exists, but the `db` is deleted.
+		// Make sure that the `allychain_local_testnet` chain folder exists, but the `db` is deleted.
 		assert!(base_path.path().join("chains/local_testnet").exists());
 		assert!(!base_path.path().join("chains/local_testnet/db/full").exists());
 		// assert!(base_path.path().join("axia/chains/dev").exists());

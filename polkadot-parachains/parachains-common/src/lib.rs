@@ -19,7 +19,7 @@ pub mod impls;
 pub use constants::*;
 pub use opaque::*;
 pub use types::*;
-/// Common types of parachains.
+/// Common types of allychains.
 mod types {
 	use sp_runtime::traits::{IdentifyAccount, Verify};
 
@@ -56,7 +56,7 @@ mod types {
 	pub type AssetId = u32;
 }
 
-/// Common constants of parachains.
+/// Common constants of allychains.
 mod constants {
 	use super::types::BlockNumber;
 	use frame_support::weights::{constants::WEIGHT_PER_SECOND, Weight};

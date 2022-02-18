@@ -32,11 +32,11 @@ use sp_runtime::{generic::Era, BuildStorage, SaturatedConversion};
 
 pub use block_builder::*;
 pub use cumulus_test_runtime as runtime;
-pub use axia_parachain::primitives::{BlockData, HeadData, ValidationParams, ValidationResult};
+pub use axia_allychain::primitives::{BlockData, HeadData, ValidationParams, ValidationResult};
 pub use sc_executor::error::Result as ExecutorResult;
 pub use axlib_test_client::*;
 
-pub type ParachainBlockData = cumulus_primitives_core::ParachainBlockData<Block>;
+pub type AllychainBlockData = cumulus_primitives_core::AllychainBlockData<Block>;
 
 mod local_executor {
 	/// Native executor instance.

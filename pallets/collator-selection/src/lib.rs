@@ -15,17 +15,17 @@
 
 //! Collator Selection pallet.
 //!
-//! A pallet to manage collators in a parachain.
+//! A pallet to manage collators in a allychain.
 //!
 //! ## Overview
 //!
-//! The Collator Selection pallet manages the collators of a parachain. **Collation is _not_ a
+//! The Collator Selection pallet manages the collators of a allychain. **Collation is _not_ a
 //! secure activity** and this pallet does not implement any game-theoretic mechanisms to meet BFT
 //! safety assumptions of the chosen set.
 //!
 //! ## Terminology
 //!
-//! - Collator: A parachain block producer.
+//! - Collator: A allychain block producer.
 //! - Bond: An amount of `Balance` _reserved_ for candidate registration.
 //! - Invulnerable: An account guaranteed to be in the collator set.
 //!
